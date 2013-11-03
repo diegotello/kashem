@@ -21,7 +21,13 @@
         <formFile formName="Login"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
-      <modelsDirectory/>
+      <modelsDirectory>
+        <dbTableDirectory>
+          <dbTableFile dbTableName="Usuariossf"/>
+        </dbTableDirectory>
+        <modelFile modelName="UsuariosfMapper"/>
+        <modelFile modelName="Usuariosf"/>
+      </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>
       <viewsDirectory>

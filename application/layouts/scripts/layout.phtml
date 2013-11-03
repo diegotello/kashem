@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>K'ashem :: admin</title>
+        <link href="<?php echo $this->baseUrl('css/bootstrap.min.css') ?>" rel="stylesheet">
+        <!--<link href="<?php echo $this->baseUrl('css/kashem.css') ?>" rel="stylesheet">-->
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">K'ashem</a>
+                </div>
+                <?php
+                    $session = Zend_Auth::getInstance()->getIdentity();
+                    if ($session != null) {
+                ?>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clientes<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/clientes">Lista</a></li>
+                                <li><a href="/clientes/formulario">Nuevo</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a>
+                                Viajes
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/inventario">Lista</a></li>
+                                <li><a href="/inventario/formulario">Nuevo</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a>
+                                <span class="glyphicon glyphicon-user"></span>
+                                <?php echo $session->username; ?>                                
+                            </a>
+                        </li>
+                        <li>
+                            <a onClick="logout();">
+                                Salir
+                            </a>
+                        </li>
+                    </ul>                        
+                </div><!--/.nav-collapse -->
+                <?php
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="container" style="margin-top:60px;" align="center">
+            <img src="/img/header_maintwo.jpg" alt="Kashem" class="img-rounded">
+        </div>
+        <!--Container-->
+        <div class="container" style="margin-top:20px;">
+            <?php echo $this->layout()->content; ?>
+        </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.jQuery || document.write('<script src="<?php echo $this->baseUrl("js/jquery.min.js") ?>"><\/script>');
+    </script>
+    <script src="<?php echo $this->baseUrl('js/bootstrap.min.js') ?>"></script>    
+    <!--jquery init-->
+    <script type="text/javascript">
+        function logout()
+        {
+            $.ajax(
+                "/auth/logout",
+                {
+                    method:'post',
+                    success: function(response)
+                            {                            
+                                if(response.success)
+                                {
+                                    window.location.assign('/login');
+                                }
+                            }
+                }
+            );
+        }
+    </script>
+    <?php echo $this->headScript(); ?>
+
+</body>
+</html>

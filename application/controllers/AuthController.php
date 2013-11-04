@@ -20,7 +20,7 @@ class AuthController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        // action body
+
     }
 
     public function loginAction() {
@@ -29,17 +29,9 @@ class AuthController extends Zend_Controller_Action {
         $form = new Kashem_Form_Login();
         $request = $this->getRequest();
         if ($request->isPost()) {
-            if (/* $form->isValid($request->getPost()) */true) {
-                if (/* $this->_authenticate($form->getValues()) */$this->_authenticate(array('username' => 'temp', 'password' => 'temp'))) {
+            if ($form->isValid($request->getPost())) {
+                if ($this->_authenticate($form->getValues())) {
                     try {
-                        /*
-                          $em = Zend_Registry::get("doctrine")->getEntityManager();
-                          $user = $em->getRepository('\Kashem\Entity\User')->findOneById(Zend_Auth::getInstance()->getIdentity()->userId);
-                          $now = new DateTime();
-                          $user->setLastLogin($now);
-                          $em->persist($user);
-                          $em->flush();
-                         */
                         $this->_helper->json(array('success' => true, 'info' => 'login'));
                     } catch (Exception $e) {
                         $this->_helper->json(array('success' => false, 'info' => $e->getMessage()));

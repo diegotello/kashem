@@ -60,5 +60,17 @@ class Kashem_Model_UsuariosfMapper {
         return $entries;
     }
 
+    public function fetchOneByNameAndPassword($nombre, $password) {
+        $row = $this->getDbTable()->fetchRow('nombre="' . $nombre . '" AND contrasena="' . $password . '"');
+        if ($row != null) {
+            $entry = new Kashem_Model_Usuariosf();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setContrasena($row->contrasena);
+            return $entry;
+        }
+        return null;
+    }
+
 }
 

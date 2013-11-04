@@ -11,35 +11,16 @@ class Kashem_Auth_Adapter implements Zend_Auth_Adapter_Interface {
     }
 
     public function authenticate() {
-        /*
-          $userRepo = $this->_em->getRepository('Kashem\Entity\User');
-          $user = $userRepo->findOneBy(array('username' => $this->_username));
-
-          if ($user != null)
-          {
-          $salt = $user->getSalt();
-          $userProfile = $user->getUserProfile();
-          $firstName = $userProfile != null ? $userProfile->getFirstName()
-          : $this->email;
-          if (sha1($salt.$this->_password) == $user->getPassword())
-          {
-          $identity = (object)array('userId' => $user->getId(),
-          'username' => $user->getUsername(),
-          'name' => $firstName,
-          'role' => $user->getRole()->getName());
-
-          return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
-          }
-          }
-          return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID, $this->_username);
-
-         */
-        $identity = (object) array('userId' => 1,
-                    'username' => "temp",
-                    'name' => "temp",
-                    'role' => "admin");
-
-        return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
+        $usuariosf = new Kashem_Model_UsuariosfMapper();
+        $user = $usuariosf->fetchOneByNameAndPassword($this->_username, $this->_password);
+        if ($user != null) {
+            $identity = (object) array('userId' => $user->getId(),
+                        'username' => $user->getNombre(),
+                        'name' => $user->getNombre(),
+                        'role' => "admin");
+            return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
+        }
+        return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID, $this->_username);
     }
 
 }

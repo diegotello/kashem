@@ -23,10 +23,13 @@
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
         <dbTableDirectory>
-          <dbTableFile dbTableName="Usuariossf"/>
+          <dbTableFile dbTableName="Usuarios"/>
+          <dbTableFile dbTableName="Roles"/>
         </dbTableDirectory>
-        <modelFile modelName="UsuariosfMapper"/>
-        <modelFile modelName="Usuariosf"/>
+        <modelFile modelName="UsuarioMapper"/>
+        <modelFile modelName="Usuario"/>
+        <modelFile modelName="RolMapper"/>
+        <modelFile modelName="Rol"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>

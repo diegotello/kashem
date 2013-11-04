@@ -1,6 +1,6 @@
 <?php
 
-class Kashem_Model_UsuariosfMapper {
+class Kashem_Model_UsuarioMapper {
 
     protected $_dbTable;
 
@@ -17,18 +17,18 @@ class Kashem_Model_UsuariosfMapper {
 
     public function getDbTable() {
         if (null === $this->_dbTable) {
-            $this->setDbTable('Kashem_Model_DbTable_Usuariossf');
+            $this->setDbTable('Kashem_Model_DbTable_Usuarios');
         }
         return $this->_dbTable;
     }
 
-    public function save(Kashem_Model_Usuariosf $usuariosf) {
+    public function save(Kashem_Model_Usuario $usuario) {
         $data = array(
-            'nombre' => $usuariosf->getNombre(),
-            'contrasena' => $usuariosf->getContrasena()
+            'nombre' => $usuario->getNombre(),
+            'password' => $usuario->getPassword()
         );
 
-        if (null === ($id = $usuariosf->getId())) {
+        if (null === ($id = $usuario->getId())) {
             unset($data['id']);
             $this->getDbTable()->insert($data);
         } else {
@@ -36,37 +36,49 @@ class Kashem_Model_UsuariosfMapper {
         }
     }
 
-    public function find($id, Kashem_Model_Usuariosf $usuariosf) {
+    public function find($id, Kashem_Model_Usuario $usuario) {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
             return;
         }
         $row = $result->current();
-        $usuariosf->setId($row->id)
+        $rm = new Kashem_Model_RolMapper();
+        $rol = new Kashem_Model_Rol();
+        $rm->find($row->rol_id, $rol);
+        $usuario->setId($row->id)
                 ->setNombre($row->nombre)
-                ->setContrasena($row->contrasena);
+                ->setPassword($row->password)
+                ->setRol($rol);
     }
 
     public function fetchAll() {
         $resultSet = $this->getDbTable()->fetchAll();
         $entries = array();
+        $rm = new Kashem_Model_RolMapper();
         foreach ($resultSet as $row) {
-            $entry = new Kashem_Model_Usuariosf();
+            $rol = new Kashem_Model_Rol();
+            $rm->find($row->rol_id, $rol);
+            $entry = new Kashem_Model_Usuario();
             $entry->setId($row->id)
                     ->setNombre($row->nombre)
-                    ->setContrasena($row->contrasena);
+                    ->setPassword($row->password)
+                    ->setRol($rol);
             $entries[] = $entry;
         }
         return $entries;
     }
 
     public function fetchOneByNameAndPassword($nombre, $password) {
-        $row = $this->getDbTable()->fetchRow('nombre="' . $nombre . '" AND contrasena="' . $password . '"');
+        $row = $this->getDbTable()->fetchRow('nombre="' . $nombre . '" AND password="' . $password . '"');
+        $rm = new Kashem_Model_RolMapper();
         if ($row != null) {
-            $entry = new Kashem_Model_Usuariosf();
+            $rol = new Kashem_Model_Rol();
+            $rm->find($row->rol_id, $rol);
+            $entry = new Kashem_Model_Usuario();
             $entry->setId($row->id)
                     ->setNombre($row->nombre)
-                    ->setContrasena($row->contrasena);
+                    ->setPassword($row->password)
+                    ->setRol($rol);
             return $entry;
         }
         return null;

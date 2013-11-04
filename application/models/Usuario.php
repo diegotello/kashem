@@ -1,10 +1,11 @@
 <?php
 
-class Kashem_Model_Usuariosf {
+class Kashem_Model_Usuario {
 
-    protected $_nombre;
-    protected $_contrasena;
     protected $_id;
+    protected $_nombre;
+    protected $_password;
+    protected $_rol;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -15,7 +16,7 @@ class Kashem_Model_Usuariosf {
     public function __set($name, $value) {
         $method = 'set' . $name;
         if (('mapper' == $name) || !method_exists($this, $method)) {
-            throw new Exception('Invalid usuariosf property');
+            throw new Exception('Invalid usuario property');
         }
         $this->$method($value);
     }
@@ -23,7 +24,7 @@ class Kashem_Model_Usuariosf {
     public function __get($name) {
         $method = 'get' . $name;
         if (('mapper' == $name) || !method_exists($this, $method)) {
-            throw new Exception('Invalid usuariosf property');
+            throw new Exception('Invalid usuario property');
         }
         return $this->$method();
     }
@@ -57,12 +58,21 @@ class Kashem_Model_Usuariosf {
         return $this;
     }
 
-    public function getContrasena() {
-        return $this->_contrasena;
+    public function getPassword() {
+        return $this->_password;
     }
 
-    public function setContrasena($contrasena) {
-        $this->_contrasena = $contrasena;
+    public function setPassword($password) {
+        $this->_password = $password;
+        return $this;
+    }
+
+    public function getRol() {
+        return $this->_rol;
+    }
+
+    public function setRol(Kashem_Model_Rol $rol) {
+        $this->_rol = $rol;
         return $this;
     }
 

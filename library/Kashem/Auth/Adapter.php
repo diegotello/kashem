@@ -11,8 +11,8 @@ class Kashem_Auth_Adapter implements Zend_Auth_Adapter_Interface {
     }
 
     public function authenticate() {
-        $usuariosf = new Kashem_Model_UsuariosfMapper();
-        $user = $usuariosf->fetchOneByNameAndPassword($this->_username, $this->_password);
+        $usuario = new Kashem_Model_UsuarioMapper();
+        $user = $usuario->fetchOneByNameAndPassword($this->_username, $this->_password);
         if ($user != null) {
             $identity = (object) array('userId' => $user->getId(),
                         'username' => $user->getNombre(),

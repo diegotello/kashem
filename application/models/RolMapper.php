@@ -17,7 +17,7 @@ class Kashem_Model_RolMapper {
 
     public function getDbTable() {
         if (null === $this->_dbTable) {
-            $this->setDbTable('Kashem_Model_DbTable_Roles');
+            $this->setDbTable('Kashem_Model_DbTable_Rol');
         }
         return $this->_dbTable;
     }

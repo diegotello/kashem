@@ -56,6 +56,24 @@
         <modelFile modelName="Usuario"/>
         <modelFile modelName="RolMapper"/>
         <modelFile modelName="Rol"/>
+        <modelFile modelName="ActividadMapper"/>
+        <modelFile modelName="ActividadLogroMapper"/>
+        <modelFile modelName="AlquilerMapper"/>
+        <modelFile modelName="CategoriaMapper"/>
+        <modelFile modelName="ClienteMapper"/>
+        <modelFile modelName="ClienteViajeMapper"/>
+        <modelFile modelName="DepartamentoMapper"/>
+        <modelFile modelName="DestinoMapper"/>
+        <modelFile modelName="EquipoMapper"/>
+        <modelFile modelName="GuiaMapper"/>
+        <modelFile modelName="GuiaViajeMapper"/>
+        <modelFile modelName="LogroMapper"/>
+        <modelFile modelName="MunicipioMapper"/>
+        <modelFile modelName="PaisMapper"/>
+        <modelFile modelName="ViajeMapper"/>
+        <modelFile modelName="ViajeActividadMapper"/>
+        <modelFile modelName="ViajeDestinoMapper"/>
+        <modelFile modelName="ClienteLogroMapper"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>

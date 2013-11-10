@@ -17,7 +17,7 @@ class Kashem_Model_UsuarioMapper {
 
     public function getDbTable() {
         if (null === $this->_dbTable) {
-            $this->setDbTable('Kashem_Model_DbTable_Usuarios');
+            $this->setDbTable('Kashem_Model_DbTable_Usuario');
         }
         return $this->_dbTable;
     }

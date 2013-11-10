@@ -31,8 +31,26 @@
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
         <dbTableDirectory>
-          <dbTableFile dbTableName="Usuarios"/>
-          <dbTableFile dbTableName="Roles"/>
+          <dbTableFile dbTableName="Usuario"/>
+          <dbTableFile dbTableName="Rol"/>
+          <dbTableFile dbTableName="Equipo"/>
+          <dbTableFile dbTableName="Alquiler"/>
+          <dbTableFile dbTableName="ClienteViaje"/>
+          <dbTableFile dbTableName="Viaje"/>
+          <dbTableFile dbTableName="ViajeActividad"/>
+          <dbTableFile dbTableName="Actividad"/>
+          <dbTableFile dbTableName="ActividadLogro"/>
+          <dbTableFile dbTableName="Logro"/>
+          <dbTableFile dbTableName="ClienteLogro"/>
+          <dbTableFile dbTableName="Cliente"/>
+          <dbTableFile dbTableName="Guia"/>
+          <dbTableFile dbTableName="GuiaViaje"/>
+          <dbTableFile dbTableName="ViajeDestino"/>
+          <dbTableFile dbTableName="Destino"/>
+          <dbTableFile dbTableName="Categoria"/>
+          <dbTableFile dbTableName="Pais"/>
+          <dbTableFile dbTableName="Departamento"/>
+          <dbTableFile dbTableName="Municipio"/>
         </dbTableDirectory>
         <modelFile modelName="UsuarioMapper"/>
         <modelFile modelName="Usuario"/>

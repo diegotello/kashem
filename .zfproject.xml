@@ -24,6 +24,7 @@
           <actionMethod actionName="nuevo"/>
           <actionMethod actionName="info"/>
           <actionMethod actionName="actualizar"/>
+          <actionMethod actionName="borrar"/>
         </controllerFile>
         <controllerFile controllerName="Inventario">
           <actionMethod actionName="index"/>
@@ -173,6 +174,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Clientes">
             <viewScriptFile forActionName="actualizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Clientes">
+            <viewScriptFile forActionName="borrar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

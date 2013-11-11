@@ -52,6 +52,10 @@ class Kashem_Model_ClienteMapper {
         }
     }
 
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
+    }
+
     public function fetchAll() {
         $resultSet = $this->getDbTable()->fetchAll();
         $entries = array();

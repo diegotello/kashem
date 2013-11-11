@@ -1,0 +1,7 @@
+<?php
+foreach ($this->municipios as $municipio) {
+    ?>
+    <option value="<?php echo $municipio->getId(); ?>"><?php echo $municipio->getNombre(); ?></option>
+    <?php
+}
+?>

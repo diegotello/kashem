@@ -1,0 +1,7 @@
+<?php
+foreach ($this->departamentos as $departamento) {
+    ?>
+    <option value="<?php echo $departamento->getId(); ?>"><?php echo $departamento->getNombre(); ?></option>
+    <?php
+}
+?>

@@ -1,0 +1,7 @@
+<?php
+foreach ($this->paises as $pais) {
+    ?>
+    <option value="<?php echo $pais->getId(); ?>"><?php echo $pais->getNombre(); ?></option>
+    <?php
+}
+?>

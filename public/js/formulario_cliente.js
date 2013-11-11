@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#fecha_nacimiento').datepicker({dateFormat: "dd/mm/yy"});
+    $('#fecha_nacimiento').datepicker({dateFormat: "dd-mm-yy"});
     $.ajax(
             "/pais/lista",
             {
@@ -64,13 +64,30 @@ function guardar() {
     $.ajax(
             "/clientes/validarformulario",
             {
-                method: 'post',
+                method: 'get',
                 data: $('#client_form').serializeArray(),
                 success: function(response)
                 {
                     if (response.valid) {
-                        $('#error-alert').hide();
-                        $('#success-alert').show();
+                        $.ajax(
+                                "/clientes/guardar",
+                                {
+                                    method: 'post',
+                                    data: $('#client_form').serializeArray(),
+                                    success: function(response)
+                                    {
+                                        if (response.ok) {
+                                            $('#error-alert').hide();
+                                            $('#success-alert').show();
+                                        }
+                                        else
+                                        {
+                                            $('#success-alert').hide();
+                                            $('#error-alert').empty().append(response.info).show();
+                                        }
+                                    }
+                                }
+                        );
                     }
                     else
                     {

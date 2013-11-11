@@ -20,6 +20,7 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="formulario"/>
           <actionMethod actionName="validarformulario"/>
+          <actionMethod actionName="guardar"/>
         </controllerFile>
         <controllerFile controllerName="Inventario">
           <actionMethod actionName="index"/>
@@ -157,6 +158,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Clientes">
             <viewScriptFile forActionName="validarformulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Clientes">
+            <viewScriptFile forActionName="guardar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

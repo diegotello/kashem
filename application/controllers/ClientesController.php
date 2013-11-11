@@ -10,7 +10,7 @@ class ClientesController extends Zend_Controller_Action {
         return isset($params[$field]) && $params[$field] != "" && $params[$field] != null;
     }
 
-    private function _setClienteFromParams(Kashem_Model_Cliente $cliente, $params) {
+    private function _setClienteFromParams($cliente, $params) {
         $pm = new Kashem_Model_PaisMapper();
         $dm = new Kashem_Model_DepartamentoMapper();
         $mm = new Kashem_Model_MunicipioMapper();
@@ -170,6 +170,28 @@ class ClientesController extends Zend_Controller_Action {
                 $this->_setClienteFromParams($cliente, $params);
                 $cliente->setId($params['cliente_id']);
                 $cm->save($cliente);
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function borrarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $cm = new Kashem_Model_ClienteMapper();
+                $id = $request->getParam('id');
+                $cm->delete($id);
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;

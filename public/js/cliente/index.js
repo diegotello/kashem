@@ -1,3 +1,21 @@
+function borrar(id) {
+    $.ajax(
+            "/clientes/borrar",
+            {
+                method: 'post',
+                data: {id: id},
+                success: function(response)
+                {
+                    if (response.ok) {
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    }
+                }
+            }
+    );
+}
+
 function edit(id) {
     $.ajax(
             "/clientes/info",

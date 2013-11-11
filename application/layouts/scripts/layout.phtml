@@ -7,7 +7,6 @@
         <title>K'ashem :: admin</title>
         <link href="<?php echo $this->baseUrl('css/bootstrap.min.css') ?>" rel="stylesheet">
         <link href="<?php echo $this->baseUrl('css/jquery-ui-1.10.3.custom.min.css') ?>" rel="stylesheet">
-        <!--<link href="<?php echo $this->baseUrl('css/kashem.css') ?>" rel="stylesheet">-->
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -19,7 +18,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">K'ashem</a>
+                    <a class="navbar-brand" href="/index">K'ashem</a>
                 </div>
                 <?php
                 $session = Zend_Auth::getInstance()->getIdentity();
@@ -28,22 +27,39 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Clientes<b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nuevo<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/clientes">Lista</a></li>
-                                    <li><a href="/clientes/nuevo">Nuevo</a></li>
+                                    <li><a href="#">Actividad</a></li>
+                                    <li><a href="#">Alquiler</a></li>
+                                    <li><a href="#">Categoria Guia</a></li>
+                                    <li><a href="/clientes/nuevo">Cliente</a></li>
+                                    <li><a href="#">Departamento</a></li>
+                                    <li><a href="#">Destino</a></li>
+                                    <li><a href="/inventario/formulario">Equipo</a></li>
+                                    <li><a href="#">Guia</a></li>
+                                    <li><a href="#">Logro</a></li>
+                                    <li><a href="#">Municipio</a></li>
+                                    <li><a href="#">Pais</a></li>
+                                    <li><a href="#">Usuario</a></li>
+                                    <li><a href="#">Viaje</a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a>
-                                    Viajes
-                                </a>
-                            </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inventario<b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lista<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/inventario">Lista</a></li>
-                                    <li><a href="/inventario/formulario">Nuevo</a></li>
+                                    <li><a href="#">Actividad</a></li>
+                                    <li><a href="#">Alquiler</a></li>
+                                    <li><a href="#">Categoria Guia</a></li>
+                                    <li><a href="/clientes">Clientes</a></li>
+                                    <li><a href="#">Departamento</a></li>
+                                    <li><a href="#">Destino</a></li>
+                                    <li><a href="/inventario">Equipo</a></li>
+                                    <li><a href="#">Guia</a></li>
+                                    <li><a href="#">Logro</a></li>
+                                    <li><a href="#">Municipio</a></li>
+                                    <li><a href="#">Pais</a></li>
+                                    <li><a href="#">Usuario</a></li>
+                                    <li><a href="#">Viaje</a></li>
                                 </ul>
                             </li>
                         </ul>

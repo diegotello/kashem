@@ -16,7 +16,15 @@ class ActividadController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        // action body
+        $am = new Kashem_Model_ActividadMapper();
+        $actividades = $am->fetchAll();
+        $html = "";
+        foreach ($actividades as $a) {
+            $this->view->actividad = $a;
+            $html .= $this->view->render('actividad/lista_row.phtml');
+        }
+        $this->view->actividades = $html;
+        $this->view->formulario = $this->view->render('actividad/formulario.phtml');
     }
 
     public function nuevaAction() {

@@ -35,5 +35,18 @@ class Kashem_Model_ActividadMapper {
         }
     }
 
+    public function fetchAll() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Actividad();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

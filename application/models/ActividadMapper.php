@@ -22,5 +22,18 @@ class Kashem_Model_ActividadMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_Actividad $actividad) {
+        $data = array(
+            'nombre' => $actividad->getNombre(),
+            'descripcion' => $actividad->getDescripcion()
+        );
+        if (null === ($id = $actividad->getId())) {
+            unset($data['id']);
+            $this->getDbTable()->insert($data);
+        } else {
+            $this->getDbTable()->update($data, array('id = ?' => $id));
+        }
+    }
+
 }
 

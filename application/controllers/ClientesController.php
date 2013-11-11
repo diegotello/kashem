@@ -10,6 +10,36 @@ class ClientesController extends Zend_Controller_Action {
         return isset($params[$field]) && $params[$field] != "" && $params[$field] != null;
     }
 
+    private function _setClienteFromParams(Kashem_Model_Cliente $cliente, $params) {
+        $pm = new Kashem_Model_PaisMapper();
+        $dm = new Kashem_Model_DepartamentoMapper();
+        $mm = new Kashem_Model_MunicipioMapper();
+        $pais = new Kashem_Model_Pais();
+        $departamento = new Kashem_Model_Departamento();
+        $municipio = new Kashem_Model_Municipio();
+        $pm->find($params['pais_id'], $pais);
+        $dm->find($params['departamento_id'], $departamento);
+        $mm->find($params['municipio_id'], $municipio);
+        $cliente->setContactoEmergencia($params['contacto_emergencia'])
+                ->setCorreoElectronico($params['correo_electronico'])
+                ->setDepartamento($departamento)
+                ->setDireccion($params['direccion'])
+                ->setDpi($params['dpi'])
+                ->setFechaNacimiento(date('Y-m-d', strtotime($params['fecha_nacimiento'])))
+                ->setGenero($params['genero'])
+                ->setMunicipio($municipio)
+                ->setObservacionGeneral($params['observacion_general'])
+                ->setObservacionMedica($params['observacion_medica'])
+                ->setPais($pais)
+                ->setPrimerApellido($params['primer_apellido'])
+                ->setPrimerNombre($params['primer_nombre'])
+                ->setSegundoApellido($params['segundo_apellido'])
+                ->setSegundoNombre($params['segundo_nombre'])
+                ->setTelefonoEmergencia($params['telefono_emergencia'])
+                ->setTelefono($params['telefono'])
+                ->setUsuarioFacebook($params['usuario_facebook']);
+    }
+
     public function indexAction() {
         $cm = new Kashem_Model_ClienteMapper();
         $clientes = $cm->fetchAll();
@@ -40,7 +70,7 @@ class ClientesController extends Zend_Controller_Action {
                 $dateValidator = new Zend_Validate_Date(array('format' => 'dd-mm-yyyy'));
                 foreach ($params as $k => $v) {
                     //check required fields
-                    if ($k == 'pais' || $k == 'departamento' || $k == 'municipio' || $k == 'primer_nombre' || $k == 'primer_apellido') {
+                    if ($k == 'pais_id' || $k == 'departamento_id' || $k == 'municipio_id' || $k == 'primer_nombre' || $k == 'primer_apellido') {
                         if (!$this->_exists($params, $k)) {
                             $valid = false;
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
@@ -56,16 +86,16 @@ class ClientesController extends Zend_Controller_Action {
                         }
                     }
                     //check email
-                    if ($k == 'email') {
-                        if ($this->_exists($params, 'email')) {
-                            if (!$emailValidator->isValid($params['email'])) {
+                    if ($k == 'correo_electronico') {
+                        if ($this->_exists($params, 'correo_electronico')) {
+                            if (!$emailValidator->isValid($params['correo_electronico'])) {
                                 $valid = false;
                                 $info .= '<br>El email es invalido.';
                             }
                         }
                     }
                     //check string length
-                    if ($k !== 'observaciones_medicas' && $k !== 'observaciones_generales') {
+                    if ($k !== 'observacion_medica' && $k !== 'observacion_general') {
                         if (!$lengthValidator->isValid($v)) {
                             $valid = false;
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' tiene mas de 50 caracteres.';
@@ -92,35 +122,9 @@ class ClientesController extends Zend_Controller_Action {
         if ($request->isPost()) {
             try {
                 $params = $request->getParams();
-                $pm = new Kashem_Model_PaisMapper();
-                $dm = new Kashem_Model_DepartamentoMapper();
-                $mm = new Kashem_Model_MunicipioMapper();
                 $cm = new Kashem_Model_ClienteMapper();
-                $pais = new Kashem_Model_Pais();
-                $departamento = new Kashem_Model_Departamento();
-                $municipio = new Kashem_Model_Municipio();
-                $pm->find($params['pais_id'], $pais);
-                $dm->find($params['departamento_id'], $departamento);
-                $mm->find($params['municipio_id'], $municipio);
                 $cliente = new Kashem_Model_Cliente();
-                $cliente->setContactoEmergencia($params['contacto_emergencia'])
-                        ->setCorreoElectronico($params['correo_electronico'])
-                        ->setDepartamento($departamento)
-                        ->setDireccion($params['direccion'])
-                        ->setDpi($params['dpi'])
-                        ->setFechaNacimiento(date('Y-m-d', strtotime($params['fecha_nacimiento'])))
-                        ->setGenero($params['genero'])
-                        ->setMunicipio($municipio)
-                        ->setObservacionGeneral($params['observacion_general'])
-                        ->setObservacionMedica($params['observacion_medica'])
-                        ->setPais($pais)
-                        ->setPrimerApellido($params['primer_apellido'])
-                        ->setPrimerNombre($params['primer_nombre'])
-                        ->setSegundoApellido($params['segundo_apellido'])
-                        ->setSegundoNombre($params['segundo_nombre'])
-                        ->setTelefonoEmergencia($params['telefono_emergencia'])
-                        ->setTelefono($params['telefono'])
-                        ->setUsuarioFacebook($params['usuario_facebook']);
+                $this->_setClienteFromParams($cliente, $params);
                 $cm->save($cliente);
                 $ok = true;
             } catch (Exception $e) {
@@ -150,6 +154,31 @@ class ClientesController extends Zend_Controller_Action {
             $this->getResponse()->setHttpResponseCode(405);
         }
         $this->_helper->json($cliente);
+    }
+
+    public function actualizarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $params = $request->getParams();
+                $cm = new Kashem_Model_ClienteMapper();
+                $cliente = new Kashem_Model_Cliente();
+                $this->_setClienteFromParams($cliente, $params);
+                $cliente->setId($params['cliente_id']);
+                $cm->save($cliente);
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
 }

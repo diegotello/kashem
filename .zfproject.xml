@@ -23,6 +23,7 @@
           <actionMethod actionName="guardar"/>
           <actionMethod actionName="nuevo"/>
           <actionMethod actionName="info"/>
+          <actionMethod actionName="actualizar"/>
         </controllerFile>
         <controllerFile controllerName="Inventario">
           <actionMethod actionName="index"/>
@@ -169,6 +170,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Clientes">
             <viewScriptFile forActionName="info"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Clientes">
+            <viewScriptFile forActionName="actualizar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

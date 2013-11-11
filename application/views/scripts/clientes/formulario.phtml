@@ -1,55 +1,68 @@
 <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <form role="form">
+    <div class="col-md-1"></div>
+    <form role="form" id="client_form">
+        <div class="col-md-5">
             <div class="form-group">
+                <label>Pais</label>
+                <select class="form-control" id="pais" name="pais" onChange="cambioPais(this);">
+                    <option value="">selecciona un pais</option>
+                </select>
+                <label>Departamento</label>
+                <select class="form-control" id="departamento" name="departamento" onChange="cambioDepartamento(this);">
+                    <option value="">selecciona un departamento</option>
+                </select>
+                <label>Municipio</label>
+                <select class="form-control" id="municipio" name="municipio">
+                    <option value="">selecciona un municipio</option>
+                </select>
                 <label>Primer Nombre</label>
-                <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" placeholder="Primer Nombre">
+                <input type="text" required class="form-control" id="primer_nombre" name="primer_nombre" placeholder="Primer Nombre">
                 <label>Segundo Nombre</label>
                 <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre" placeholder="Segundo Nombre">
                 <label>Primer Apellido</label>
-                <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" placeholder="Primer Apellido">
+                <input type="text" required class="form-control" id="primer_apellido" name="primer_apellido" placeholder="Primer Apellido">
                 <label>Segundo Apellido</label>
                 <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" placeholder="Segundo Apellido">
-                <label>DPI</label>
-                <input type="text" class="form-control" id="dpi" name="dpi" placeholder="123456789">
+                <label>Fecha de Nacimiento</label>
+                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="01/01/1990">
                 <label>Genero</label>
                 <select class="form-control" id="genero" name="genero">
-                    <option>Masculino</option>
-                    <option>Femenino</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
                 </select>
-                <label>Fecha de Nacimiento</label>
-                <input type="text" class="form-control" id="" name="" placeholder="01/01/1990">
-                <label>Nacionalidad</label>
-                <input type="text" class="form-control" id="" name="" placeholder="Guatemalteco">
-                <label>Correo Electronico</label>
-                <input type="text" class="form-control" id="" name="" placeholder="email@domain.com">
-                <label>Usuario de Facebook</label>
-                <input type="text" class="form-control" id="" name="" placeholder="">
+                <label>DPI</label>
+                <input type="number" class="form-control" id="dpi" name="dpi" placeholder="123456789">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
                 <label>Telefono</label>
-                <input type="text" class="form-control" id="" name="" placeholder="12345678">
-                <label>Contacto de Emergencia</label>
-                <input type="text" class="form-control" id="" name="" placeholder="">
-                <label>Telefono de Emergencia</label>
-                <input type="text" class="form-control" id="" name="" placeholder="">
+                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="12345678">
                 <label>Direccion</label>
-                <input type="text" class="form-control" id="" name="" placeholder="">
-                <label>Municipio</label>
-                <select class="form-control" id="municipio" name="municipio">
-
-
-                </select>
-                <label>Departamento</label>
-                <select class="form-control" id="departamento" name="departamento">
-
-                </select>
+                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="">
+                <label>Correo Electronico</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="email@domain.com">
+                <label>Usuario de Facebook</label>
+                <input type="text" class="form-control" id="usuario_facebook" name="usuario_facebook" placeholder="">
+                <label>Contacto de Emergencia</label>
+                <input type="text" class="form-control" id="contacto_emergencia" name="contacto_emergencia" placeholder="">
+                <label>Telefono de Emergencia</label>
+                <input type="tel" class="form-control" id="telefono_emergencia" name="telefono_emergencia" placeholder="">
                 <label>Observaciones Medicas</label>
                 <textarea class="form-control" id="observaciones_medicas" name="observaciones_medicas" rows="3"></textarea>
                 <label>Observaciones Generales</label>
                 <textarea class="form-control" id="observaciones_generales" name="observaciones_generales" rows="3"></textarea>
             </div>
-            <button type="button" class="btn btn-primary">Guardar</button>
-        </form>
-    </div>
-    <div class="col-md-4"></div>
+        </div>
+    </form>
+    <div class="col-md-1"></div>
 </div>
+<div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2" style="text-align:center;">
+        <button type="button" class="btn btn-primary" onClick="guardar();">Guardar</button>
+    </div>
+    <div class="col-md-5"></div>
+</div>
+<?php $this->headScript()->appendFile('/js/formulario_cliente.js');
+?>

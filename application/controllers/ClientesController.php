@@ -11,7 +11,15 @@ class ClientesController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        // action body
+        $cm = new Kashem_Model_ClienteMapper();
+        $clientes = $cm->fetchAll();
+        $html = "";
+        foreach ($clientes as $c) {
+            $this->view->cliente = $c;
+            $html .= $this->view->render('clientes/lista_row.phtml');
+        }
+        $this->view->clientes = $html;
+        $this->view->formulario = $this->view->render('clientes/formulario.phtml');
     }
 
     public function formularioAction() {
@@ -91,20 +99,20 @@ class ClientesController extends Zend_Controller_Action {
                 $pais = new Kashem_Model_Pais();
                 $departamento = new Kashem_Model_Departamento();
                 $municipio = new Kashem_Model_Municipio();
-                $pm->find($params['pais'], $pais);
-                $dm->find($params['departamento'], $departamento);
-                $mm->find($params['municipio'], $municipio);
+                $pm->find($params['pais_id'], $pais);
+                $dm->find($params['departamento_id'], $departamento);
+                $mm->find($params['municipio_id'], $municipio);
                 $cliente = new Kashem_Model_Cliente();
                 $cliente->setContactoEmergencia($params['contacto_emergencia'])
-                        ->setCorreoElectronico($params['email'])
+                        ->setCorreoElectronico($params['correo_electronico'])
                         ->setDepartamento($departamento)
                         ->setDireccion($params['direccion'])
                         ->setDpi($params['dpi'])
                         ->setFechaNacimiento(date('Y-m-d', strtotime($params['fecha_nacimiento'])))
                         ->setGenero($params['genero'])
                         ->setMunicipio($municipio)
-                        ->setObservacionGeneral($params['observaciones_generales'])
-                        ->setObservacionMedica($params['observaciones_medicas'])
+                        ->setObservacionGeneral($params['observacion_general'])
+                        ->setObservacionMedica($params['observacion_medica'])
                         ->setPais($pais)
                         ->setPrimerApellido($params['primer_apellido'])
                         ->setPrimerNombre($params['primer_nombre'])
@@ -123,6 +131,25 @@ class ClientesController extends Zend_Controller_Action {
             $this->getResponse()->setHttpResponseCode(405);
         }
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function nuevoAction() {
+        $this->view->formulario = $this->view->render('clientes/formulario.phtml');
+    }
+
+    public function infoAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $id = $request->getParam('id');
+            $cm = new Kashem_Model_ClienteMapper();
+            $cliente = $cm->findAsArray($id);
+            $cliente['fecha_nacimiento'] = date('d-m-Y', strtotime($cliente['fecha_nacimiento']));
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json($cliente);
     }
 
 }

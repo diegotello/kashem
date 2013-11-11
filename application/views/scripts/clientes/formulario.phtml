@@ -1,24 +1,18 @@
 <div class="row">
-    <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
-    <div class="alert alert-success" id="success-alert" style="display:none;">
-        <strong>El cliente se ha creado con exito.</strong>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-1"></div>
     <form role="form" id="client_form">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="form-group">
+                <input type="hidden" id="cliente_id" name="cliente_id">
                 <label>Pais</label>
-                <select class="form-control" id="pais" name="pais" onChange="cambioPais(this);">
+                <select class="form-control" id="pais_id" name="pais_id" onChange="cambioPais(this);">
                     <option value="">selecciona un pais</option>
                 </select>
                 <label>Departamento</label>
-                <select class="form-control" id="departamento" name="departamento" onChange="cambioDepartamento(this);">
+                <select class="form-control" id="departamento_id" name="departamento_id" onChange="cambioDepartamento(this);">
                     <option value="">selecciona un departamento</option>
                 </select>
                 <label>Municipio</label>
-                <select class="form-control" id="municipio" name="municipio">
+                <select class="form-control" id="municipio_id" name="municipio_id">
                     <option value="">selecciona un municipio</option>
                 </select>
                 <label>Primer Nombre</label>
@@ -40,14 +34,14 @@
                 <input type="text" class="form-control" id="dpi" name="dpi" placeholder="123456789">
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Telefono</label>
                 <input type="text" class="form-control" id="telefono" name="telefono" placeholder="12345678">
                 <label>Direccion</label>
                 <input type="text" class="form-control" id="direccion" name="direccion" placeholder="">
                 <label>Correo Electronico</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="email@domain.com">
+                <input type="text" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="email@domain.com">
                 <label>Usuario de Facebook</label>
                 <input type="text" class="form-control" id="usuario_facebook" name="usuario_facebook" placeholder="">
                 <label>Contacto de Emergencia</label>
@@ -55,20 +49,10 @@
                 <label>Telefono de Emergencia</label>
                 <input type="text" class="form-control" id="telefono_emergencia" name="telefono_emergencia" placeholder="">
                 <label>Observaciones Medicas</label>
-                <textarea class="form-control" id="observaciones_medicas" name="observaciones_medicas" rows="3"></textarea>
+                <textarea class="form-control" id="observacion_medica" name="observacion_medica" rows="3"></textarea>
                 <label>Observaciones Generales</label>
-                <textarea class="form-control" id="observaciones_generales" name="observaciones_generales" rows="3"></textarea>
+                <textarea class="form-control" id="observacion_general" name="observacion_general" rows="3"></textarea>
             </div>
         </div>
     </form>
-    <div class="col-md-1"></div>
 </div>
-<div class="row">
-    <div class="col-md-5"></div>
-    <div class="col-md-2" style="text-align:center;">
-        <button type="button" class="btn btn-primary" onClick="guardar();">Guardar</button>
-    </div>
-    <div class="col-md-5"></div>
-</div>
-<?php $this->headScript()->appendFile('/js/formulario_cliente.js');
-?>

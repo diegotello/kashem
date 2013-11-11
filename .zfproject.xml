@@ -21,6 +21,8 @@
           <actionMethod actionName="formulario"/>
           <actionMethod actionName="validarformulario"/>
           <actionMethod actionName="guardar"/>
+          <actionMethod actionName="nuevo"/>
+          <actionMethod actionName="info"/>
         </controllerFile>
         <controllerFile controllerName="Inventario">
           <actionMethod actionName="index"/>
@@ -161,6 +163,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Clientes">
             <viewScriptFile forActionName="guardar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Clientes">
+            <viewScriptFile forActionName="nuevo"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Clientes">
+            <viewScriptFile forActionName="info"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

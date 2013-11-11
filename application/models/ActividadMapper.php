@@ -48,5 +48,13 @@ class Kashem_Model_ActividadMapper {
         return $entries;
     }
 
+    public function findAsArray($id) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        return $result->current();
+    }
+
 }
 

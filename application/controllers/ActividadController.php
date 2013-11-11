@@ -96,5 +96,19 @@ class ActividadController extends Zend_Controller_Action {
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
+    public function infoAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $id = $request->getParam('id');
+            $am = new Kashem_Model_ActividadMapper();
+            $actividad = $am->findAsArray($id);
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json($actividad);
+    }
+
 }
 

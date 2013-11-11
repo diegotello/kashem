@@ -48,6 +48,7 @@
           <actionMethod actionName="formulario"/>
           <actionMethod actionName="validarformulario"/>
           <actionMethod actionName="guardar"/>
+          <actionMethod actionName="info"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -199,6 +200,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Actividad">
             <viewScriptFile forActionName="guardar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Actividad">
+            <viewScriptFile forActionName="info"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

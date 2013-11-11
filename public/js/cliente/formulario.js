@@ -6,19 +6,23 @@ $(document).ready(function() {
                 method: 'get',
                 success: function(response)
                 {
-                    $('#pais').append(response.lista);
+                    $('#pais_id').append(response.lista);
                 }
             }
     );
 });
-function cambioPais(e) {
+function cambioPais(e, async) {
+    if (async === null) {
+        async = true;
+    }
     var pais_id = $(e).val(),
-            dep = $('#departamento');
+            dep = $('#departamento_id');
     if (pais_id !== "") {
         $.ajax(
                 "/departamento/lista",
                 {
                     method: 'get',
+                    async: async,
                     data: {
                         pais_id: pais_id
                     },
@@ -36,14 +40,18 @@ function cambioPais(e) {
         cambioDepartamento(dep);
     }
 }
-function cambioDepartamento(e) {
+function cambioDepartamento(e, async) {
+    if (async === null) {
+        async = true;
+    }
     var dep_id = $(e).val(),
-            mun = $('#municipio');
+            mun = $('#municipio_id');
     if (dep_id !== "") {
         $.ajax(
                 "/municipio/lista",
                 {
                     method: 'get',
+                    async: async,
                     data: {
                         departamento_id: dep_id
                     },
@@ -60,41 +68,22 @@ function cambioDepartamento(e) {
         mun.find('option[value!=""]').remove();
     }
 }
-function guardar() {
+function validar() {
+    var result = new Object();
+    result.valid = false;
+    result.info = "<strong>No hemos podido comunicarnos con el servidor, intenta mas tarde.</strong>";
     $.ajax(
             "/clientes/validarformulario",
             {
                 method: 'get',
+                async: false,
                 data: $('#client_form').serializeArray(),
                 success: function(response)
                 {
-                    if (response.valid) {
-                        $.ajax(
-                                "/clientes/guardar",
-                                {
-                                    method: 'post',
-                                    data: $('#client_form').serializeArray(),
-                                    success: function(response)
-                                    {
-                                        if (response.ok) {
-                                            $('#error-alert').hide();
-                                            $('#success-alert').show();
-                                        }
-                                        else
-                                        {
-                                            $('#success-alert').hide();
-                                            $('#error-alert').empty().append(response.info).show();
-                                        }
-                                    }
-                                }
-                        );
-                    }
-                    else
-                    {
-                        $('#success-alert').hide();
-                        $('#error-alert').empty().append(response.info).show();
-                    }
+                    //includes response.valid and response.info
+                    result = response;
                 }
             }
     );
+    return result;
 }

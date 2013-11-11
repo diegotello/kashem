@@ -165,8 +165,6 @@ CREATE  TABLE IF NOT EXISTS `kashem`.`cliente` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE UNIQUE INDEX `dpi_UNIQUE` ON `kashem`.`cliente` (`dpi` ASC) ;
-
 CREATE INDEX `fk_clientes_paises1` ON `kashem`.`cliente` (`pais_id` ASC) ;
 
 CREATE INDEX `fk_clientes_departamento1` ON `kashem`.`cliente` (`departamento_id` ASC) ;

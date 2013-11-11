@@ -22,5 +22,27 @@ class Kashem_Model_PaisMapper {
         return $this->_dbTable;
     }
 
+    public function find($id, Kashem_Model_Pais $pais) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        $row = $result->current();
+        $pais->setId($row->id)
+                ->setNombre($row->nombre);
+    }
+
+    public function fetchAll() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Pais();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

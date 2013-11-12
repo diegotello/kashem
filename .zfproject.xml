@@ -33,6 +33,11 @@
         <controllerFile controllerName="Pais">
           <actionMethod actionName="index"/>
           <actionMethod actionName="lista"/>
+          <actionMethod actionName="formulario"/>
+          <actionMethod actionName="info"/>
+          <actionMethod actionName="validarformulario"/>
+          <actionMethod actionName="actualizar"/>
+          <actionMethod actionName="borrar"/>
         </controllerFile>
         <controllerFile controllerName="Departamento">
           <actionMethod actionName="index"/>
@@ -210,6 +215,21 @@
             <viewScriptFile forActionName="actualizar"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Actividad">
+            <viewScriptFile forActionName="borrar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="formulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="info"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="validarformulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="actualizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Pais">
             <viewScriptFile forActionName="borrar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

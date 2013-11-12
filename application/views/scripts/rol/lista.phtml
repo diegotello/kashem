@@ -1,0 +1,7 @@
+<?php
+foreach ($this->roles as $rol) {
+    ?>
+    <option value="<?php echo $rol->getId(); ?>"><?php echo $rol->getDescripcion(); ?></option>
+    <?php
+}
+?>

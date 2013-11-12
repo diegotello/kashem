@@ -132,5 +132,33 @@ class PaisController extends Zend_Controller_Action {
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
+    public function nuevoAction() {
+        $this->view->formulario = $this->view->render('pais/formulario.phtml');
+    }
+
+    public function guardarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $params = $request->getParams();
+                $pm = new Kashem_Model_PaisMapper();
+                $pais = new Kashem_Model_Pais();
+                $this->_setPaisFromParams($pais, $params);
+                $pm->save($pais);
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
 }
 

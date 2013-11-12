@@ -22,5 +22,43 @@ class Kashem_Model_CategoriaMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_Categoria $categoria) {
+        $data = array(
+            'nombre' => $categoria->getNombre(),
+            'descripcion' => $categoria->getDescripcion()
+        );
+        if (null === ($id = $categoria->getId())) {
+            unset($data['id']);
+            $this->getDbTable()->insert($data);
+        } else {
+            $this->getDbTable()->update($data, array('id = ?' => $id));
+        }
+    }
+
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
+    }
+
+    public function fetchAll() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Categoria();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    public function findAsArray($id) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        return $result->current();
+    }
+
 }
 

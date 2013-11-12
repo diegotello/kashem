@@ -110,5 +110,52 @@ class ActividadController extends Zend_Controller_Action {
         $this->_helper->json($actividad);
     }
 
+    public function actualizarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $params = $request->getParams();
+                $am = new Kashem_Model_ActividadMapper();
+                $actividad = new Kashem_Model_Actividad();
+                $this->_setActividadFromParams($actividad, $params);
+                $actividad->setId($params['actividad_id']);
+                $am->save($actividad);
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function borrarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $am = new Kashem_Model_ActividadMapper();
+                $id = $request->getParam('id');
+                $am->delete($id);
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
 }
 

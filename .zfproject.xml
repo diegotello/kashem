@@ -49,6 +49,8 @@
           <actionMethod actionName="validarformulario"/>
           <actionMethod actionName="guardar"/>
           <actionMethod actionName="info"/>
+          <actionMethod actionName="actualizar"/>
+          <actionMethod actionName="borrar"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -203,6 +205,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Actividad">
             <viewScriptFile forActionName="info"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Actividad">
+            <viewScriptFile forActionName="actualizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Actividad">
+            <viewScriptFile forActionName="borrar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

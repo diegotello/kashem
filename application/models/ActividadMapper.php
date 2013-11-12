@@ -35,6 +35,10 @@ class Kashem_Model_ActividadMapper {
         }
     }
 
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
+    }
+
     public function fetchAll() {
         $resultSet = $this->getDbTable()->fetchAll();
         $entries = array();

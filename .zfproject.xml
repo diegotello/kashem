@@ -55,6 +55,13 @@
         <controllerFile controllerName="Municipio">
           <actionMethod actionName="index"/>
           <actionMethod actionName="lista"/>
+          <actionMethod actionName="formulario"/>
+          <actionMethod actionName="info"/>
+          <actionMethod actionName="validarformulario"/>
+          <actionMethod actionName="actualizar"/>
+          <actionMethod actionName="borrar"/>
+          <actionMethod actionName="nuevo"/>
+          <actionMethod actionName="guardar"/>
         </controllerFile>
         <controllerFile controllerName="Actividad">
           <actionMethod actionName="index"/>
@@ -266,6 +273,27 @@
             <viewScriptFile forActionName="nuevo"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="guardar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="formulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="info"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="validarformulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="actualizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="borrar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="nuevo"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
             <viewScriptFile forActionName="guardar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

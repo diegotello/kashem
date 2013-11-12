@@ -65,5 +65,30 @@ class Kashem_Model_MunicipioMapper {
         return $entries;
     }
 
+    public function findAsArray($id) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        return $result->current();
+    }
+
+    public function save(Kashem_Model_Municipio $municipio) {
+        $data = array(
+            'nombre' => $municipio->getNombre(),
+            'departamento_id' => $municipio->getDepartamento()->getId()
+        );
+        if (null === ($id = $municipio->getId())) {
+            unset($data['id']);
+            $this->getDbTable()->insert($data);
+        } else {
+            $this->getDbTable()->update($data, array('id = ?' => $id));
+        }
+    }
+
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
+    }
+
 }
 

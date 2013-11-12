@@ -1,0 +1,13 @@
+<tr>
+    <td><?php echo $this->municipio->getDepartamento()->getPais()->getNombre(); ?></td>
+    <td><?php echo $this->municipio->getDepartamento()->getNombre(); ?></td>
+    <td><?php echo $this->municipio->getNombre(); ?></td>
+    <td>
+        <button type="button" class="btn btn-sm btn-default" onClick="edit(<?php echo $this->municipio->getId(); ?>);">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button type="button" class="btn btn-sm btn-danger" onClick="borrar(<?php echo $this->municipio->getId(); ?>);">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </td>
+</tr>

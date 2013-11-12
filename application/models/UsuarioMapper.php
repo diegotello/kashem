@@ -25,7 +25,8 @@ class Kashem_Model_UsuarioMapper {
     public function save(Kashem_Model_Usuario $usuario) {
         $data = array(
             'nombre' => $usuario->getNombre(),
-            'password' => $usuario->getPassword()
+            'password' => $usuario->getPassword(),
+            'rol_id' => $usuario->getRol()->getId()
         );
 
         if (null === ($id = $usuario->getId())) {
@@ -82,6 +83,18 @@ class Kashem_Model_UsuarioMapper {
             return $entry;
         }
         return null;
+    }
+
+    public function findAsArray($id) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        return $result->current();
+    }
+
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
 }

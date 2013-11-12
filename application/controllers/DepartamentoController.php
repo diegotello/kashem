@@ -55,11 +55,11 @@ class DepartamentoController extends Zend_Controller_Action {
         if ($request->isGet()) {
             $id = $request->getParam('id');
             $dm = new Kashem_Model_DepartamentoMapper();
-            $pais = $dm->findAsArray($id);
+            $departamento = $dm->findAsArray($id);
         } else {
             $this->getResponse()->setHttpResponseCode(405);
         }
-        $this->_helper->json($pais);
+        $this->_helper->json($departamento);
     }
 
     public function validarformularioAction() {

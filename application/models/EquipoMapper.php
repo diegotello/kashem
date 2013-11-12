@@ -22,5 +22,45 @@ class Kashem_Model_EquipoMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_Equipo $equipo) {
+        $data = array(
+            'nombre' => $equipo->getNombre(),
+            'descripcion' => $equipo->getDescripcion(),
+            'cantidad_existente' => $equipo->getCantidadExistente()
+        );
+        if (null === ($id = $equipo->getId())) {
+            unset($data['id']);
+            $this->getDbTable()->insert($data);
+        } else {
+            $this->getDbTable()->update($data, array('id = ?' => $id));
+        }
+    }
+
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
+    }
+
+    public function fetchAll() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Equipo();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion)
+                    ->setCantidadExistente($row->cantidad_existente);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    public function findAsArray($id) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        return $result->current();
+    }
+
 }
 

@@ -65,5 +65,30 @@ class Kashem_Model_DepartamentoMapper {
         return $entries;
     }
 
+    public function findAsArray($id) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        return $result->current();
+    }
+
+    public function save(Kashem_Model_Departamento $departamento) {
+        $data = array(
+            'nombre' => $departamento->getNombre(),
+            'pais_id' => $departamento->getPais()->getId()
+        );
+        if (null === ($id = $departamento->getId())) {
+            unset($data['id']);
+            $this->getDbTable()->insert($data);
+        } else {
+            $this->getDbTable()->update($data, array('id = ?' => $id));
+        }
+    }
+
+    public function delete($id) {
+        $this->getDbTable()->delete(array('id = ?' => $id));
+    }
+
 }
 

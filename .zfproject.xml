@@ -44,6 +44,13 @@
         <controllerFile controllerName="Departamento">
           <actionMethod actionName="index"/>
           <actionMethod actionName="lista"/>
+          <actionMethod actionName="formulario"/>
+          <actionMethod actionName="info"/>
+          <actionMethod actionName="validarformulario"/>
+          <actionMethod actionName="actualizar"/>
+          <actionMethod actionName="borrar"/>
+          <actionMethod actionName="nuevo"/>
+          <actionMethod actionName="guardar"/>
         </controllerFile>
         <controllerFile controllerName="Municipio">
           <actionMethod actionName="index"/>
@@ -238,6 +245,27 @@
             <viewScriptFile forActionName="nuevo"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="guardar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="formulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="info"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="validarformulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="actualizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="borrar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
+            <viewScriptFile forActionName="nuevo"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Departamento">
             <viewScriptFile forActionName="guardar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

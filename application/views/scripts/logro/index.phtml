@@ -1,6 +1,6 @@
 <div class="row">
     <div class="alert alert-success" id="form-success-alert" style="display:none;">
-        <strong>El municipio se ha actualizado con exito.</strong>
+        <strong>El logro se ha actualizado con exito.</strong>
     </div>
 </div>
 <div class="modal fade" id="modal">
@@ -27,17 +27,16 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Pais</th>
                 <th>Nombre</th>
                 <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php echo $this->municipios; ?>
+            <?php echo $this->logros; ?>
         </tbody>
     </table>
 </div>
 <?php
-$this->headScript()->appendFile('/js/municipio/formulario.js');
-$this->headScript()->appendFile('/js/municipio/index.js');
+$this->headScript()->appendFile('/js/logro/formulario.js');
+$this->headScript()->appendFile('/js/logro/index.js');
 ?>

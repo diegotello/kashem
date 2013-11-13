@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="alert alert-success" id="form-success-alert" style="display:none;">
+        <strong>El municipio se ha actualizado con exito.</strong>
+    </div>
+</div>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modal-title"></h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <div class="row">
+                    <div class="alert alert-danger" id="form-error-alert" style="display:none;"></div>
+                </div>
+                <?php echo $this->formulario; ?>
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <button type="button" class="btn btn-primary" onClick="actualizar();">Guardar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Pais</th>
+                <th>Nombre</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php echo $this->municipios; ?>
+        </tbody>
+    </table>
+</div>
+<?php
+$this->headScript()->appendFile('/js/municipio/formulario.js');
+$this->headScript()->appendFile('/js/municipio/index.js');
+?>

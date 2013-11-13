@@ -1,0 +1,15 @@
+<tr>
+    <td><?php echo $this->destino->getPais()->getNombre(); ?></td>
+    <td><?php echo $this->destino->getDepartamento()->getNombre(); ?></td>
+    <td><?php echo $this->destino->getMunicipio()->getNombre(); ?></td>
+    <td><?php echo $this->destino->getNombre(); ?></td>
+    <td><?php echo $this->destino->getDescripcion(); ?></td>
+    <td>
+        <button type="button" class="btn btn-sm btn-default" onClick="edit(<?php echo $this->destino->getId(); ?>);">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button type="button" class="btn btn-sm btn-danger" onClick="borrar(<?php echo $this->destino->getId(); ?>);">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </td>
+</tr>

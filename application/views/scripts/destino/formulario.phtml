@@ -1,0 +1,25 @@
+<div class="row">
+    <form role="form" id="destino_form">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="hidden" id="destino_id" name="destino_id">
+                <label>Pais</label>
+                <select class="form-control" id="pais_id" name="pais_id" onChange="cambioPais(this);">
+                    <option value="">selecciona un pais</option>
+                </select>
+                <label>Departamento</label>
+                <select class="form-control" id="departamento_id" name="departamento_id" onChange="cambioDepartamento(this);">
+                    <option value="">selecciona un departamento</option>
+                </select>
+                <label>Municipio</label>
+                <select class="form-control" id="municipio_id" name="municipio_id">
+                    <option value="">selecciona un municipio</option>
+                </select>
+                <label>Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+                <label>Descripcion</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+            </div>
+        </div>
+    </form>
+</div>

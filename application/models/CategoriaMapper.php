@@ -60,5 +60,16 @@ class Kashem_Model_CategoriaMapper {
         return $result->current();
     }
 
+    public function find($id, Kashem_Model_Categoria $categoria) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        $row = $result->current();
+        $categoria->setId($row->id)
+                ->setNombre($row->nombre)
+                ->setDescripcion($row->descripcion);
+    }
+
 }
 

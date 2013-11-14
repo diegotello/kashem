@@ -60,5 +60,19 @@ class Kashem_Model_ActividadMapper {
         return $result->current();
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Actividad();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

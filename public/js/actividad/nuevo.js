@@ -12,6 +12,9 @@ function guardar() {
                             $('#error-alert').hide();
                             $('#success-alert').show();
                             $('#actividad_form').find("input[type=text], textarea").val("");
+                            if (!$('#mantener_pagina_checkbox').is(':checked')) {
+                                window.location.assign("/actividad");
+                            }
                         }
                         else
                         {

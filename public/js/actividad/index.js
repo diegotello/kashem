@@ -1,3 +1,32 @@
+$(document).ready(function() {
+    $.ajax(
+            "/actividad/campos",
+            {
+                method: 'get',
+                success: function(response)
+                {
+                    $('#campo_busqueda').find('option[value!=""]').remove();
+                    $('#campo_busqueda').append(response.lista);
+                    $('#nuevo_link').attr('href', 'actividad/nueva');
+                    $('#busqueda_button').attr('onClick', 'buscar();');
+                    $('#busqueda_form').show();
+                }
+            }
+    );
+});
+function buscar() {
+    $.ajax(
+            "/actividad/busqueda",
+            {
+                method: 'get',
+                data: $('#busqueda_form').serializeArray(),
+                success: function(response)
+                {
+                    $('#lista').empty().append(response.lista);
+                }
+            }
+    );
+}
 function borrar(id) {
     $.ajax(
             "/actividad/borrar",

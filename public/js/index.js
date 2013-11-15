@@ -53,10 +53,25 @@ function edit(id) {
                 data: {id: id},
                 success: function(response)
                 {
-                    $('#modal-title').text(response.nombre);
                     $.each(response, function(k, v) {
-                        $('#' + k).val(v);
+                        if (k !== 'pais_id' && k !== 'departamento_id' && k !== 'municipio_id')
+                        {
+                            $('#' + k).val(v);
+                        }
                     });
+                    switch (controller) {
+                        case 'cliente':
+                            $('#modal-title').text(response.primer_nombre + ' ' + response.primer_apellido);
+                            $('#pais_id').val(response.pais_id);
+                            cambioPais($('#pais_id'), false);
+                            $('#departamento_id').val(response.departamento_id);
+                            cambioDepartamento($('#departamento_id'), false);
+                            $('#municipio_id').val(response.municipio_id);
+                            break;
+                        default:
+                            $('#modal-title').text(response.nombre);
+                            break;
+                    }
                     $('#' + controller + '_id').val(response.id);
                     $('#modal').modal('show');
                 }

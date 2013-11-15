@@ -68,6 +68,9 @@ function edit(id) {
                             cambioDepartamento($('#departamento_id'), false);
                             $('#municipio_id').val(response.municipio_id);
                             break;
+                        case 'departamento':
+                            $('#pais_id').val(response.pais_id);
+                            break;
                         default:
                             $('#modal-title').text(response.nombre);
                             break;

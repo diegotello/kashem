@@ -90,5 +90,22 @@ class Kashem_Model_DepartamentoMapper {
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        $pm = new Kashem_Model_PaisMapper();
+        foreach ($resultSet as $row) {
+            $pais = new Kashem_Model_Pais();
+            $pm->find($row->pais_id, $pais);
+            $entry = new Kashem_Model_Departamento();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setPais($pais);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

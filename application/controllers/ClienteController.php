@@ -1,6 +1,6 @@
 <?php
 
-class ClientesController extends Zend_Controller_Action {
+class ClienteController extends Zend_Controller_Action {
 
     public function init() {
         /* Initialize action controller here */
@@ -46,10 +46,10 @@ class ClientesController extends Zend_Controller_Action {
         $html = "";
         foreach ($clientes as $c) {
             $this->view->cliente = $c;
-            $html .= $this->view->render('clientes/lista_row.phtml');
+            $html .= $this->view->render('cliente/lista_row.phtml');
         }
         $this->view->clientes = $html;
-        $this->view->formulario = $this->view->render('clientes/formulario.phtml');
+        $this->view->formulario = $this->view->render('cliente/formulario.phtml');
     }
 
     public function formularioAction() {
@@ -138,7 +138,7 @@ class ClientesController extends Zend_Controller_Action {
     }
 
     public function nuevoAction() {
-        $this->view->formulario = $this->view->render('clientes/formulario.phtml');
+        $this->view->formulario = $this->view->render('cliente/formulario.phtml');
     }
 
     public function infoAction() {
@@ -201,6 +201,36 @@ class ClientesController extends Zend_Controller_Action {
             $this->getResponse()->setHttpResponseCode(405);
         }
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'primer_nombre' => 'nombre',
+            'primer_apellido' => 'apellido'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $am = new Kashem_Model_ClienteMapper();
+            $actividades = $am->fetchAllBy($campo, $valor);
+            $html = "";
+            foreach ($actividades as $a) {
+                $this->view->cliente = $a;
+                $html .= $this->view->render('cliente/lista_row.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
     }
 
 }

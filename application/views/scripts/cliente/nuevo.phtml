@@ -13,6 +13,8 @@
     <div class="col-md-5"></div>
 </div>
 <?php
-$this->headScript()->appendFile('/js/cliente/formulario.js');
-$this->headScript()->appendFile('/js/cliente/nuevo.js');
+echo $this->render('partials/checkbox.phtml');
+$this->headScript()->appendFile('/js/cliente/init.js');
+$this->headScript()->appendFile('/js/formulario.js');
+$this->headScript()->appendFile('/js/nuevo.js');
 ?>

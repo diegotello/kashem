@@ -138,5 +138,44 @@ class Kashem_Model_ClienteMapper {
         return $result->current();
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        $pm = new Kashem_Model_PaisMapper();
+        $dm = new Kashem_Model_DepartamentoMapper();
+        $mm = new Kashem_Model_MunicipioMapper();
+        $pais = new Kashem_Model_Pais();
+        $departamento = new Kashem_Model_Departamento();
+        $municipio = new Kashem_Model_Municipio();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Cliente();
+            $pm->find($row->pais_id, $pais);
+            $dm->find($row->departamento_id, $departamento);
+            $mm->find($row->municipio_id, $municipio);
+            $entry->setId($row->id)
+                    ->setContactoEmergencia($row->contacto_emergencia)
+                    ->setCorreoElectronico($row->correo_electronico)
+                    ->setDepartamento($departamento)
+                    ->setDireccion($row->direccion)
+                    ->setDpi($row->dpi)
+                    ->setFechaNacimiento($row->fecha_nacimiento)
+                    ->setGenero($row->genero)
+                    ->setMunicipio($municipio)
+                    ->setObservacionGeneral($row->observacion_general)
+                    ->setObservacionMedica($row->observacion_medica)
+                    ->setPais($pais)
+                    ->setPrimerApellido($row->primer_apellido)
+                    ->setPrimerNombre($row->primer_nombre)
+                    ->setSegundoApellido($row->segundo_apellido)
+                    ->setSegundoNombre($row->segundo_nombre)
+                    ->setTelefonoEmergencia($row->telefono_emergencia)
+                    ->setTelefono($row->telefono)
+                    ->setUsuarioFacebook($row->usuario_facebook);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

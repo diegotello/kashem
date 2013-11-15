@@ -27,7 +27,7 @@ class CategoriaController extends Zend_Controller_Action {
         $this->view->formulario = $this->view->render('categoria/formulario.phtml');
     }
 
-    public function nuevaAction() {
+    public function nuevoAction() {
         $this->view->formulario = $this->view->render('categoria/formulario.phtml');
     }
 

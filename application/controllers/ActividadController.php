@@ -27,7 +27,7 @@ class ActividadController extends Zend_Controller_Action {
         $this->view->formulario = $this->view->render('actividad/formulario.phtml');
     }
 
-    public function nuevaAction() {
+    public function nuevoAction() {
         $this->view->formulario = $this->view->render('actividad/formulario.phtml');
     }
 

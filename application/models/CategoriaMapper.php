@@ -71,5 +71,19 @@ class Kashem_Model_CategoriaMapper {
                 ->setDescripcion($row->descripcion);
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Categoria();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

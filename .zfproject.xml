@@ -80,6 +80,8 @@
           <actionMethod actionName="info"/>
           <actionMethod actionName="actualizar"/>
           <actionMethod actionName="borrar"/>
+          <actionMethod actionName="campos"/>
+          <actionMethod actionName="busqueda"/>
         </controllerFile>
         <controllerFile controllerName="Equipo">
           <actionMethod actionName="index"/>
@@ -503,6 +505,12 @@
             <viewScriptFile forActionName="campos"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Actividad">
+            <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Categoria">
+            <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Categoria">
             <viewScriptFile forActionName="busqueda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

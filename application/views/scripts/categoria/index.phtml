@@ -32,12 +32,13 @@
                 <th>Opciones</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="lista">
             <?php echo $this->categorias; ?>
         </tbody>
     </table>
 </div>
 <?php
-$this->headScript()->appendFile('/js/categoria/formulario.js');
-$this->headScript()->appendFile('/js/categoria/index.js');
+$this->headScript()->appendFile('/js/categoria/init.js');
+$this->headScript()->appendFile('/js/formulario.js');
+$this->headScript()->appendFile('/js/index.js');
 ?>

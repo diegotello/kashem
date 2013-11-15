@@ -157,5 +157,35 @@ class CategoriaController extends Zend_Controller_Action {
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'nombre' => 'nombre',
+            'descripcion' => 'descripcion'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $am = new Kashem_Model_CategoriaMapper();
+            $categorias = $am->fetchAllBy($campo, $valor);
+            $html = "";
+            foreach ($categorias as $a) {
+                $this->view->categoria = $a;
+                $html .= $this->view->render('categoria/lista_row.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
+    }
+
 }
 

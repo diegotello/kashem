@@ -1,6 +1,9 @@
 var controller;
 $(document).ready(function() {
     controller = "categoria";
-    initBusqueda();
+    if (typeof(initBusqueda) === "function")
+    {
+        initBusqueda();
+    }
 });
 

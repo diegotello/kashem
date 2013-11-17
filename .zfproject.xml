@@ -130,6 +130,7 @@
           <actionMethod actionName="info"/>
           <actionMethod actionName="actualizar"/>
           <actionMethod actionName="borrar"/>
+          <actionMethod actionName="campos"/>
         </controllerFile>
         <controllerFile controllerName="Guia">
           <actionMethod actionName="index"/>
@@ -528,6 +529,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Departamento">
             <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Destino">
+            <viewScriptFile forActionName="campos"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

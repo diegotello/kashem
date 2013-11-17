@@ -60,6 +60,14 @@ function edit(id) {
                         }
                     });
                     switch (controller) {
+                        case 'destino':
+                            $('#modal-title').text(response.nombre);
+                            $('#pais_id').val(response.pais_id);
+                            cambioPais($('#pais_id'), false);
+                            $('#departamento_id').val(response.departamento_id);
+                            cambioDepartamento($('#departamento_id'), false);
+                            $('#municipio_id').val(response.municipio_id);
+                            break;
                         case 'cliente':
                             $('#modal-title').text(response.primer_nombre + ' ' + response.primer_apellido);
                             $('#pais_id').val(response.pais_id);
@@ -69,6 +77,7 @@ function edit(id) {
                             $('#municipio_id').val(response.municipio_id);
                             break;
                         case 'departamento':
+                            $('#modal-title').text(response.nombre);
                             $('#pais_id').val(response.pais_id);
                             break;
                         default:

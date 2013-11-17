@@ -112,5 +112,31 @@ class Kashem_Model_DestinoMapper {
         return $result->current();
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        $pm = new Kashem_Model_PaisMapper();
+        $dm = new Kashem_Model_DepartamentoMapper();
+        $mm = new Kashem_Model_MunicipioMapper();
+        foreach ($resultSet as $row) {
+            $pais = new Kashem_Model_Pais();
+            $departamento = new Kashem_Model_Departamento();
+            $municipio = new Kashem_Model_Municipio();
+            $pm->find($row->pais_id, $pais);
+            $dm->find($row->departamento_id, $departamento);
+            $mm->find($row->municipio_id, $municipio);
+            $entry = new Kashem_Model_Destino();
+            $entry->setId($row->id)
+                    ->setDepartamento($departamento)
+                    ->setMunicipio($municipio)
+                    ->setPais($pais)
+                    ->setDescripcion($row->descripcion)
+                    ->setNombre($row->nombre);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

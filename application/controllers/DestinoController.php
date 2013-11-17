@@ -169,5 +169,35 @@ class DestinoController extends Zend_Controller_Action {
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'nombre' => 'nombre',
+            'descripcion' => 'descripcion'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $am = new Kashem_Model_DestinoMapper();
+            $destinos = $am->fetchAllBy($campo, $valor);
+            $html = "";
+            foreach ($destinos as $a) {
+                $this->view->destino = $a;
+                $html .= $this->view->render('destino/lista_row.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
+    }
+
 }
 

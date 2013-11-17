@@ -15,6 +15,12 @@ function guardar() {
                             if (!$('#mantener_pagina_checkbox').is(':checked')) {
                                 window.location.assign("/" + controller);
                             }
+                            else
+                            {
+                                setTimeout(function() {
+                                    $('#success-alert').hide();
+                                }, 1500);
+                            }
                         }
                         else
                         {

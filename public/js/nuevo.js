@@ -11,7 +11,7 @@ function guardar() {
                         if (response.ok) {
                             $('#error-alert').hide();
                             $('#success-alert').show();
-                            $('#' + controller + '_form').find("input[type=text], textarea, select").val("");
+                            $('#' + controller + '_form').find("input[type=password], input[type=text], textarea, select").val("");
                             if (!$('#mantener_pagina_checkbox').is(':checked')) {
                                 window.location.assign("/" + controller);
                             }

@@ -158,5 +158,35 @@ class EquipoController extends Zend_Controller_Action {
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'nombre' => 'nombre',
+            'descripcion' => 'descripcion'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $am = new Kashem_Model_EquipoMapper();
+            $equipos = $am->fetchAllBy($campo, $valor);
+            $html = "";
+            foreach ($equipos as $a) {
+                $this->view->equipo = $a;
+                $html .= $this->view->render('equipo/lista_row.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
+    }
+
 }
 

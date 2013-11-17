@@ -96,6 +96,8 @@
           <actionMethod actionName="info"/>
           <actionMethod actionName="actualizar"/>
           <actionMethod actionName="borrar"/>
+          <actionMethod actionName="campos"/>
+          <actionMethod actionName="busqueda"/>
         </controllerFile>
         <controllerFile controllerName="Logro">
           <actionMethod actionName="index"/>
@@ -532,6 +534,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Destino">
             <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Equipo">
+            <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Equipo">
+            <viewScriptFile forActionName="busqueda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

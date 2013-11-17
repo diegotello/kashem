@@ -124,6 +124,8 @@
           <actionMethod actionName="nuevo"/>
           <actionMethod actionName="info"/>
           <actionMethod actionName="borrar"/>
+          <actionMethod actionName="campos"/>
+          <actionMethod actionName="busqueda"/>
         </controllerFile>
         <controllerFile controllerName="Rol">
           <actionMethod actionName="index"/>
@@ -563,6 +565,12 @@
             <viewScriptFile forActionName="campos"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Pais">
+            <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="busqueda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

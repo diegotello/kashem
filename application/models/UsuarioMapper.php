@@ -69,6 +69,24 @@ class Kashem_Model_UsuarioMapper {
         return $entries;
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        $rm = new Kashem_Model_RolMapper();
+        foreach ($resultSet as $row) {
+            $rol = new Kashem_Model_Rol();
+            $rm->find($row->rol_id, $rol);
+            $entry = new Kashem_Model_Usuario();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setPassword($row->password)
+                    ->setRol($rol);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function fetchOneByNameAndPassword($nombre, $password) {
         $row = $this->getDbTable()->fetchRow('nombre="' . $nombre . '" AND password="' . $password . '"');
         $rm = new Kashem_Model_RolMapper();

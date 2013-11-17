@@ -1,3 +1,15 @@
+function initRol() {
+    $.ajax(
+            "/rol/lista",
+            {
+                method: 'get',
+                success: function(response)
+                {
+                    $('#rol_id').append(response.lista);
+                }
+            }
+    );
+}
 function initPais() {
     $.ajax(
             "/pais/lista",

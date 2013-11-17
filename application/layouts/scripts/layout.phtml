@@ -9,6 +9,23 @@
         <link href="<?php echo $this->baseUrl('css/jquery-ui-1.10.3.custom.min.css') ?>" rel="stylesheet">
     </head>
     <body>
+        <div class="modal fade" id="delete-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="delete-modal-title">Eliminar</h4>
+                    </div>
+                    <div class="modal-body" id="delete-modal-body">
+                        ¿Realmente quieres eliminar este elemento?
+                    </div>
+                    <div class="modal-footer" id="modal-footer">
+                        <button type="button" class="btn btn-danger" id="delete-modal-si-button">Si</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">

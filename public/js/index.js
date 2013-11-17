@@ -28,21 +28,26 @@ function buscar() {
     );
 }
 function borrar(id) {
-    $.ajax(
-            "/" + controller + "/borrar",
-            {
-                method: 'post',
-                data: {id: id},
-                success: function(response)
-                {
-                    if (response.ok) {
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
-                    }
-                }
+    $('#delete-modal-si-button').click(
+            function() {
+                $.ajax(
+                        "/" + controller + "/borrar",
+                        {
+                            method: 'post',
+                            data: {id: id},
+                            success: function(response)
+                            {
+                                if (response.ok) {
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            }
+                        }
+                );
             }
     );
+    $('#delete-modal').modal('show');
 }
 
 function edit(id) {

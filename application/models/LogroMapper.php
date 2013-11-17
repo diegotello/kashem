@@ -68,5 +68,18 @@ class Kashem_Model_LogroMapper {
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Logro();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

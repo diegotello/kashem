@@ -90,5 +90,22 @@ class Kashem_Model_MunicipioMapper {
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        $dm = new Kashem_Model_DepartamentoMapper();
+        foreach ($resultSet as $row) {
+            $departamento = new Kashem_Model_Departamento();
+            $dm->find($row->departamento_id, $departamento);
+            $entry = new Kashem_Model_Municipio();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDepartamento($departamento);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

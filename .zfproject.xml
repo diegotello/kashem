@@ -62,6 +62,8 @@
           <actionMethod actionName="borrar"/>
           <actionMethod actionName="nuevo"/>
           <actionMethod actionName="guardar"/>
+          <actionMethod actionName="campos"/>
+          <actionMethod actionName="busqueda"/>
         </controllerFile>
         <controllerFile controllerName="Actividad">
           <actionMethod actionName="index"/>
@@ -547,6 +549,12 @@
             <viewScriptFile forActionName="campos"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Logro">
+            <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
+            <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Municipio">
             <viewScriptFile forActionName="busqueda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

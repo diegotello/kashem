@@ -160,5 +160,34 @@ class PaisController extends Zend_Controller_Action {
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'nombre' => 'nombre'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $am = new Kashem_Model_PaisMapper();
+            $paises = $am->fetchAllBy($campo, $valor);
+            $html = "";
+            foreach ($paises as $a) {
+                $this->view->pais = $a;
+                $html .= $this->view->render('pais/lista_row.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
+    }
+
 }
 

@@ -44,6 +44,19 @@ class Kashem_Model_PaisMapper {
         return $entries;
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Pais();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function findAsArray($id) {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {

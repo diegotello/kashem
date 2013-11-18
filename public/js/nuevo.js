@@ -12,6 +12,9 @@ function guardar() {
                             $('#error-alert').hide();
                             $('#success-alert').show();
                             $('#' + controller + '_form').find("input[type=password], input[type=text], textarea, select").val("");
+                            if (controller == 'logro') {
+                                $('#' + controller + '_form').find("input[type=checkbox]").prop('checked', false);
+                            }
                             if (!$('#mantener_pagina_checkbox').is(':checked')) {
                                 window.location.assign("/" + controller);
                             }

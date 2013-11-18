@@ -58,13 +58,18 @@ class Kashem_Model_LogroMapper {
         );
         if (null === ($id = $logro->getId())) {
             unset($data['id']);
-            $this->getDbTable()->insert($data);
+            $idl = $this->getDbTable()->insert($data);
+            $logro->setId($idl);
         } else {
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }
     }
 
     public function delete($id) {
+        $al = new Kashem_Model_ActividadLogroMapper();
+        $logro = new Kashem_Model_Logro();
+        $this->find($id, $logro);
+        $al->deleteByLogro($logro);
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 

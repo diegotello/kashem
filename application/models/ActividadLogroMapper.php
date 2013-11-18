@@ -22,5 +22,29 @@ class Kashem_Model_ActividadLogroMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_ActividadLogro $actividadLogro) {
+        $data = array(
+            'actividad_id' => $actividadLogro->getActividad()->getId(),
+            'logro_id' => $actividadLogro->getLogro()->getId()
+        );
+        $this->getDbTable()->insert($data);
+    }
+
+    public function exists(Kashem_Model_Actividad $actividad, Kashem_Model_Logro $logro) {
+        $result = $this->getDbTable()->fetchRow("actividad_id = " . $actividad->getId() . " AND logro_id = " . $logro->getId());
+        if (0 == count($result)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function deleteByLogro($logro) {
+        $this->getDbTable()->delete(array('logro_id = ?' => $logro->getId()));
+    }
+
+    public function deleteByActividad($actividad) {
+        $this->getDbTable()->delete(array('actividad_id = ?' => $actividad->getId()));
+    }
+
 }
 

@@ -36,6 +36,10 @@ class Kashem_Model_ActividadMapper {
     }
 
     public function delete($id) {
+        $alm = new Kashem_Model_ActividadLogroMapper();
+        $actividad = new Kashem_Model_Actividad();
+        $this->find($id, $actividad);
+        $alm->deleteByActividad($actividad);
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
@@ -72,6 +76,17 @@ class Kashem_Model_ActividadMapper {
             $entries[] = $entry;
         }
         return $entries;
+    }
+
+    public function find($id, Kashem_Model_Actividad $actividad) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        $row = $result->current();
+        $actividad->setId($row->id)
+                ->setNombre($row->nombre)
+                ->setDescripcion($row->descripcion);
     }
 
 }

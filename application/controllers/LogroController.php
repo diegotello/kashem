@@ -36,12 +36,30 @@ class LogroController extends Zend_Controller_Action {
         $request = $this->getRequest();
         if ($request->isGet()) {
             $id = $request->getParam('id');
+            $alm = new Kashem_Model_ActividadLogroMapper();
             $pm = new Kashem_Model_LogroMapper();
             $logro = $pm->findAsArray($id);
+            $am = new Kashem_Model_ActividadMapper();
+            $actividades = $am->fetchAll();
+            $act_html = "";
+            $l = new Kashem_Model_Logro();
+            $pm->find($id, $l);
+            foreach ($actividades as $a) {
+                $this->view->actividad = $a;
+                if ($alm->exists($a, $l)) {
+                    $this->view->checked = "checked";
+                } else {
+                    $this->view->checked = "";
+                }
+                $act_html .= $this->view->render('logro/actividad_checkbox.phtml');
+            }
+            $result['id'] = $logro['id'];
+            $result['nombre'] = $logro['nombre'];
+            $result['actividades_checkboxes'] = $act_html;
         } else {
             $this->getResponse()->setHttpResponseCode(405);
         }
-        $this->_helper->json($logro);
+        $this->_helper->json($result);
     }
 
     public function validarformularioAction() {
@@ -88,6 +106,18 @@ class LogroController extends Zend_Controller_Action {
                 $this->_setLogroFromParams($logro, $params);
                 $logro->setId($params['logro_id']);
                 $pm->save($logro);
+                $alm = new Kashem_Model_ActividadLogroMapper();
+                $alm->deleteByLogro($logro);
+                $actividades = $params['actividad'];
+                $am = new Kashem_Model_ActividadMapper();
+                foreach ($actividades as $id) {
+                    $actividad = new Kashem_Model_Actividad();
+                    $actividadLogro = new Kashem_Model_ActividadLogro();
+                    $am->find($id, $actividad);
+                    $actividadLogro->setActividad($actividad);
+                    $actividadLogro->setLogro($logro);
+                    $alm->save($actividadLogro);
+                }
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;
@@ -122,6 +152,14 @@ class LogroController extends Zend_Controller_Action {
     }
 
     public function nuevoAction() {
+        $am = new Kashem_Model_ActividadMapper();
+        $actividades = $am->fetchAll();
+        $act_html = "";
+        foreach ($actividades as $a) {
+            $this->view->actividad = $a;
+            $act_html .= $this->view->render('logro/actividad_checkbox.phtml');
+        }
+        $this->view->actividades = $act_html;
         $this->view->formulario = $this->view->render('logro/formulario.phtml');
     }
 
@@ -138,6 +176,17 @@ class LogroController extends Zend_Controller_Action {
                 $logro = new Kashem_Model_Logro();
                 $this->_setLogroFromParams($logro, $params);
                 $pm->save($logro);
+                $actividades = $params['actividad'];
+                $am = new Kashem_Model_ActividadMapper();
+                $alm = new Kashem_Model_ActividadLogroMapper();
+                foreach ($actividades as $id) {
+                    $actividad = new Kashem_Model_Actividad();
+                    $actividadLogro = new Kashem_Model_ActividadLogro();
+                    $am->find($id, $actividad);
+                    $actividadLogro->setActividad($actividad);
+                    $actividadLogro->setLogro($logro);
+                    $alm->save($actividadLogro);
+                }
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;

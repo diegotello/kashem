@@ -60,7 +60,7 @@ function edit(id) {
                 success: function(response)
                 {
                     $.each(response, function(k, v) {
-                        if (k !== 'pais_id' && k !== 'departamento_id' && k !== 'municipio_id')
+                        if (k !== 'pais_id' && k !== 'departamento_id' && k !== 'municipio_id' && k !== 'actividades_checkboxes')
                         {
                             $('#' + k).val(v);
                         }
@@ -91,6 +91,10 @@ function edit(id) {
                             $('#pais_id').val(response.pais_id);
                             cambioPais($('#pais_id'), false);
                             $('#departamento_id').val(response.departamento_id);
+                            break;
+                        case 'logro':
+                            $('#modal-title').text(response.nombre);
+                            $('#actividades').empty().append(response.actividades_checkboxes);
                             break;
                         default:
                             $('#modal-title').text(response.nombre);

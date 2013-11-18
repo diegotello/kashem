@@ -44,7 +44,14 @@ class GuiaController extends Zend_Controller_Action {
         if ($request->isGet()) {
             $id = $request->getParam('id');
             $mm = new Kashem_Model_GuiaMapper();
-            $result = $mm->findAsArray($id);
+            $guia = new Kashem_Model_Guia();
+            $mm->find($id, $guia);
+            $result = array(
+                'id' => $guia->getId(),
+                'cliente_id' => $guia->getCliente()->getId(),
+                'categoria_id' => $guia->getCategoria()->getId(),
+                'nombre' => 'Guia #' . $guia->getId() . ', ' . $guia->getCliente()->getPrimerNombre() . ' ' . $guia->getCliente()->getPrimerApellido()
+            );
         } else {
             $this->getResponse()->setHttpResponseCode(405);
         }
@@ -59,7 +66,33 @@ class GuiaController extends Zend_Controller_Action {
         $info = "<strong>Hemos encontrado algunos problemas con los datos introducidos:";
         if ($request->isGet()) {
             try {
-                //$params = $request->getParams();
+                $params = $request->getParams();
+                if (!$this->_exists($params, 'cliente_id')) {
+                    $valid = false;
+                    $info .= '<br>El campo cliente no puede estar vacio.';
+                } else {
+                    $gm = new Kashem_Model_GuiaMapper();
+                    $check = true;
+                    if ($params['guia_id'] != '') {
+                        $tguia = new Kashem_Model_Guia();
+                        $gm->find($params['guia_id'], $tguia);
+                        $check = $tguia->getCliente()->getId() != $params['cliente_id'];
+                    }
+                    if ($check) {
+                        $cm = new Kashem_Model_ClienteMapper();
+                        $cliente = new Kashem_Model_Cliente();
+                        $cm->find($params['cliente_id'], $cliente);
+                        $guia = $gm->fetchByCliente($cliente);
+                        if ($guia != null) {
+                            $valid = false;
+                            $info .= '<br>El cliente seleccionado ya es un guia.';
+                        }
+                    }
+                }
+                if (!$this->_exists($params, 'categoria_id')) {
+                    $valid = false;
+                    $info .= '<br>El campo categoria no puede estar vacio.';
+                }
             } catch (Exception $e) {
                 $valid = false;
                 $info = $e->getMessage();
@@ -144,6 +177,58 @@ class GuiaController extends Zend_Controller_Action {
             $this->getResponse()->setHttpResponseCode(405);
         }
         $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'primer_nombre' => 'nombre',
+            'primer_apellido' => 'apellido',
+            'nombre' => 'categoria'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $gm = new Kashem_Model_GuiaMapper();
+            switch ($campo) {
+                case 'primer_nombre':
+                case 'primer_apellido':
+                    $cm = new Kashem_Model_ClienteMapper();
+                    $clientes = $cm->fetchAllBy($campo, $valor);
+                    $html = "";
+                    foreach ($clientes as $c) {
+                        $guia = $gm->fetchByCliente($c);
+                        if ($guia != null) {
+                            $this->view->guia = $guia;
+                            $html .= $this->view->render('guia/lista_row.phtml');
+                        }
+                    }
+                    break;
+                case 'nombre':
+                    $cm = new Kashem_Model_CategoriaMapper();
+                    $categorias = $cm->fetchAllBy('nombre', $valor);
+                    $html = "";
+                    foreach ($categorias as $c) {
+                        $guias = $gm->fetchAllByCategoria($c);
+                        foreach ($guias as $g) {
+                            $this->view->guia = $g;
+                            $html .= $this->view->render('guia/lista_row.phtml');
+                        }
+                    }
+                    break;
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
     }
 
 }

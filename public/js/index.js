@@ -51,6 +51,7 @@ function borrar(id) {
 }
 
 function edit(id) {
+    $('#form-error-alert').hide();
     $.ajax(
             "/" + controller + "/info",
             {

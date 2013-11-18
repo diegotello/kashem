@@ -27,6 +27,7 @@
           <actionMethod actionName="borrar"/>
           <actionMethod actionName="busqueda"/>
           <actionMethod actionName="campos"/>
+          <actionMethod actionName="lista"/>
         </controllerFile>
         <controllerFile controllerName="Pais">
           <actionMethod actionName="index"/>
@@ -90,6 +91,7 @@
           <actionMethod actionName="borrar"/>
           <actionMethod actionName="campos"/>
           <actionMethod actionName="busqueda"/>
+          <actionMethod actionName="lista"/>
         </controllerFile>
         <controllerFile controllerName="Equipo">
           <actionMethod actionName="index"/>
@@ -151,6 +153,8 @@
           <actionMethod actionName="borrar"/>
           <actionMethod actionName="nuevo"/>
           <actionMethod actionName="guardar"/>
+          <actionMethod actionName="campos"/>
+          <actionMethod actionName="busqueda"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -571,6 +575,18 @@
             <viewScriptFile forActionName="campos"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Cliente">
+            <viewScriptFile forActionName="lista"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Categoria">
+            <viewScriptFile forActionName="lista"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Guia">
+            <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Guia">
             <viewScriptFile forActionName="busqueda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

@@ -1,3 +1,27 @@
+function initCategoria() {
+    $.ajax(
+            "/categoria/lista",
+            {
+                method: 'get',
+                success: function(response)
+                {
+                    $('#categoria_id').append(response.lista);
+                }
+            }
+    );
+}
+function initCliente() {
+    $.ajax(
+            "/cliente/lista",
+            {
+                method: 'get',
+                success: function(response)
+                {
+                    $('#cliente_id').append(response.lista);
+                }
+            }
+    );
+}
 function initRol() {
     $.ajax(
             "/rol/lista",

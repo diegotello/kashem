@@ -187,5 +187,16 @@ class CategoriaController extends Zend_Controller_Action {
         $this->_helper->json(array('lista' => $html));
     }
 
+    public function listaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $pm = new Kashem_Model_CategoriaMapper();
+            $this->view->categorias = $pm->fetchAll();
+            $this->_helper->json(array('lista' => $this->view->render('categoria/lista.phtml')));
+        }
+    }
+
 }
 

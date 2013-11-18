@@ -233,5 +233,16 @@ class ClienteController extends Zend_Controller_Action {
         $this->_helper->json(array('lista' => $html));
     }
 
+    public function listaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $pm = new Kashem_Model_ClienteMapper();
+            $this->view->clientes = $pm->fetchAll();
+            $this->_helper->json(array('lista' => $this->view->render('cliente/lista.phtml')));
+        }
+    }
+
 }
 

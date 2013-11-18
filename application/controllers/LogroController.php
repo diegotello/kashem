@@ -51,7 +51,7 @@ class LogroController extends Zend_Controller_Action {
                 } else {
                     $this->view->checked = "";
                 }
-                $act_html .= $this->view->render('logro/actividad_checkbox.phtml');
+                $act_html .= $this->view->render('actividad/checkboxes.phtml');
             }
             $result['id'] = $logro['id'];
             $result['nombre'] = $logro['nombre'];
@@ -157,7 +157,7 @@ class LogroController extends Zend_Controller_Action {
         $act_html = "";
         foreach ($actividades as $a) {
             $this->view->actividad = $a;
-            $act_html .= $this->view->render('logro/actividad_checkbox.phtml');
+            $act_html .= $this->view->render('actividad/checkboxes.phtml');
         }
         $this->view->actividades = $act_html;
         $this->view->formulario = $this->view->render('logro/formulario.phtml');

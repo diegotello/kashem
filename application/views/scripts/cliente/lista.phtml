@@ -1,0 +1,7 @@
+<?php
+foreach ($this->clientes as $c) {
+    ?>
+    <option value="<?php echo $c->getId(); ?>"><?php echo $c->getPrimerNombre() . ' ' . $c->getPrimerApellido(); ?></option>
+    <?php
+}
+?>

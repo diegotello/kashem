@@ -1,0 +1,7 @@
+<?php
+foreach ($this->categorias as $c) {
+    ?>
+    <option value="<?php echo $c->getId(); ?>"><?php echo $c->getNombre(); ?></option>
+    <?php
+}
+?>

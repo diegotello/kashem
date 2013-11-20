@@ -3,6 +3,7 @@
 class Kashem_Model_Viaje {
 
     protected $_id;
+    protected $_nombre;
     protected $_fechaSalida;
     protected $_horaSalida;
     protected $_fechaRegreso;
@@ -47,6 +48,15 @@ class Kashem_Model_Viaje {
 
     public function setId($id) {
         $this->_id = $id;
+        return $this;
+    }
+
+    public function getNombre() {
+        return $this->_nombre;
+    }
+
+    public function setNombre($nombre) {
+        $this->_nombre = $nombre;
         return $this;
     }
 

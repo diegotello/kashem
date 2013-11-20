@@ -161,6 +161,12 @@
           <actionMethod actionName="nuevo"/>
           <actionMethod actionName="formulario"/>
           <actionMethod actionName="validarformulario"/>
+          <actionMethod actionName="guardar"/>
+          <actionMethod actionName="info"/>
+          <actionMethod actionName="actualizar"/>
+          <actionMethod actionName="borrar"/>
+          <actionMethod actionName="campos"/>
+          <actionMethod actionName="busqueda"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -606,6 +612,24 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Viaje">
             <viewScriptFile forActionName="validarformulario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="guardar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="info"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="actualizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="borrar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="campos"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="busqueda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

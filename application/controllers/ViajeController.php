@@ -6,8 +6,28 @@ class ViajeController extends Zend_Controller_Action {
         /* Initialize action controller here */
     }
 
+    private function _exists($params, $field) {
+        return isset($params[$field]) && $params[$field] != "" && $params[$field] != null;
+    }
+
+    private function _setViajeFromParams($viaje, $params) {
+        $viaje->setNombre($params['nombre'])
+                ->setFechaSalida(date('Y-m-d', strtotime($params['fecha_salida'])))
+                ->setHoraSalida($params['hora_salida'])
+                ->setFechaRegreso(date('Y-m-d', strtotime($params['fecha_regreso'])))
+                ->setHoraRegreso($params['hora_regreso']);
+    }
+
     public function indexAction() {
-        // action body
+        $pm = new Kashem_Model_ViajeMapper();
+        $viajes = $pm->fetchAll();
+        $html = "";
+        foreach ($viajes as $p) {
+            $this->view->viaje = $p;
+            $html .= $this->view->render('viaje/lista_row.phtml');
+        }
+        $this->view->viajes = $html;
+        $this->view->formulario = $this->view->render('viaje/formulario.phtml');
     }
 
     public function nuevoAction() {
@@ -43,7 +63,17 @@ class ViajeController extends Zend_Controller_Action {
         if ($request->isGet()) {
             try {
                 $params = $request->getParams();
+                $lengthValidator = new Zend_Validate_StringLength(array('max' => 50));
                 $dateValidator = new Zend_Validate_Date(array('format' => 'dd-mm-yyyy'));
+                if (!$this->_exists($params, 'nombre')) {
+                    $valid = false;
+                    $info .= '<br>El campo nombre no puede estar vacio.';
+                } else {
+                    if (!$lengthValidator->isValid($params['nombre'])) {
+                        $valid = false;
+                        $info .= '<br>El campo nombre tiene mas de 50 caracteres.';
+                    }
+                }
                 if (!$this->_exists($params, 'fecha_salida')) {
                     $valid = false;
                     $info .= '<br>El campo fecha de salida no puede estar vacio.';
@@ -62,6 +92,14 @@ class ViajeController extends Zend_Controller_Action {
                         $info .= '<br>La fecha de regreso es invalida.';
                     }
                 }
+                if (!$this->_exists($params, 'hora_salida')) {
+                    $valid = false;
+                    $info .= '<br>El campo hora de salida no puede estar vacio.';
+                }
+                if (!$this->_exists($params, 'hora_regreso')) {
+                    $valid = false;
+                    $info .= '<br>El campo hora de regreso no puede estar vacio.';
+                }
             } catch (Exception $e) {
                 $valid = false;
                 $info = $e->getMessage();
@@ -71,6 +109,213 @@ class ViajeController extends Zend_Controller_Action {
         }
         $info .= '</strong>';
         $this->_helper->json(array('valid' => $valid, 'info' => $info));
+    }
+
+    public function guardarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $params = $request->getParams();
+                $pm = new Kashem_Model_ViajeMapper();
+                $viaje = new Kashem_Model_Viaje();
+                $this->_setViajeFromParams($viaje, $params);
+                $pm->save($viaje);
+                $am = new Kashem_Model_ActividadMapper();
+                $vam = new Kashem_Model_ViajeActividadMapper();
+                $dm = new Kashem_Model_DestinoMapper();
+                $vdm = new Kashem_Model_ViajeDestinoMapper();
+                if (isset($params['actividad'])) {
+                    $actividades = $params['actividad'];
+                    foreach ($actividades as $id) {
+                        $actividad = new Kashem_Model_Actividad();
+                        $viajeActividad = new Kashem_Model_ViajeActividad();
+                        $am->find($id, $actividad);
+                        $viajeActividad->setActividad($actividad);
+                        $viajeActividad->setViaje($viaje);
+                        $vam->save($viajeActividad);
+                    }
+                }
+                if (isset($params['destino'])) {
+                    $destinos = $params['destino'];
+                    foreach ($destinos as $id) {
+                        $desino = new Kashem_Model_Destino();
+                        $viajeDestino = new Kashem_Model_ViajeDestino();
+                        $dm->find($id, $desino);
+                        $viajeDestino->setDestino($desino);
+                        $viajeDestino->setViaje($viaje);
+                        $vdm->save($viajeDestino);
+                    }
+                }
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function infoAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $id = $request->getParam('id');
+            $vam = new Kashem_Model_ViajeActividadMapper();
+            $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $vm = new Kashem_Model_ViajeMapper();
+            $am = new Kashem_Model_ActividadMapper();
+            $dm = new Kashem_Model_DestinoMapper();
+            $actividades = $am->fetchAll();
+            $destinos = $dm->fetchAll();
+            $act_html = "";
+            $des_html = "";
+            $v = new Kashem_Model_Viaje();
+            $vm->find($id, $v);
+            foreach ($actividades as $a) {
+                $this->view->actividad = $a;
+                if ($vam->exists($a, $v)) {
+                    $this->view->checked = "checked";
+                } else {
+                    $this->view->checked = "";
+                }
+                $act_html .= $this->view->render('actividad/checkboxes.phtml');
+            }
+            foreach ($destinos as $d) {
+                $this->view->destino = $d;
+                if ($vdm->exists($d, $v)) {
+                    $this->view->checked = "checked";
+                } else {
+                    $this->view->checked = "";
+                }
+                $des_html .= $this->view->render('destino/checkboxes.phtml');
+            }
+            $result = array(
+                'id' => $v->getId(),
+                'nombre' => $v->getNombre(),
+                'fecha_salida' => date('d-m-Y', strtotime($v->getFechaSalida())),
+                'hora_salida' => $v->getHoraSalida(),
+                'fecha_regreso' => date('d-m-Y', strtotime($v->getFechaRegreso())),
+                'hora_regreso' => $v->getHoraRegreso(),
+                'actividades_checkboxes' => $act_html,
+                'destinos_checkboxes' => $des_html
+            );
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json($result);
+    }
+
+    public function actualizarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $params = $request->getParams();
+                $vm = new Kashem_Model_ViajeMapper();
+                $viaje = new Kashem_Model_Viaje();
+                $this->_setViajeFromParams($viaje, $params);
+                $viaje->setId($params['viaje_id']);
+                $vm->save($viaje);
+                $vam = new Kashem_Model_ViajeActividadMapper();
+                $vdm = new Kashem_Model_ViajeDestinoMapper();
+                $vam->deleteByViaje($viaje);
+                $vdm->deleteByViaje($viaje);
+                $am = new Kashem_Model_ActividadMapper();
+                $dm = new Kashem_Model_DestinoMapper();
+                if (isset($params['actividad'])) {
+                    $actividades = $params['actividad'];
+                    foreach ($actividades as $id) {
+                        $actividad = new Kashem_Model_Actividad();
+                        $viajeActividad = new Kashem_Model_ViajeActividad();
+                        $am->find($id, $actividad);
+                        $viajeActividad->setActividad($actividad);
+                        $viajeActividad->setViaje($viaje);
+                        $vam->save($viajeActividad);
+                    }
+                }
+                if (isset($params['destino'])) {
+                    $destinos = $params['destino'];
+                    foreach ($destinos as $id) {
+                        $desino = new Kashem_Model_Destino();
+                        $viajeDestino = new Kashem_Model_ViajeDestino();
+                        $dm->find($id, $desino);
+                        $viajeDestino->setDestino($desino);
+                        $viajeDestino->setViaje($viaje);
+                        $vdm->save($viajeDestino);
+                    }
+                }
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function borrarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $vm = new Kashem_Model_ViajeMapper();
+                $id = $request->getParam('id');
+                $vm->delete($id);
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function camposAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->view->campos = array(
+            'nombre' => 'nombre',
+            'fecha_salida' => 'fecha de salida',
+            'fecha_regreso' => 'fecha de regreso'
+        );
+        $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));
+    }
+
+    public function busquedaAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $campo = $request->getParam('campo_busqueda');
+            $valor = $request->getParam('valor_busqueda');
+            $am = new Kashem_Model_ViajeMapper();
+            $viajes = $am->fetchAllBy($campo, $valor);
+            $html = "";
+            foreach ($viajes as $a) {
+                $this->view->viaje = $a;
+                $html .= $this->view->render('viaje/lista_row.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('lista' => $html));
     }
 
 }

@@ -96,6 +96,11 @@ function edit(id) {
                             $('#modal-title').text(response.nombre);
                             $('#actividades').empty().append(response.actividades_checkboxes);
                             break;
+                        case 'viaje':
+                            $('#modal-title').text(response.nombre);
+                            $('#actividades').empty().append(response.actividades_checkboxes);
+                            $('#destinos').empty().append(response.destinos_checkboxes);
+                            break;
                         default:
                             $('#modal-title').text(response.nombre);
                             break;

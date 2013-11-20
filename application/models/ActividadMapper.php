@@ -37,9 +37,11 @@ class Kashem_Model_ActividadMapper {
 
     public function delete($id) {
         $alm = new Kashem_Model_ActividadLogroMapper();
+        $vam = new Kashem_Model_ViajeActividadMapper();
         $actividad = new Kashem_Model_Actividad();
         $this->find($id, $actividad);
         $alm->deleteByActividad($actividad);
+        $vam->deleteByActividad($actividad);
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 

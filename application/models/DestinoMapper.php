@@ -129,5 +129,13 @@ class Kashem_Model_DestinoMapper {
         return $entries;
     }
 
+    public function getCount() {
+        $result = $this->getDbTable()->getAdapter()
+                ->query("SELECT COUNT(*) AS total FROM destino")
+                ->fetchAll();
+        return $result[0]["total"];
+        ;
+    }
+
 }
 

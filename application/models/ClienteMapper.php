@@ -177,5 +177,13 @@ class Kashem_Model_ClienteMapper {
         return $entries;
     }
 
+    public function getCount() {
+        $result = $this->getDbTable()->getAdapter()
+                ->query("SELECT COUNT(*) AS total FROM cliente")
+                ->fetchAll();
+        return $result[0]["total"];
+        ;
+    }
+
 }
 

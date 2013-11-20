@@ -117,5 +117,13 @@ class Kashem_Model_GuiaMapper {
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
+    public function getCount() {
+        $result = $this->getDbTable()->getAdapter()
+                ->query("SELECT COUNT(*) AS total FROM guia")
+                ->fetchAll();
+        return $result[0]["total"];
+        ;
+    }
+
 }
 

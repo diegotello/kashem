@@ -104,5 +104,13 @@ class Kashem_Model_ViajeMapper {
         return $entries;
     }
 
+    public function getCount() {
+        $result = $this->getDbTable()->getAdapter()
+                ->query("SELECT COUNT(*) AS total FROM viaje")
+                ->fetchAll();
+        return $result[0]["total"];
+        ;
+    }
+
 }
 

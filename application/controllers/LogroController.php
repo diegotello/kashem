@@ -108,15 +108,17 @@ class LogroController extends Zend_Controller_Action {
                 $pm->save($logro);
                 $alm = new Kashem_Model_ActividadLogroMapper();
                 $alm->deleteByLogro($logro);
-                $actividades = $params['actividad'];
                 $am = new Kashem_Model_ActividadMapper();
-                foreach ($actividades as $id) {
-                    $actividad = new Kashem_Model_Actividad();
-                    $actividadLogro = new Kashem_Model_ActividadLogro();
-                    $am->find($id, $actividad);
-                    $actividadLogro->setActividad($actividad);
-                    $actividadLogro->setLogro($logro);
-                    $alm->save($actividadLogro);
+                if (isset($params['actividad'])) {
+                    $actividades = $params['actividad'];
+                    foreach ($actividades as $id) {
+                        $actividad = new Kashem_Model_Actividad();
+                        $actividadLogro = new Kashem_Model_ActividadLogro();
+                        $am->find($id, $actividad);
+                        $actividadLogro->setActividad($actividad);
+                        $actividadLogro->setLogro($logro);
+                        $alm->save($actividadLogro);
+                    }
                 }
                 $ok = true;
             } catch (Exception $e) {
@@ -176,16 +178,18 @@ class LogroController extends Zend_Controller_Action {
                 $logro = new Kashem_Model_Logro();
                 $this->_setLogroFromParams($logro, $params);
                 $pm->save($logro);
-                $actividades = $params['actividad'];
                 $am = new Kashem_Model_ActividadMapper();
                 $alm = new Kashem_Model_ActividadLogroMapper();
-                foreach ($actividades as $id) {
-                    $actividad = new Kashem_Model_Actividad();
-                    $actividadLogro = new Kashem_Model_ActividadLogro();
-                    $am->find($id, $actividad);
-                    $actividadLogro->setActividad($actividad);
-                    $actividadLogro->setLogro($logro);
-                    $alm->save($actividadLogro);
+                if (isset($params['actividad'])) {
+                    $actividades = $params['actividad'];
+                    foreach ($actividades as $id) {
+                        $actividad = new Kashem_Model_Actividad();
+                        $actividadLogro = new Kashem_Model_ActividadLogro();
+                        $am->find($id, $actividad);
+                        $actividadLogro->setActividad($actividad);
+                        $actividadLogro->setLogro($logro);
+                        $alm->save($actividadLogro);
+                    }
                 }
                 $ok = true;
             } catch (Exception $e) {

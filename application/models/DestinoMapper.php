@@ -40,6 +40,10 @@ class Kashem_Model_DestinoMapper {
     }
 
     public function delete($id) {
+        $vdm = new Kashem_Model_ViajeDestinoMapper();
+        $destino = new Kashem_Model_Destino();
+        $this->find($id, $destino);
+        $vdm->deleteByDestino($destino);
         $this->getDbTable()->delete(array('id = ?' => $id));
     }
 
@@ -84,24 +88,11 @@ class Kashem_Model_DestinoMapper {
         $dm->find($row->departamento_id, $departamento);
         $mm->find($row->municipio_id, $municipio);
         $destino->setId($row->id)
-                ->setContactoEmergencia($row->contacto_emergencia)
-                ->setCorreoElectronico($row->correo_electronico)
                 ->setDepartamento($departamento)
-                ->setDireccion($row->direccion)
-                ->setDpi($row->dpi)
-                ->setFechaNacimiento($row->fecha_nacimiento)
-                ->setGenero($row->genero)
                 ->setMunicipio($municipio)
-                ->setObservacionGeneral($row->observacion_general)
-                ->setObservacionMedica($row->observacion_medica)
                 ->setPais($pais)
-                ->setPrimerApellido($row->primer_apellido)
-                ->setPrimerNombre($row->primer_nombre)
-                ->setSegundoApellido($row->segundo_apellido)
-                ->setSegundoNombre($row->segundo_nombre)
-                ->setTelefonoEmergencia($row->telefono_emergencia)
-                ->setTelefono($row->telefono)
-                ->setUsuarioFacebook($row->usuario_facebook);
+                ->setDescripcion($row->descripcion)
+                ->setNombre($row->nombre);
     }
 
     public function findAsArray($id) {

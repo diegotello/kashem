@@ -1,0 +1,36 @@
+<?php
+$session = Zend_Auth::getInstance()->getIdentity();
+$am = new Kashem_Model_ActividadMapper();
+$dm = new Kashem_Model_DestinoMapper();
+$cm = new Kashem_Model_ClienteMapper();
+$gm = new Kashem_Model_GuiaMapper();
+$vm = new Kashem_Model_ViajeMapper();
+?>
+<div class="jumbotron">
+    <h1>Bienvenido <?php echo $session->nombre; ?>!</h1>
+    <p>Aqui puedes ver algunos datos interesantes acerca de K'ashem, a la izquierda puedes encontrar un menu
+        que te permite administrar los catalogos que le dan vida a esta aplicacion.
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Actividades</h2>
+        <p>Actualmente ofreces <?php echo $am->getCount(); ?> actividades diferentes a tus clientes!</p>
+        <p><a class="btn btn-default" href="/actividad" role="button">Detalles »</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Destinos</h2>
+        <p>Actualmente puedes ofrecer viajes a <?php echo $dm->getCount(); ?> destinos diferentes!</p>
+        <p><a class="btn btn-default" href="/destino" role="button">Detalles »</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Clientes</h2>
+        <p>Actualmente tienes <?php echo $cm->getCount(); ?> clientes de los cuales <?php echo $gm->getCount(); ?> son guias!</p>
+        <p><a class="btn btn-default" href="/cliente" role="button">Detalles »</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Viajes</h2>
+        <p>Hasta el momento has organizado <?php echo $vm->getCount(); ?> viajes!</p>
+        <p><a class="btn btn-default" href="/viaje" role="button">Detalles »</a></p>
+    </div>
+</div>

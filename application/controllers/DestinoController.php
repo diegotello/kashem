@@ -55,10 +55,24 @@ class DestinoController extends Zend_Controller_Action {
                 $lengthValidator = new Zend_Validate_StringLength(array('max' => 50));
                 foreach ($params as $k => $v) {
                     //check required fields
-                    if ($k == 'pais_id' || $k == 'departamento_id' || $k == 'municipio_id' || $k == 'nombre') {
+                    if ($k == 'pais_id' || $k == 'departamento_id' || $k == 'municipio_id') {
                         if (!$this->_exists($params, $k)) {
                             $valid = false;
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
+                        }
+                    }
+                    if ($k == 'nombre') {
+                        if (!$this->_exists($params, $k)) {
+                            $valid = false;
+                            $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
+                        } else {
+                            //is unique?
+                            $em = new Kashem_Model_DestinoMapper();
+                            $result = $em->fetchAllBy('nombre', $v);
+                            if (!empty($result)) {
+                                $valid = false;
+                                $info .= '<br>Ya existe un destino con el nombre ' . $v . '.';
+                            }
                         }
                     }
                     //check string length

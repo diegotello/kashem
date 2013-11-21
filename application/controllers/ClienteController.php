@@ -76,6 +76,20 @@ class ClienteController extends Zend_Controller_Action {
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
                         }
                     }
+                    if ($k == 'dpi') {
+                        if (!$this->_exists($params, $k)) {
+                            $valid = false;
+                            $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
+                        } else {
+                            //is unique?
+                            $em = new Kashem_Model_ClienteMapper();
+                            $result = $em->fetchAllBy('dpi', $v);
+                            if (!empty($result)) {
+                                $valid = false;
+                                $info .= '<br>Ya existe un cliente con el dpi ' . $v . '.';
+                            }
+                        }
+                    }
                     //check date
                     if ($k == 'fecha_nacimiento') {
                         if ($this->_exists($params, 'fecha_nacimiento')) {

@@ -51,6 +51,14 @@ class ActividadController extends Zend_Controller_Action {
                         if (!$this->_exists($params, $k)) {
                             $valid = false;
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
+                        } else {
+                            //is unique?
+                            $em = new Kashem_Model_ActividadMapper();
+                            $result = $em->fetchAllBy('nombre', $v);
+                            if (!empty($result)) {
+                                $valid = false;
+                                $info .= '<br>Ya existe una actividad con el nombre ' . $v . '.';
+                            }
                         }
                     }
                     //check string length

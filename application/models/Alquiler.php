@@ -3,10 +3,10 @@
 class Kashem_Model_Alquiler {
 
     protected $_id;
-    protected $_equipo;
     protected $_cliente;
     protected $_renta;
     protected $_devolucion;
+    protected $_deposito;
     protected $_comentario;
 
     public function __construct(array $options = null) {
@@ -51,15 +51,6 @@ class Kashem_Model_Alquiler {
         return $this;
     }
 
-    public function getEquipo() {
-        return $this->_equipo;
-    }
-
-    public function setEquipo(Kashem_Model_Equipo $equipo) {
-        $this->_equipo = $equipo;
-        return $this;
-    }
-
     public function getCliente() {
         return $this->_cliente;
     }
@@ -84,6 +75,15 @@ class Kashem_Model_Alquiler {
 
     public function setDevolucion($devolucion) {
         $this->_devolucion = $devolucion;
+        return $this;
+    }
+
+    public function getDeposito() {
+        return $this->_deposito;
+    }
+
+    public function setDeposito($deposito) {
+        $this->_deposito = $deposito;
         return $this;
     }
 

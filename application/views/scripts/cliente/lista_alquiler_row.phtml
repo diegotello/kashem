@@ -1,0 +1,10 @@
+<tr>
+    <td><?php echo $this->cliente->getPrimerNombre(); ?></td>
+    <td><?php echo $this->cliente->getPrimerApellido(); ?></td>
+    <td><?php echo $this->cliente->getDpi(); ?></td>
+    <td>
+        <button type="button" class="btn btn-sm btn-primary" onClick="seleccionarCliente(<?php echo $this->cliente->getId(); ?>);">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+    </td>
+</tr>

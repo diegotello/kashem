@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
+    <div class="alert alert-success" id="success-alert" style="display:none;">
+        <strong>El tipo de pago se ha creado con exito.</strong>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <?php echo $this->formulario; ?>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2" style="text-align:center;">
+        <button type="button" class="btn btn-primary" onClick="guardar();">Guardar Tipo de pago</button>
+    </div>
+    <div class="col-md-5"></div>
+</div>
+<?php
+echo $this->render('partials/checkbox.phtml');
+$this->headScript()->appendFile('/js/tipo_pago/init.js');
+$this->headScript()->appendFile('/js/formulario.js');
+$this->headScript()->appendFile('/js/nuevo.js');
+?>

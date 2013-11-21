@@ -1,4 +1,93 @@
-<br /><br />
-<div id="view-content">
-    <p>View script for controller <b>Alquiler</b> and script/action name <b>index</b></p>
+<div class="row">
+    <form class="form-horizontal" role="form" id="alquiler_form">
+        <div class="form-group">
+            <div class="col-md-2">
+                <input class="form-control" type="hidden" id="id_cliente" name="id_cliente">
+                <label>Nombre Cliente</label>
+                <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" readOnly>
+            </div>
+            <div class="col-md-2">
+                <label>DPI</label>
+                <input class="form-control" type="text" id="dpi_cliente" name="dpi_cliente" readOnly>
+            </div>
+            <div class="col-md-2">
+                <label>Equipo alquilado</label>
+                <input class="form-control" type="text" id="equipo_seleccionado" name="equipo_seleccionado" value="0" readOnly>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </form>
 </div>
+<div class="row" id="cliente_page">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li class="active">Cliente</li>
+            <li><a onClick="mostrarPagina('equipo_page');">Equipo</a></li>
+            <li><a onClick="mostrarPagina('alquiler_page');">Alquiler</a></li>
+        </ol>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Primer Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>DPI</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody id="lista_cliente">
+                <?php echo $this->clientes; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" id="equipo_page" style="display:none;">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a onClick="mostrarPagina('cliente_page');">Cliente</a></li>
+            <li class="active">Equipo</li>
+            <li><a onClick="mostrarPagina('alquiler_page');">Alquiler</a></li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            Selecciona el equipo que le alquilaras a este cliente y luego presiona <span class="glyphicon glyphicon-arrow-right"></span>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" onClick="terminarSeleccionEquipo();">
+                Siguiente
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Identificador</th>
+                    <th>Descripcion</th>
+                    <th>Disponible</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody id="lista_equipo">
+                <?php echo $this->equipos; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" id="alquiler_page" style="display:none;">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a onClick="mostrarPagina('cliente_page');">Cliente</a></li>
+            <li><a onClick="mostrarPagina('equipo_page');">Equipo</a></li>
+            <li class="active">Alquiler</li>
+        </ol>
+    </div>
+</div>
+<?php
+$this->headScript()->appendFile('/js/alquiler/init.js');
+?>

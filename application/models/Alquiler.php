@@ -7,6 +7,7 @@ class Kashem_Model_Alquiler {
     protected $_cliente;
     protected $_renta;
     protected $_devolucion;
+    protected $_comentario;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -83,6 +84,15 @@ class Kashem_Model_Alquiler {
 
     public function setDevolucion($devolucion) {
         $this->_devolucion = $devolucion;
+        return $this;
+    }
+
+    public function getComentario() {
+        return $this->_comentario;
+    }
+
+    public function setComentario($comentario) {
+        $this->_comentario = $comentario;
         return $this;
     }
 

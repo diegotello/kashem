@@ -96,7 +96,6 @@ class Kashem_Model_ActividadMapper {
                 ->query("SELECT COUNT(*) AS total FROM actividad")
                 ->fetchAll();
         return $result[0]["total"];
-        ;
     }
 
 }

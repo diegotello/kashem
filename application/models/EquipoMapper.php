@@ -70,6 +70,21 @@ class Kashem_Model_EquipoMapper {
         return $entries;
     }
 
+    public function fetchAllDisponibles() {
+        $resultSet = $this->getDbTable()->fetchAll('disponible = true');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Equipo();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion)
+                    ->setIdentificador($row->identificador)
+                    ->setDisponible($row->disponible);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function findAsArray($id) {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
@@ -81,6 +96,22 @@ class Kashem_Model_EquipoMapper {
     //this function only supports search by Strings!!!
     public function fetchAllBy($campo, $valor) {
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Equipo();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setDescripcion($row->descripcion)
+                    ->setIdentificador($row->identificador)
+                    ->setDisponible($row->disponible);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    //this function only supports search by Strings!!!
+    public function fetchAllDisponiblesBy($campo, $valor) {
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%" AND disponible = true');
         $entries = array();
         foreach ($resultSet as $row) {
             $entry = new Kashem_Model_Equipo();

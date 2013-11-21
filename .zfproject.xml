@@ -180,6 +180,9 @@
           <actionMethod actionName="campos"/>
           <actionMethod actionName="busqueda"/>
         </controllerFile>
+        <controllerFile controllerName="Alquiler">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Login"/>
@@ -678,6 +681,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="TipoPago">
             <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Alquiler">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

@@ -124,7 +124,7 @@
                                 <button type="button" class="btn btn-primary" id="busqueda_button">
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
-                                <button type="button" class="btn btn-danger" onClick="location.reload();">
+                                <button type="button" class="btn btn-danger" id="busqueda_refresh_button" onClick="location.reload();">
                                     <span class="glyphicon glyphicon-refresh"></span>
                                 </button>
                             </div>
@@ -160,30 +160,27 @@
             <?php
         }
         ?>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-        <script type="text/javascript">
-                                window.jQuery || document.write('<script src="<?php echo $this->baseUrl("js/jquery.min.js") ?>"><\/script>');
-        </script>
+        <script src="<?php echo $this->baseUrl("js/jquery.min.js") ?>"></script>
         <script src="<?php echo $this->baseUrl('js/bootstrap.min.js') ?>"></script>
         <script src="<?php echo $this->baseUrl('js/jquery-ui-1.10.3.custom.min.js') ?>"></script>
         <!--jquery init-->
         <script type="text/javascript">
-            function logout()
-            {
-                $.ajax(
-                        "/auth/logout",
-                        {
-                            method: 'post',
-                            success: function(response)
-                            {
-                                if (response.success)
+                                function logout()
                                 {
-                                    window.location.assign('/login');
+                                    $.ajax(
+                                            "/auth/logout",
+                                            {
+                                                method: 'post',
+                                                success: function(response)
+                                                {
+                                                    if (response.success)
+                                                    {
+                                                        window.location.assign('/login');
+                                                    }
+                                                }
+                                            }
+                                    );
                                 }
-                            }
-                        }
-                );
-            }
         </script>
         <?php echo $this->headScript(); ?>
 

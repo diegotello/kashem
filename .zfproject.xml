@@ -212,6 +212,7 @@
           <dbTableFile dbTableName="Municipio"/>
           <dbTableFile dbTableName="TipoPago"/>
           <dbTableFile dbTableName="Cuenta"/>
+          <dbTableFile dbTableName="AlquilerEquipo"/>
         </dbTableDirectory>
         <modelFile modelName="UsuarioMapper"/>
         <modelFile modelName="Usuario"/>
@@ -257,6 +258,8 @@
         <modelFile modelName="TipoPagoMapper"/>
         <modelFile modelName="Cuenta"/>
         <modelFile modelName="CuentaMapper"/>
+        <modelFile modelName="AlquilerEquipo"/>
+        <modelFile modelName="AlquilerEquipoMapper"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>

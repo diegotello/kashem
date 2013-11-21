@@ -13,7 +13,7 @@ class EquipoController extends Zend_Controller_Action {
     private function _setEquipoFromParams($equipo, $params) {
         $equipo->setNombre($params['nombre'])
                 ->setDescripcion($params['descripcion'])
-                ->setCantidadExistente($params['cantidad_existente']);
+                ->setIdentificador($params['identificador']);
     }
 
     public function indexAction() {
@@ -52,6 +52,20 @@ class EquipoController extends Zend_Controller_Action {
                         if (!$this->_exists($params, $k)) {
                             $valid = false;
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
+                        }
+                    }
+                    if ($k == 'identificador') {
+                        if (!$this->_exists($params, $k)) {
+                            $valid = false;
+                            $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
+                        } else {
+                            //is unique?
+                            $em = new Kashem_Model_EquipoMapper();
+                            $result = $em->fetchAllBy('identificador', $v);
+                            if (!empty($result)) {
+                                $valid = false;
+                                $info .= '<br>Ya existe un equipo con el identificador ' . $v . '.';
+                            }
                         }
                     }
                     //check string length
@@ -163,6 +177,7 @@ class EquipoController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender();
         $this->view->campos = array(
             'nombre' => 'nombre',
+            'identificador' => 'identificador',
             'descripcion' => 'descripcion'
         );
         $this->_helper->json(array('lista' => $this->view->render('partials/opciones.phtml')));

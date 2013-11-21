@@ -22,11 +22,26 @@ class Kashem_Model_EquipoMapper {
         return $this->_dbTable;
     }
 
+    public function find($id, Kashem_Model_Equipo $equipo) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return null;
+        }
+        $row = $result->current();
+        $equipo->setId($row->id)
+                ->setNombre($row->nombre)
+                ->setDescripcion($row->descripcion)
+                ->setIdentificador($row->identificador)
+                ->setDisponible($row->disponible);
+    }
+
     public function save(Kashem_Model_Equipo $equipo) {
+        $disponible = $equipo->getDisponible() != null ? $equipo->getDisponible() : true;
         $data = array(
             'nombre' => $equipo->getNombre(),
             'descripcion' => $equipo->getDescripcion(),
-            'cantidad_existente' => $equipo->getCantidadExistente()
+            'identificador' => $equipo->getIdentificador(),
+            'disponible' => $disponible
         );
         if (null === ($id = $equipo->getId())) {
             unset($data['id']);
@@ -48,7 +63,8 @@ class Kashem_Model_EquipoMapper {
             $entry->setId($row->id)
                     ->setNombre($row->nombre)
                     ->setDescripcion($row->descripcion)
-                    ->setCantidadExistente($row->cantidad_existente);
+                    ->setIdentificador($row->identificador)
+                    ->setDisponible($row->disponible);
             $entries[] = $entry;
         }
         return $entries;
@@ -71,7 +87,8 @@ class Kashem_Model_EquipoMapper {
             $entry->setId($row->id)
                     ->setNombre($row->nombre)
                     ->setDescripcion($row->descripcion)
-                    ->setCantidadExistente($row->cantidad_existente);
+                    ->setIdentificador($row->identificador)
+                    ->setDisponible($row->disponible);
             $entries[] = $entry;
         }
         return $entries;

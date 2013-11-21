@@ -1,7 +1,8 @@
 <tr>
     <td><?php echo $this->equipo->getNombre(); ?></td>
-    <td><?php echo $this->equipo->getCantidadExistente(); ?></td>
+    <td><?php echo $this->equipo->getIdentificador(); ?></td>
     <td><?php echo $this->equipo->getDescripcion(); ?></td>
+    <td><?php echo $this->equipo->getDisponible() ? "Sí" : "No"; ?></td>
     <td>
         <button type="button" class="btn btn-sm btn-default" onClick="edit(<?php echo $this->equipo->getId(); ?>);">
             <span class="glyphicon glyphicon-edit"></span>

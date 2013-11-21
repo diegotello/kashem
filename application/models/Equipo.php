@@ -5,7 +5,8 @@ class Kashem_Model_Equipo {
     protected $_id;
     protected $_nombre;
     protected $_descripcion;
-    protected $_cantidadExistente;
+    protected $_identificador;
+    protected $_disponible;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -67,12 +68,21 @@ class Kashem_Model_Equipo {
         return $this;
     }
 
-    public function getCantidadExistente() {
-        return $this->_cantidadExistente;
+    public function getIdentificador() {
+        return $this->_identificador;
     }
 
-    public function setCantidadExistente($cantidad) {
-        $this->_cantidadExistente = $cantidad;
+    public function setIdentificador($identificador) {
+        $this->_identificador = $identificador;
+        return $this;
+    }
+
+    public function getDisponible() {
+        return $this->_disponible;
+    }
+
+    public function setDisponible($disponible) {
+        $this->_disponible = $disponible;
         return $this;
     }
 

@@ -1,0 +1,9 @@
+<tr>
+    <td><?php echo $this->equipo->getNombre(); ?></td>
+    <td><?php echo $this->equipo->getIdentificador(); ?></td>
+    <td><?php echo $this->equipo->getDescripcion(); ?></td>
+    <td><?php echo $this->equipo->getDisponible() ? "Sí" : "No"; ?></td>
+    <td>
+        <input type="checkbox" name="equipo[]" value="<?php echo $this->equipo->getId(); ?>" onChange="seleccionarEquipo(this);">
+    </td>
+</tr>

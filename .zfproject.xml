@@ -195,6 +195,7 @@
           <dbTableFile dbTableName="Pais"/>
           <dbTableFile dbTableName="Departamento"/>
           <dbTableFile dbTableName="Municipio"/>
+          <dbTableFile dbTableName="TipoPago"/>
         </dbTableDirectory>
         <modelFile modelName="UsuarioMapper"/>
         <modelFile modelName="Usuario"/>
@@ -236,6 +237,8 @@
         <modelFile modelName="ViajeActividad"/>
         <modelFile modelName="ViajeDestino"/>
         <modelFile modelName="Viaje"/>
+        <modelFile modelName="TipoPago"/>
+        <modelFile modelName="TipoPagoMapper"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>

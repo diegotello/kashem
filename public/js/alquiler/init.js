@@ -7,6 +7,14 @@ $(document).ready(function() {
     {
         initBusqueda();
     }
+    $('#renta').datepicker({dateFormat: "dd-mm-yy", minDate: 1});
+    $('#devolucion').datepicker({dateFormat: "dd-mm-yy", minDate: 1});
+    $("#renta").change(function() {
+        $('#devolucion')
+                .datepicker('destroy')
+                .val('')
+                .datepicker({dateFormat: "dd-mm-yy", minDate: new Date($("#renta").datepicker("getDate"))});
+    });
 });
 
 function initBusqueda() {
@@ -98,7 +106,9 @@ function seleccionarCliente(id)
                 {
                     $('#nombre_cliente').val(response.primer_nombre + ' ' + response.primer_apellido);
                     $('#dpi_cliente').val(response.dpi);
-                    $('#id_cliente').val(response.id);
+                    $('#cliente_id').val(response.id);
+                    $('#informacion_cliente_nombre').empty().text(response.primer_nombre + ' ' + response.primer_apellido);
+                    $('#informacion_cliente_dpi').empty().text(response.dpi);
                     mostrarPagina('equipo_page');
                 }
             }
@@ -121,4 +131,23 @@ function seleccionarEquipo(e) {
 
 function terminarSeleccionEquipo() {
     mostrarPagina('alquiler_page');
+    $.each(equiposeleccionado, function() {
+        var el = $('#equipo_alquiler_row_' + this).clone();
+        el.find('input[type=checkbox]').attr('disabled', true);
+        el.attr('id', '');
+        //el_c.attr('disabled', true);
+        $('#lista_equipo_final').append(el);
+    });
+}
+
+function guardar() {
+    var alquiler_data = new Object();
+    alquiler_data.cliente_id = $('#cliente_id').val();
+    alquiler_data.equipo = equiposeleccionado;
+    alquiler_data.renta = $('#renta').val();
+    alquiler_data.devolucion = $('#devolucion').val();
+    alquiler_data.deposito = $('#deposito').val();
+    alquiler_data.comentario = $('#comentario').val();
+    alquiler_data.costo = $('#costo').val();
+    console.log(alquiler_data);
 }

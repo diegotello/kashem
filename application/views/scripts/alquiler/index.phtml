@@ -1,8 +1,8 @@
 <div class="row">
-    <form class="form-horizontal" role="form" id="alquiler_form">
+    <form class="form-horizontal" role="form" id="alquiler_form_1">
         <div class="form-group">
             <div class="col-md-2">
-                <input class="form-control" type="hidden" id="id_cliente" name="id_cliente">
+                <input class="form-control" type="hidden" id="cliente_id" name="cliente_id">
                 <label>Nombre Cliente</label>
                 <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" readOnly>
             </div>
@@ -86,6 +86,40 @@
             <li><a onClick="mostrarPagina('equipo_page');">Equipo</a></li>
             <li class="active">Alquiler</li>
         </ol>
+    </div>
+    <div class="row well">
+        <div class="col-md-12">
+            <h3>Por favor verifica y completa la informacion</h3>
+            Al cliente <strong id="informacion_cliente_nombre"></strong> quien se identifica con DPI <strong id="informacion_cliente_dpi"></strong> le alquilaras el siguiente equipo<br>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Identificador</th>
+                        <th>Descripcion</th>
+                        <th>Disponible</th>
+                        <th>Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody id="lista_equipo_final">
+                </tbody>
+            </table>
+            <label>desde</label>
+            <input type="text" class="form-control" id="renta" name="renta" placeholder="dd-mm-aaaa">
+            <label>hasta</label><input type="text" class="form-control" id="devolucion" name="devolucion" placeholder="dd-mm-aaaa">
+            <label>por un costo de</label><input type="text" class="form-control" id="costo" name="costo" placeholder="100.50"> quetzales<br>
+            <label>y dejando un deposito de</label><input type="text" class="form-control" id="deposito" name="deposito" placeholder="100.50"> quetzales<br><br>
+            <label>Comentarios:</label>
+            <textarea class="form-control" id="comentario" name="comentario" rows="3"></textarea>
+        </div>
+        <br>
+        <div class="col-md-5"></div>
+        <div class="col-md-2" style="text-align:center;">
+            <button type="button" class="btn btn-primary" onClick="guardar();">
+                Guardar
+            </button>
+        </div>
+        <div class="col-md-5"></div>
     </div>
 </div>
 <?php

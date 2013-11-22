@@ -92,6 +92,9 @@ class Kashem_Model_MunicipioMapper {
 
     //this function only supports search by Strings!!!
     public function fetchAllBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
         $entries = array();
         $dm = new Kashem_Model_DepartamentoMapper();

@@ -89,6 +89,9 @@ class Kashem_Model_ViajeMapper {
 
     //this function only supports search by Strings!!!
     public function fetchAllBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
         $entries = array();
         foreach ($resultSet as $row) {

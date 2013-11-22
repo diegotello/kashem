@@ -95,6 +95,9 @@ class Kashem_Model_EquipoMapper {
 
     //this function only supports search by Strings!!!
     public function fetchAllBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
         $entries = array();
         foreach ($resultSet as $row) {
@@ -111,6 +114,9 @@ class Kashem_Model_EquipoMapper {
 
     //this function only supports search by Strings!!!
     public function fetchAllDisponiblesBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%" AND disponible = true');
         $entries = array();
         foreach ($resultSet as $row) {

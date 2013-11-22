@@ -140,6 +140,9 @@ class Kashem_Model_ClienteMapper {
 
     //this function only supports search by Strings!!!
     public function fetchAllBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
         $entries = array();
         $pm = new Kashem_Model_PaisMapper();

@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
 --
 
 INSERT INTO `cliente` (`id`, `pais_id`, `departamento_id`, `municipio_id`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `fecha_nacimiento`, `genero`, `dpi`, `telefono`, `direccion`, `correo_electronico`, `usuario_facebook`, `contacto_emergencia`, `telefono_emergencia`, `observacion_medica`, `observacion_general`) VALUES
-(1, 1, 7, 82, 'Diego', 'Paolo', 'Tello', 'Cifuentes', '1989-09-13', 'masculino', 'A-1 1280522', '54677428', '41 calle 14-66 zona 2', 'dietello1@gmail.com', 'diegotello', 'Ingrid', '22860267', 'ninguna', 'ninguna'),
+(1, 1, 7, 82, 'Diego', 'Paolo', 'Tello', 'Cifuentes', '1989-09-13', 'masculino', 'A-1 234555234', '54677428', 'abc def ghi', 'dietello1@gmail.com', 'diegotello', '', '99887766', 'ninguna', 'ninguna'),
 (2, 1, 2, 22, 'aaaa', '', 'bbbb', '', '1990-09-13', 'femenino', '44665533', '77668822', 'asdf asdf as', '', '', '', '', 'Ã±aÃ±', ''),
 (3, 1, 7, 82, 'bbbb', 'eeee', 'yyyy', 'jkl', '1978-11-21', 'masculino', '5', '', '', '', '', '', '', '', ''),
 (4, 1, 2, 24, 'xxxyyy', '', 'yyyxxx', '', '1970-01-01', 'masculino', '6', '', '', '', '', '', '', '', ''),

@@ -67,6 +67,9 @@
                             <li>
                                 <a href="/alquiler" >Alquiler</a>
                             </li>
+                            <li>
+                                <a href="/cuenta" >Cuentas</a>
+                            </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
@@ -165,22 +168,22 @@
         <script src="<?php echo $this->baseUrl('js/jquery-ui-1.10.3.custom.min.js') ?>"></script>
         <!--jquery init-->
         <script type="text/javascript">
-                                function logout()
-                                {
-                                    $.ajax(
-                                            "/auth/logout",
-                                            {
-                                                method: 'post',
-                                                success: function(response)
+                                    function logout()
+                                    {
+                                        $.ajax(
+                                                "/auth/logout",
                                                 {
-                                                    if (response.success)
+                                                    method: 'post',
+                                                    success: function(response)
                                                     {
-                                                        window.location.assign('/login');
+                                                        if (response.success)
+                                                        {
+                                                            window.location.assign('/login');
+                                                        }
                                                     }
                                                 }
-                                            }
-                                    );
-                                }
+                                        );
+                                    }
         </script>
         <?php echo $this->headScript(); ?>
 

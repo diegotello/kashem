@@ -197,19 +197,29 @@ function guardar() {
     var valido = validar(alquiler_data);
     if (valido.valid)
     {
-        /*
-         $.ajax(
-         "/alquiler/guardar",
-         {
-         method: 'post',
-         data: alquiler_data,
-         success: function(response)
-         {
-         console.log(response);
-         }
-         }
-         );
-         */
+        $.ajax(
+                "/alquiler/guardar",
+                {
+                    method: 'post',
+                    data: alquiler_data,
+                    success: function(response)
+                    {
+                        if (response.ok) {
+                            $('#error-alert').hide();
+                            $('#success-alert').show();
+                            setTimeout(function() {
+                                $('#success-alert').hide();
+                                window.location.assign("/alquiler");
+                            }, 1500);
+                        }
+                        else
+                        {
+                            $('#success-alert').hide();
+                            $('#error-alert').empty().append(response.info).show();
+                        }
+                    }
+                }
+        );
         $('#error-alert').hide();
         $('#success-alert').show();
     }

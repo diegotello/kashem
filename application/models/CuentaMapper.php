@@ -22,5 +22,39 @@ class Kashem_Model_CuentaMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_Cuenta $cuenta) {
+        $tpid = null;
+        if ($cuenta->getTipoPago() != null) {
+            $tpid = $cuenta->getTipoPago()->getId();
+        }
+        if ($cuenta->getTipo() == 'alquiler') {
+            $data = array(
+                'alquiler_id' => $cuenta->getAlquiler()->getId(),
+                'cliente_id' => $cuenta->getCliente()->getId(),
+                'tipo' => $cuenta->getTipo(),
+                'estado' => $cuenta->getEstado(),
+                'monto' => $cuenta->getMonto(),
+                'tipo_de_pago_id' => $cuenta->getTipoPago()
+            );
+        } else {
+            if ($cuenta->getTipo() == 'viaje') {
+                $data = array(
+                    'viaje_id' => $cuenta->getViaje()->getId(),
+                    'cliente_id' => $cuenta->getCliente()->getId(),
+                    'tipo' => $cuenta->getTipo(),
+                    'estado' => $cuenta->getEstado(),
+                    'monto' => $cuenta->getMonto(),
+                    'tipo_de_pago_id' => $cuenta->getTipoPago()
+                );
+            }
+        }
+        if (null === ($id = $cuenta->getId())) {
+            unset($data['id']);
+            $this->getDbTable()->insert($data);
+        } else {
+            $this->getDbTable()->update($data, array('id = ?' => $id));
+        }
+    }
+
 }
 

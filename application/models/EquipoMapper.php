@@ -36,7 +36,7 @@ class Kashem_Model_EquipoMapper {
     }
 
     public function save(Kashem_Model_Equipo $equipo) {
-        $disponible = $equipo->getDisponible() != null ? $equipo->getDisponible() : true;
+        $disponible = $equipo->getDisponible() !== null ? $equipo->getDisponible() : true;
         $data = array(
             'nombre' => $equipo->getNombre(),
             'descripcion' => $equipo->getDescripcion(),

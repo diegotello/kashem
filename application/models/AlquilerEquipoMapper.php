@@ -22,5 +22,13 @@ class Kashem_Model_AlquilerEquipoMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_AlquilerEquipo $alquilerEquipo) {
+        $data = array(
+            'alquiler_id' => $alquilerEquipo->getAlquiler()->getId(),
+            'equipo_id' => $alquilerEquipo->getEquipo()->getId()
+        );
+        $this->getDbTable()->insert($data);
+    }
+
 }
 

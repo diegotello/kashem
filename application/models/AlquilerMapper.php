@@ -22,5 +22,12 @@ class Kashem_Model_AlquilerMapper {
         return $this->_dbTable;
     }
 
+    public function rent($params) {
+        $aem = new Kashem_Model_AlquilerEquipoMapper();
+        $cm = new Kashem_Model_ClienteMapper();
+        $cum = new Kashem_Model_CuentaMapper();
+        $em = new Kashem_Model_EquipoMapper();
+    }
+
 }
 

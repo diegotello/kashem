@@ -1,9 +1,11 @@
 <tr>
     <td><?php echo $this->cuenta->getCliente()->getPrimerNombre(); ?></td>
     <td><?php echo $this->cuenta->getCliente()->getPrimerApellido(); ?></td>
-    <td><?php echo date('d-m-Y', strtotime($this->cuenta->getAlquiler()->getRenta())); ?></td>
-    <td><?php echo date('d-m-Y', strtotime($this->cuenta->getAlquiler()->getDevolucion())); ?></td>
-    <td><?php echo $this->cuenta->getAlquiler()->getDeposito(); ?></td>
+    <td><?php echo $this->cuenta->getViaje()->getNombre(); ?></td>
+    <td><?php echo date('d-m-Y', strtotime($this->cuenta->getViaje()->getFechaSalida())); ?></td>
+    <td><?php echo date("g:i a", STRTOTIME($this->cuenta->getViaje()->getHoraSalida())); ?></td>
+    <td><?php echo date('d-m-Y', strtotime($this->cuenta->getViaje()->getFechaRegreso())); ?></td>
+    <td><?php echo date("g:i a", STRTOTIME($this->cuenta->getViaje()->getHoraRegreso())); ?></td>
     <td><?php echo $this->cuenta->getTipoPago()->getNombre(); ?></td>
     <td><?php echo $this->cuenta->getMonto(); ?></td>
     <td>

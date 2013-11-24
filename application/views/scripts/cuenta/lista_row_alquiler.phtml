@@ -1,0 +1,28 @@
+<tr>
+    <td><?php echo $this->cuenta->getCliente()->getPrimerNombre(); ?></td>
+    <td><?php echo $this->cuenta->getCliente()->getPrimerApellido(); ?></td>
+    <td><?php echo $this->cuenta->getAlquiler()->getRenta(); ?></td>
+    <td><?php echo $this->cuenta->getAlquiler()->getDevolucion(); ?></td>
+    <td><?php echo $this->cuenta->getAlquiler()->getDeposito(); ?></td>
+    <td><?php echo $this->cuenta->getTipoPago()->getNombre(); ?></td>
+    <td><?php echo $this->cuenta->getMonto(); ?></td>
+    <td>
+        <?php
+        if ($this->cuenta->getEstado() == 'pendiente') {
+            ?>
+            <button type="button" class="btn btn-sm btn-default" onClick="cancelar(<?php echo $this->cuenta->getId(); ?>);">
+                Cancelar
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+            <?php
+        } else {
+            ?>
+            <button type="button" class="btn btn-sm btn-default" onClick="editar(<?php echo $this->cuenta->getId(); ?>);">
+                Cancelar
+                <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <?php
+        }
+        ?>
+    </td>
+</tr>

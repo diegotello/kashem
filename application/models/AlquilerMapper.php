@@ -49,7 +49,7 @@ class Kashem_Model_AlquilerMapper {
                     $ae->setAlquiler($alquiler);
                     $ae->setEquipo($equipo);
                     $aem->save($ae);
-                    $equipo->setDisponible(false);
+                    $equipo->setDisponible(0);
                     $em->save($equipo);
                 }
             }
@@ -81,6 +81,23 @@ class Kashem_Model_AlquilerMapper {
         } else {
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }
+    }
+
+    public function find($id, Kashem_Model_Alquiler $alquiler) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        $cm = new Kashem_Model_ClienteMapper();
+        $cliente = new Kashem_Model_Cliente();
+        $row = $result->current();
+        $cm->find($row->cliente_id, $cliente);
+        $alquiler->setId($row->id)
+                ->setCliente($cliente)
+                ->setComentario($row->comentario)
+                ->setDeposito($row->deposito)
+                ->setDevolucion($row->devolucion)
+                ->setRenta($row->renta);
     }
 
 }

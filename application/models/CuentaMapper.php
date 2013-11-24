@@ -31,9 +31,26 @@ class Kashem_Model_CuentaMapper {
         $entries = array();
         foreach ($resultSet as $row) {
             $entry = new Kashem_Model_Cuenta();
+            $cliente = new Kashem_Model_Cliente();
+            $cm->find($row->cliente_id, $cliente);
+            $tipoPago = new Kashem_Model_TipoPago();
+            if ($row->tipo == 'alquiler') {
+                $alquiler = new Kashem_Model_Alquiler();
+                $am->find($row->alquiler_id, $alquiler);
+                $entry->setAlquiler($alquiler);
+            }
+            if ($row->tipo == 'viaje') {
+                $viaje = new Kashem_Model_Viaje();
+                $vm->find($row->viaje_id, $viaje);
+                $entry->setViaje($viaje);
+            }
+            $tpm->find($row->tipo_de_pago_id, $tipoPago);
             $entry->setId($row->id)
-                    ->setNombre($row->nombre)
-                    ->setDescripcion($row->descripcion);
+                    ->setCliente($cliente)
+                    ->setEstado($row->estado)
+                    ->setMonto($row->monto)
+                    ->setTipo($row->tipo)
+                    ->setTipoPago($tipoPago);
             $entries[] = $entry;
         }
         return $entries;

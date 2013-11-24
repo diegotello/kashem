@@ -220,8 +220,6 @@ function guardar() {
                     }
                 }
         );
-        $('#error-alert').hide();
-        $('#success-alert').show();
     }
     else
     {

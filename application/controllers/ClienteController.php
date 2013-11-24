@@ -239,8 +239,13 @@ class ClienteController extends Zend_Controller_Action {
             $actividades = $am->fetchAllBy($campo, $valor);
             $html = "";
             $vista = 'cliente/lista_row.phtml';
-            if (isset($params['origen']) && $params['origen'] == 'alquiler') {
-                $vista = 'cliente/lista_alquiler_row.phtml';
+            if (isset($params['origen'])) {
+                if ($params['origen'] == 'alquiler') {
+                    $vista = 'cliente/lista_alquiler_row.phtml';
+                }
+                if ($params['origen'] == 'inscripcion') {
+                    $vista = 'cliente/lista_inscripcion_row.phtml';
+                }
             }
             foreach ($actividades as $a) {
                 $this->view->cliente = $a;

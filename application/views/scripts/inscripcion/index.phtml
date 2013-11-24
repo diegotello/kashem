@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
+    <div class="alert alert-success" id="success-alert" style="display:none;">
+        <strong>La inscripcion se ha realizado con exito.</strong>
+    </div>
+</div>
+<div class="row">
+    <form class="form-horizontal" role="form" id="viaje_form_1">
+        <div class="form-group">
+            <div class="col-md-3">
+                <input class="form-control" type="hidden" id="viaje_id" name="viaje_id">
+                <input class="form-control" type="hidden" id="cliente_id" name="cliente_id">
+                <label>Nombre Viaje</label>
+                <input class="form-control" type="text" id="nombre_viaje" name="nombre_viaje" readOnly>
+            </div>
+            <div class="col-md-2">
+                <label>Fecha salida</label>
+                <input class="form-control" type="text" id="fecha_salida_viaje" name="fecha_salida_viaje" readOnly>
+            </div>
+            <div class="col-md-2">
+                <label>Fecha Regreso</label>
+                <input class="form-control" type="text" id="fecha_regreso_viaje" name="fecha_regreso_viaje" readOnly>
+            </div>
+            <div class="col-md-5">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row" id="viaje_page">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li class="active">Viaje</li>
+            <li><a onClick="mostrarPagina('cliente_page');">Cliente</a></li>
+            <li><a onClick="mostrarPagina('inscripcion_page');">Inscripcion</a></li>
+        </ol>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha Salida</th>
+                    <th>Hora Salida</th>
+                    <th>Fecha Regreso</th>
+                    <th>Hora Regreso</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody id="lista_viaje">
+                <?php echo $this->viajes; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" id="cliente_page" style="display:none;">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a onClick="mostrarPagina('viaje_page');">Viaje</a></li>
+            <li class="active">Cliente</li>
+            <li><a onClick="mostrarPagina('inscripcion_page');">Inscripcion</a></li>
+        </ol>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Primer Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>DPI</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody id="lista_cliente">
+                <?php echo $this->clientes; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" id="inscripcion_page" style="display:none;">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a onClick="mostrarPagina('viaje_page');">Viaje</a></li>
+            <li><a onClick="mostrarPagina('cliente_page');">Cliente</a></li>
+            <li class="active">Inscripcion</li>
+        </ol>
+    </div>
+    <div class="row well">
+        <div class="col-md-12">
+            <div class="alert alert-warning" id="no_viaje_alert" style="display:none;">
+                No has seleccionado un viaje.
+            </div>
+            <div class="alert alert-warning" id="no_cliente_alert" style="display:none;">
+                No has seleccionado un cliente.
+            </div>
+            <h3>Por favor verifica y completa la informacion</h3>
+            Al cliente <strong id="informacion_cliente_nombre"></strong> quien se identifica con DPI <strong id="informacion_cliente_dpi"></strong> lo inscribiras en el viaje <strong id="informacion_viaje_nombre"></strong> que se llevara a cabo desde <strong id="informacion_viaje_salida"></strong> hasta <strong id="informacion_viaje_regreso"></strong><br><label> con un costo de </label><input type="text" class="form-control" id="costo" name="costo" placeholder="100.50"> quetzales<br>
+        </div>
+        <br>
+        <div class="col-md-5"></div>
+        <div class="col-md-2" style="text-align:center;">
+            <button type="button" class="btn btn-primary" id="inscripcion_guardar_button" onClick="guardar();">
+                Guardar
+            </button>
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+</div>
+<?php
+$this->headScript()->appendFile('/js/inscripcion/init.js');
+?>

@@ -55,6 +55,22 @@ class Kashem_Model_ViajeMapper {
         return $entries;
     }
 
+    public function fetchAllFromToday() {
+        $resultSet = $this->getDbTable()->fetchAll('fecha_salida > now()');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Viaje();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setFechaRegreso($row->fecha_regreso)
+                    ->setFechaSalida($row->fecha_salida)
+                    ->setHoraRegreso($row->hora_regreso)
+                    ->setHoraSalida($row->hora_salida);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function find($id, Kashem_Model_Viaje $viaje) {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
@@ -93,6 +109,26 @@ class Kashem_Model_ViajeMapper {
             $campo = 'id';
         }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = new Kashem_Model_Viaje();
+            $entry->setId($row->id)
+                    ->setNombre($row->nombre)
+                    ->setFechaRegreso($row->fecha_regreso)
+                    ->setFechaSalida($row->fecha_salida)
+                    ->setHoraRegreso($row->hora_regreso)
+                    ->setHoraSalida($row->hora_salida);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    //this function only supports search by Strings!!!
+    public function fetchAllFromTodayBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%" AND fecha_salida > now()');
         $entries = array();
         foreach ($resultSet as $row) {
             $entry = new Kashem_Model_Viaje();

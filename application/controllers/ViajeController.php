@@ -303,14 +303,22 @@ class ViajeController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender();
         $request = $this->getRequest();
         if ($request->isGet()) {
-            $campo = $request->getParam('campo_busqueda');
-            $valor = $request->getParam('valor_busqueda');
+            $params = $request->getParams();
+            $campo = $params['campo_busqueda'];
+            $valor = $params['valor_busqueda'];
             $am = new Kashem_Model_ViajeMapper();
-            $viajes = $am->fetchAllBy($campo, $valor);
+
             $html = "";
+            $vista = 'viaje/lista_row.phtml';
+            if (isset($params['origen']) && $params['origen'] == 'inscripcion') {
+                $vista = 'viaje/lista_inscripcion_row.phtml';
+                $viajes = $am->fetchAllFromTodayBy($campo, $valor);
+            } else {
+                $viajes = $am->fetchAllBy($campo, $valor);
+            }
             foreach ($viajes as $a) {
                 $this->view->viaje = $a;
-                $html .= $this->view->render('viaje/lista_row.phtml');
+                $html .= $this->view->render($vista);
             }
         } else {
             $this->getResponse()->setHttpResponseCode(405);

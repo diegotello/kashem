@@ -122,8 +122,8 @@ function seleccionarViaje(id)
                     $('#fecha_salida_viaje').val(response.fecha_salida);
                     $('#fecha_regreso_viaje').val(response.fecha_regreso);
                     $('#informacion_viaje_nombre').empty().text(response.nombre);
-                    $('#informacion_viaje_salida').empty().text('las ' + response.hora_salida + ' horas del ' + response.fecha_salida);
-                    $('#informacion_viaje_regreso').empty().text('las ' + response.hora_regreso + ' horas del ' + response.fecha_regreso);
+                    $('#informacion_viaje_salida').empty().text('las ' + tConvert(response.hora_salida) + ' del ' + response.fecha_salida);
+                    $('#informacion_viaje_regreso').empty().text('las ' + tConvert(response.hora_regreso) + ' del ' + response.fecha_regreso);
                     mostrarPagina('cliente_page');
                 }
             }
@@ -141,7 +141,9 @@ function seleccionarCliente(id)
                 {
                     $('#cliente_id').val(response.id);
                     $('#informacion_cliente_nombre').empty().text(response.primer_nombre + ' ' + response.primer_apellido);
+                    $('#informacion_cliente_nombre_2').empty().text(response.primer_nombre + ' ' + response.primer_apellido);
                     $('#informacion_cliente_dpi').empty().text(response.dpi);
+                    $('#informacion_cliente_dpi_2').empty().text(response.dpi);
                     mostrarPagina('inscripcion_page');
                 }
             }
@@ -168,7 +170,7 @@ function guardar() {
                             $('#success-alert').show();
                             setTimeout(function() {
                                 $('#success-alert').hide();
-                                window.location.assign("/inscripcion");
+                                mostrarPagina('alquiler_page');
                             }, 1500);
                         }
                         else
@@ -205,4 +207,23 @@ function validar(inscripcion_data) {
             }
     );
     return result;
+}
+
+function tConvert(time) {
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+    if (time.length > 1) {
+        time = time.slice(1);
+        time[3] = ' ';
+        time[5] = +time[0] < 12 ? 'AM' : 'PM';
+        time[0] = +time[0] % 12 || 12;
+    }
+    return time.join('');
+}
+
+function alquilar() {
+    window.location.assign("/alquiler?origin=inscripcion&cliente_id=" + $('#cliente_id').val());
+}
+
+function recargarPagina() {
+    window.location.assign("/inscripcion");
 }

@@ -105,6 +105,23 @@
         <div class="col-md-5"></div>
     </div>
 </div>
+<div class="row" id="alquiler_page" style="display:none;">
+    <div class="row well">
+        <div class="col-md-12">
+            <h4>¿Deseas alquilarle equipo a <strong id="informacion_cliente_nombre_2"></strong> quien se identifica con DPI <strong id="informacion_cliente_dpi_2"></strong>?</h4>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-2" style="text-align:center;">
+            <button type="button" class="btn btn-primary" onClick="alquilar();">
+                Si
+            </button>
+            <button type="button" class="btn btn-default" onClick="recargarPagina();">
+                No
+            </button>
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+</div>
 <?php
 $this->headScript()->appendFile('/js/inscripcion/init.js');
 ?>

@@ -11,12 +11,25 @@ class AlquilerController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+        $request = $this->getRequest();
         $cm = new Kashem_Model_ClienteMapper();
-        $clientes = $cm->fetchAll();
         $html = "";
-        foreach ($clientes as $c) {
-            $this->view->cliente = $c;
-            $html .= $this->view->render('cliente/lista_alquiler_row.phtml');
+        if ($request->isGet()) {
+            $params = $request->getParams();
+            if (isset($params['cliente_id']) && isset($params['origin'])) {
+                if ($params['origin'] == 'inscripcion') {
+                    $c = new Kashem_Model_Cliente();
+                    $cm->find($params['cliente_id'], $c);
+                    $this->view->cliente = $c;
+                    $html .= $this->view->render('cliente/lista_alquiler_row.phtml');
+                }
+            } else {
+                $clientes = $cm->fetchAll();
+                foreach ($clientes as $c) {
+                    $this->view->cliente = $c;
+                    $html .= $this->view->render('cliente/lista_alquiler_row.phtml');
+                }
+            }
         }
         $this->view->clientes = $html;
         $em = new Kashem_Model_EquipoMapper();

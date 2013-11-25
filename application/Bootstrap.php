@@ -26,5 +26,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $front->registerPlugin($aclPlugin);
     }
 
+    protected function _initTimeZone() {
+        date_default_timezone_set('America/Guatemala');
+    }
+
 }
 

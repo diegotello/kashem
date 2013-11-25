@@ -56,7 +56,7 @@ class Kashem_Model_ViajeMapper {
     }
 
     public function fetchAllFromToday() {
-        $resultSet = $this->getDbTable()->fetchAll('fecha_salida > now()');
+        $resultSet = $this->getDbTable()->fetchAll('fecha_salida >= "' . date("Y-m-d") . '"');
         $entries = array();
         foreach ($resultSet as $row) {
             $entry = new Kashem_Model_Viaje();
@@ -128,7 +128,7 @@ class Kashem_Model_ViajeMapper {
         if ($campo == null) {
             $campo = 'id';
         }
-        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%" AND fecha_salida > now()');
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%" AND fecha_salida >= "' . date("Y-m-d") . '"');
         $entries = array();
         foreach ($resultSet as $row) {
             $entry = new Kashem_Model_Viaje();

@@ -17,24 +17,12 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <label>Metodo de pago: <?php
-            if ($this->cuenta->getTipoPago()->getId() != null) {
-                echo $this->cuenta->getTipoPago()->getNombre();
-            }
-            ?>
-        </label>
+        <label>Metodo de pago:</label>
     </div>
     <div class = "col-md-4">
-        <?php
-        if ($this->cuenta->getTipoPago()->getId() == null) {
-            ?>
-            <select class = "form-control" id = "tipo_de_pago_id" name = "tipo_de_pago_id">
-                <?php echo $this->tipos_de_pago;
-                ?>
-            </select>
-            <?php
-        }
-        ?>
+        <select class = "form-control" id = "tipo_de_pago_id" name = "tipo_de_pago_id">
+            <?php echo $this->tipos_de_pago; ?>
+        </select>
     </div>
     <div class="col-md-4"></div>
 </div>

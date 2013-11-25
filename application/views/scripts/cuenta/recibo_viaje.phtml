@@ -1,0 +1,31 @@
+<h3 class="text-center">K'ashem</h3>
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td colspan="2">Guatemala, <?php echo date("d-m-Y H:i:s"); ?></td>
+            <td colspan="1">Recibo por la cuenta #</td>
+            <td colspan="1"><strong><?php echo $this->cuenta->getId(); ?></strong></td>
+        </tr>
+        <tr>
+            <td colspan="1">Cliente</td>
+            <td colspan="1"><strong><?php echo $this->cuenta->getCliente()->getPrimerNombre() . ' ' . $this->cuenta->getCliente()->getPrimerApellido(); ?></strong></td>
+            <td colspan="1">Metodo de pago</td>
+            <td colspan="1"><strong><?php echo $this->cuenta->getTipoPago()->getNombre(); ?></strong></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                Por asistir al viaje
+                <strong><?php echo $this->cuenta->getViaje()->getNombre(); ?></strong>
+                que se realizo del
+                <strong><?php echo date('d-m-Y', strtotime($this->cuenta->getViaje()->getFechaSalida())); ?></strong>
+                al
+                <strong><?php echo date('d-m-Y', strtotime($this->cuenta->getViaje()->getFechaRegreso())); ?></strong>
+            </td>
+            <td colspan="1"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Total</td>
+            <td colspan="1"><strong>Q <?php echo $this->cuenta->getMonto(); ?></strong></td>
+        </tr>
+    </tbody>
+</table>

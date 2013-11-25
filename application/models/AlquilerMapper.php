@@ -100,5 +100,28 @@ class Kashem_Model_AlquilerMapper {
                 ->setRenta($row->renta);
     }
 
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        $entries = array();
+        $cm = new Kashem_Model_ClienteMapper();
+        foreach ($resultSet as $row) {
+            $cliente = new Kashem_Model_Cliente();
+            $cm->find($row->cliente_id, $cliente);
+            $entry = new Kashem_Model_Alquiler();
+            $entry->setId($row->id)
+                    ->setCliente($cliente)
+                    ->setComentario($row->comentario)
+                    ->setDeposito($row->deposito)
+                    ->setDevolucion($row->devolucion)
+                    ->setRenta($row->renta);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

@@ -22,8 +22,7 @@ class Kashem_Model_CuentaMapper {
         return $this->_dbTable;
     }
 
-    public function fetchAll() {
-        $resultSet = $this->getDbTable()->fetchAll();
+    private function getEntries($resultSet) {
         $am = new Kashem_Model_AlquilerMapper();
         $cm = new Kashem_Model_ClienteMapper();
         $vm = new Kashem_Model_ViajeMapper();
@@ -54,6 +53,11 @@ class Kashem_Model_CuentaMapper {
             $entries[] = $entry;
         }
         return $entries;
+    }
+
+    public function fetchAll() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        return $this->getEntries($resultSet);
     }
 
     public function save(Kashem_Model_Cuenta $cuenta) {
@@ -88,6 +92,30 @@ class Kashem_Model_CuentaMapper {
         } else {
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }
+    }
+
+    public function fetchAllByCliente(Kashem_Model_Cliente $cliente) {
+        $resultSet = $this->getDbTable()->fetchAll("cliente_id=" . $cliente->getId());
+        return $this->getEntries($resultSet);
+    }
+
+    public function fetchAllByViaje(Kashem_Model_Viaje $viaje) {
+        $resultSet = $this->getDbTable()->fetchAll("viaje_id=" . $viaje->getId());
+        return $this->getEntries($resultSet);
+    }
+
+    public function fetchAllByAlquiler(Kashem_Model_Alquiler $alquiler) {
+        $resultSet = $this->getDbTable()->fetchAll("alquiler_id=" . $alquiler->getId());
+        return $this->getEntries($resultSet);
+    }
+
+    //this function only supports search by Strings!!!
+    public function fetchAllBy($campo, $valor) {
+        if ($campo == null) {
+            $campo = 'id';
+        }
+        $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
+        return $this->getEntries($resultSet);
     }
 
 }

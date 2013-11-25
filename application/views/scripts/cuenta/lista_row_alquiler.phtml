@@ -20,6 +20,11 @@
             <button type="button" class="btn btn-sm btn-default" onClick="detalles(<?php echo $this->cuenta->getId(); ?>);">
                 <span class="glyphicon glyphicon-info-sign"></span>
             </button>
+            <a href="/cuenta/imprimir?id=<?php echo $this->cuenta->getId(); ?>" target="_blank">
+                <button type="button" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-print"></span>
+                </button>
+            </a>
             <?php
         }
         ?>

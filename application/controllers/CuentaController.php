@@ -197,5 +197,40 @@ class CuentaController extends Zend_Controller_Action {
         $this->_helper->json(array('html' => $html));
     }
 
+    public function imprimirAction() {
+        $this->_helper->_layout->setLayout('print_layout');
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $id = $request->getParam('id');
+            $cum = new Kashem_Model_CuentaMapper();
+            $tpm = new Kashem_Model_TipoPagoMapper();
+            $tipos = array();
+            foreach ($tpm->fetchAll() as $t) {
+                $tipos[$t->getId()] = $t->getNombre();
+            }
+            $this->view->campos = $tipos;
+            $this->view->tipos_de_pago = $this->view->render('partials/opciones.phtml');
+            $cuenta = new Kashem_Model_Cuenta();
+            $cum->find($id, $cuenta);
+            $this->view->cuenta = $cuenta;
+            $equipos = array();
+            if ($cuenta->getTipo() == 'alquiler') {
+                $aem = new Kashem_Model_AlquilerEquipoMapper();
+                $equipoAlquiler = $aem->fetchAllByAlquiler($cuenta->getAlquiler());
+                foreach ($equipoAlquiler as $ea) {
+                    $equipos[] = $ea->getEquipo();
+                }
+                $this->view->equipos = $equipos;
+                $html = $this->view->render('cuenta/alquiler.phtml');
+            }
+            if ($cuenta->getTipo() == 'viaje') {
+                $html = $this->view->render('cuenta/viaje.phtml');
+            }
+            $this->view->content = $html;
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+    }
+
 }
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>K'ashem :: admin</title>
+        <link href="<?php echo $this->baseUrl('css/bootstrap.min.css') ?>" rel="stylesheet" media="all">
+        <link href="<?php echo $this->baseUrl('css/jquery-ui-1.10.3.custom.min.css') ?>" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <?php echo $this->layout()->content; ?>
+        </div>
+        <script src="<?php echo $this->baseUrl("js/jquery.min.js") ?>"></script>
+        <script src="<?php echo $this->baseUrl('js/bootstrap.min.js') ?>"></script>
+        <script src="<?php echo $this->baseUrl('js/jquery-ui-1.10.3.custom.min.js') ?>"></script>
+        <!--jquery init-->
+        <script type="text/javascript">
+            function logout()
+            {
+                $.ajax(
+                        "/auth/logout",
+                        {
+                            method: 'post',
+                            success: function(response)
+                            {
+                                if (response.success)
+                                {
+                                    window.location.assign('/login');
+                                }
+                            }
+                        }
+                );
+            }
+        </script>
+        <?php echo $this->headScript(); ?>
+
+    </body>
+</html>

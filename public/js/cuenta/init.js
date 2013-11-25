@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 function cambioCampoBusqueda() {
     var campo = $('#campo_busqueda').val();
-    if (campo === 'renta' || campo === 'devolucion' || campo === 'fecha_salida' || campo == 'fecha_regreso')
+    if (campo === 'renta' || campo === 'devolucion' || campo === 'fecha_salida' || campo === 'fecha_regreso')
     {
         $('#valor_busqueda').datepicker({dateFormat: "dd-mm-yy"});
     }

@@ -19,7 +19,22 @@ $(document).ready(function() {
     {
         initBusqueda();
     }
+    $('#campo_busqueda').change(function() {
+        cambioCampoBusqueda();
+    });
 });
+
+function cambioCampoBusqueda() {
+    var campo = $('#campo_busqueda').val();
+    if (campo === 'fecha_salida' || campo === 'fecha_regreso')
+    {
+        $('#valor_busqueda').datepicker({dateFormat: "dd-mm-yy"});
+    }
+    else
+    {
+        $('#valor_busqueda').datepicker('destroy');
+    }
+}
 
 function checkHoraRegreso() {
     if ($("#fecha_salida").val() === $("#fecha_regreso").val())

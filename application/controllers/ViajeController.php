@@ -307,7 +307,9 @@ class ViajeController extends Zend_Controller_Action {
             $campo = $params['campo_busqueda'];
             $valor = $params['valor_busqueda'];
             $am = new Kashem_Model_ViajeMapper();
-
+            if ($campo == 'fecha_salida' || $campo == 'fecha_regreso') {
+                $valor = date('Y-m-d', strtotime($valor));
+            }
             $html = "";
             $vista = 'viaje/lista_row.phtml';
             if (isset($params['origen']) && $params['origen'] == 'inscripcion') {

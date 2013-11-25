@@ -189,6 +189,8 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="campos"/>
           <actionMethod actionName="busqueda"/>
+          <actionMethod actionName="cancelar"/>
+          <actionMethod actionName="info"/>
         </controllerFile>
         <controllerFile controllerName="Inscripcion">
           <actionMethod actionName="index"/>
@@ -723,6 +725,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Cuenta">
             <viewScriptFile forActionName="busqueda"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Cuenta">
+            <viewScriptFile forActionName="cancelar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Cuenta">
+            <viewScriptFile forActionName="info"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

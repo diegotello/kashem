@@ -30,5 +30,20 @@ class Kashem_Model_AlquilerEquipoMapper {
         $this->getDbTable()->insert($data);
     }
 
+    public function fetchAllByAlquiler(Kashem_Model_Alquiler $alquiler) {
+        $resultSet = $this->getDbTable()->fetchAll("alquiler_id=" . $alquiler->getId());
+        $entries = array();
+        $em = new Kashem_Model_EquipoMapper();
+        foreach ($resultSet as $row) {
+            $equipo = new Kashem_Model_Equipo();
+            $em->find($row->equipo_id, $equipo);
+            $entry = new Kashem_Model_AlquilerEquipo();
+            $entry->setAlquiler($alquiler)
+                    ->setEquipo($equipo);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

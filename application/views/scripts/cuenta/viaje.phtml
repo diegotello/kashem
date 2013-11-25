@@ -1,0 +1,20 @@
+<div class="row">
+    <p>Cuenta No. <strong><?php echo $this->cuenta->getId(); ?></strong></p>
+    <p>Cliente: <strong><?php echo $this->cuenta->getCliente()->getPrimerNombre() . ' ' . $this->cuenta->getCliente()->getPrimerApellido(); ?></strong></p>
+    <p>Detalle:</p>
+    <p>
+        Por asistir al viaje <strong><?php echo $this->cuenta->getViaje()->getNombre(); ?></strong>  que se realizo del <strong><?php echo date('d-m-Y', strtotime($this->cuenta->getViaje()->getFechaSalida())); ?></strong> al <strong><?php echo date('d-m-Y', strtotime($this->cuenta->getViaje()->getFechaRegreso())); ?></strong> con un costo de
+    </p>
+    <p class="text-right">Q <?php echo $this->cuenta->getMonto(); ?></p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label>Metodo de pago:</label>
+    </div>
+    <div class="col-md-4">
+        <select class="form-control" id="tipo_de_pago_id" name="tipo_de_pago_id">
+            <?php echo $this->tipos_de_pago; ?>
+        </select>
+    </div>
+    <div class="col-md-4"></div>
+</div>

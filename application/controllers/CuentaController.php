@@ -140,5 +140,62 @@ class CuentaController extends Zend_Controller_Action {
         );
     }
 
+    public function cancelarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isGet()) {
+            try {
+                $cum = new Kashem_Model_CuentaMapper();
+                $cum->pay($request->getParams());
+                $ok = true;
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
+    }
+
+    public function infoAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $id = $request->getParam('id');
+            $cum = new Kashem_Model_CuentaMapper();
+            $tpm = new Kashem_Model_TipoPagoMapper();
+            $tipos = array();
+            foreach ($tpm->fetchAll() as $t) {
+                $tipos[$t->getId()] = $t->getNombre();
+            }
+            $this->view->campos = $tipos;
+            $this->view->tipos_de_pago = $this->view->render('partials/opciones.phtml');
+            $cuenta = new Kashem_Model_Cuenta();
+            $cum->find($id, $cuenta);
+            $this->view->cuenta = $cuenta;
+            $equipos = array();
+            if ($cuenta->getTipo() == 'alquiler') {
+                $aem = new Kashem_Model_AlquilerEquipoMapper();
+                $equipoAlquiler = $aem->fetchAllByAlquiler($cuenta->getAlquiler());
+                foreach ($equipoAlquiler as $ea) {
+                    $equipos[] = $ea->getEquipo();
+                }
+                $this->view->equipos = $equipos;
+                $html = $this->view->render('cuenta/alquiler.phtml');
+            }
+            if ($cuenta->getTipo() == 'viaje') {
+                $html = $this->view->render('cuenta/viaje.phtml');
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('html' => $html));
+    }
+
 }
 

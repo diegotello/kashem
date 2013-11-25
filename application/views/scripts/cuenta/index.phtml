@@ -1,4 +1,26 @@
 <div class="row">
+    <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
+    <div class="alert alert-success" id="success-alert" style="display:none;">
+        <strong>El pago se ha realizado con exito.</strong>
+    </div>
+</div>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cancelar cuenta</h4>
+            </div>
+            <div class="modal-body" id="modal_body">
+            </div>
+            <div class="modal-footer" id="modal_footer">
+                <button type="button" class="btn btn-primary" id="modal_cancelar_boton">Cancelar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
     <ul class="nav nav-tabs" id="cuentas_tab">
         <li class="active"><a href="#viaje_pendientes">De Viaje Pendientes</a></li>
         <li><a href="#alquiler_pendientes">De Alquiler Pendientes</a></li>

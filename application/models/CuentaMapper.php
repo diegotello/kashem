@@ -55,6 +55,38 @@ class Kashem_Model_CuentaMapper {
         return $entries;
     }
 
+    public function find($id, Kashem_Model_Cuenta $cuenta) {
+        $result = $this->getDbTable()->find($id);
+        if (0 == count($result)) {
+            return;
+        }
+        $am = new Kashem_Model_AlquilerMapper();
+        $cm = new Kashem_Model_ClienteMapper();
+        $vm = new Kashem_Model_ViajeMapper();
+        $tpm = new Kashem_Model_TipoPagoMapper();
+        $row = $result->current();
+        $cliente = new Kashem_Model_Cliente();
+        $cm->find($row->cliente_id, $cliente);
+        $tipoPago = new Kashem_Model_TipoPago();
+        if ($row->tipo == 'alquiler') {
+            $alquiler = new Kashem_Model_Alquiler();
+            $am->find($row->alquiler_id, $alquiler);
+            $cuenta->setAlquiler($alquiler);
+        }
+        if ($row->tipo == 'viaje') {
+            $viaje = new Kashem_Model_Viaje();
+            $vm->find($row->viaje_id, $viaje);
+            $cuenta->setViaje($viaje);
+        }
+        $tpm->find($row->tipo_de_pago_id, $tipoPago);
+        $cuenta->setId($row->id)
+                ->setCliente($cliente)
+                ->setEstado($row->estado)
+                ->setMonto($row->monto)
+                ->setTipo($row->tipo)
+                ->setTipoPago($tipoPago);
+    }
+
     public function fetchAll() {
         $resultSet = $this->getDbTable()->fetchAll();
         return $this->getEntries($resultSet);
@@ -72,7 +104,7 @@ class Kashem_Model_CuentaMapper {
                 'tipo' => $cuenta->getTipo(),
                 'estado' => $cuenta->getEstado(),
                 'monto' => $cuenta->getMonto(),
-                'tipo_de_pago_id' => $cuenta->getTipoPago()
+                'tipo_de_pago_id' => $tpid
             );
         } else {
             if ($cuenta->getTipo() == 'viaje') {
@@ -82,7 +114,7 @@ class Kashem_Model_CuentaMapper {
                     'tipo' => $cuenta->getTipo(),
                     'estado' => $cuenta->getEstado(),
                     'monto' => $cuenta->getMonto(),
-                    'tipo_de_pago_id' => $cuenta->getTipoPago()
+                    'tipo_de_pago_id' => $tpid
                 );
             }
         }
@@ -116,6 +148,37 @@ class Kashem_Model_CuentaMapper {
         }
         $resultSet = $this->getDbTable()->fetchAll($campo . ' LIKE "%' . $valor . '%"');
         return $this->getEntries($resultSet);
+    }
+
+    public function pay($params) {
+        try {
+            $id = $params['id'];
+            $tipo_de_pago_id = $params['tipo_de_pago_id'];
+            $tpm = new Kashem_Model_TipoPagoMapper();
+            $cuenta = new Kashem_Model_Cuenta();
+            $tipoPago = new Kashem_Model_TipoPago();
+            $this->getDbTable()->getAdapter()->beginTransaction();
+            $this->find($id, $cuenta);
+            $tpm->find($tipo_de_pago_id, $tipoPago);
+            if ($cuenta->getTipo() == 'alquiler') {
+                $alquiler = $cuenta->getAlquiler();
+                $aem = new Kashem_Model_AlquilerEquipoMapper();
+                $em = new Kashem_Model_EquipoMapper();
+                $alquilerEquipo = $aem->fetchAllByAlquiler($alquiler);
+                foreach ($alquilerEquipo as $ae) {
+                    $equipo = $ae->getEquipo();
+                    $equipo->setDisponible(1);
+                    $em->save($equipo);
+                }
+            }
+            $cuenta->setEstado('cancelado');
+            $cuenta->setTipoPago($tipoPago);
+            $this->save($cuenta);
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (exception $e) {
+            $this->getDbTable()->getAdapter()->rollback();
+            throw $e;
+        }
     }
 
 }

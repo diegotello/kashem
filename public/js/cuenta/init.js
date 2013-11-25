@@ -60,3 +60,70 @@ function buscar() {
             }
     );
 }
+
+function iniciarCancelacion(cid) {
+    $.ajax(
+            "/cuenta/info",
+            {
+                method: 'get',
+                data: {id: cid},
+                success: function(response)
+                {
+                    $('#modal_body').empty()
+                            .append(response.html);
+                    $('#modal_cancelar_boton').attr('onClick', 'cancelar(' + cid + ');');
+                    $('#modal').modal('show');
+                }
+            }
+
+    );
+}
+
+function cancelar(cid) {
+    $.ajax(
+            "/cuenta/cancelar",
+            {
+                method: 'get',
+                data: {
+                    id: cid,
+                    tipo_de_pago_id: $('#tipo_de_pago_id').val()
+                },
+                success: function(response)
+                {
+                    $('#modal').modal('hide');
+                    if (response.ok) {
+                        $('#error-alert').hide();
+                        $('#success-alert').show();
+                        setTimeout(function() {
+                            $('#success-alert').hide();
+                            window.location.reload();
+                        }, 1500);
+                    }
+                    else
+                    {
+                        $('#success-alert').hide();
+                        $('#error-alert').empty().append(response.info).show();
+                    }
+                }
+            }
+    );
+}
+
+function detalles(cid) {
+    $.ajax(
+            "/cuenta/info",
+            {
+                method: 'get',
+                data: {id: cid},
+                success: function(response)
+                {
+                    $('#modal_body').empty()
+                            .append(response.html);
+                    $('#tipo_de_pago_id').attr('readOnly', true);
+                    $('#modal_cancelar_boton').hide();
+                    $('#modal').modal('show');
+                }
+            }
+
+    );
+}

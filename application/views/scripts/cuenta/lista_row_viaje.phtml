@@ -12,15 +12,15 @@
         <?php
         if ($this->cuenta->getEstado() == 'pendiente') {
             ?>
-            <button type="button" class="btn btn-sm btn-default" onClick="cancelar(<?php echo $this->cuenta->getId(); ?>);">
+            <button type="button" class="btn btn-sm btn-default" onClick="iniciarCancelacion(<?php echo $this->cuenta->getId(); ?>);">
                 Cancelar
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </button>
             <?php
         } else {
             ?>
-            <button type="button" class="btn btn-sm btn-default" onClick="editar(<?php echo $this->cuenta->getId(); ?>);">
-                <span class="glyphicon glyphicon-edit"></span>
+            <button type="button" class="btn btn-sm btn-default" onClick="detalles(<?php echo $this->cuenta->getId(); ?>);">
+                <span class="glyphicon glyphicon-info-sign"></span>
             </button>
             <?php
         }

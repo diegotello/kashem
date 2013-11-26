@@ -198,6 +198,9 @@
           <actionMethod actionName="validarformulario"/>
           <actionMethod actionName="guardar"/>
         </controllerFile>
+        <controllerFile controllerName="Reporte">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Login"/>
@@ -735,6 +738,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Cuenta">
             <viewScriptFile forActionName="imprimir"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Reporte">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

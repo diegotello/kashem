@@ -18,7 +18,7 @@ function initBusqueda() {
                 {
                     $('#campo_busqueda').find('option[value!=""]').remove();
                     $('#campo_busqueda').append(response.lista);
-                    $('#nuevo_link').attr('href', controller + '/nuevo');
+                    $('#nuevo_link').attr('href', '/' + controller + '/nuevo');
                     $('#busqueda_button').attr('onClick', 'buscar();');
                     $('#busqueda_form').show();
                 }

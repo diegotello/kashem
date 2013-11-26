@@ -1,0 +1,10 @@
+<tr id="destino_viaje_row_<?php echo $this->destino->getId(); ?>">
+    <td><?php echo $this->destino->getPais()->getNombre(); ?></td>
+    <td><?php echo $this->destino->getDepartamento()->getNombre(); ?></td>
+    <td><?php echo $this->destino->getMunicipio()->getNombre(); ?></td>
+    <td><?php echo $this->destino->getNombre(); ?></td>
+    <td><?php echo $this->destino->getDescripcion(); ?></td>
+    <td>
+        <input type="checkbox" name="destino[]" value="<?php echo $this->destino->getId(); ?>" onChange="seleccionarDestino(this);">
+    </td>
+</tr>

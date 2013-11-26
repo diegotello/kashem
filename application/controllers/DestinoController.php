@@ -198,14 +198,19 @@ class DestinoController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender();
         $request = $this->getRequest();
         if ($request->isGet()) {
-            $campo = $request->getParam('campo_busqueda');
-            $valor = $request->getParam('valor_busqueda');
+            $params = $request->getParams();
+            $campo = $params['campo_busqueda'];
+            $valor = $params['valor_busqueda'];
             $am = new Kashem_Model_DestinoMapper();
             $destinos = $am->fetchAllBy($campo, $valor);
             $html = "";
+            $vista = 'destino/lista_row.phtml';
+            if (isset($params['origen']) && $params['origen'] == 'viaje') {
+                $vista = 'destino/lista_viaje_row.phtml';
+            }
             foreach ($destinos as $a) {
                 $this->view->destino = $a;
-                $html .= $this->view->render('destino/lista_row.phtml');
+                $html .= $this->view->render($vista);
             }
         } else {
             $this->getResponse()->setHttpResponseCode(405);

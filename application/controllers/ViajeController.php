@@ -33,18 +33,26 @@ class ViajeController extends Zend_Controller_Action {
     public function nuevoAction() {
         $dm = new Kashem_Model_DestinoMapper();
         $am = new Kashem_Model_ActividadMapper();
+        $mm = new Kashem_Model_GuiaMapper();
         $actividades = $am->fetchAll();
         $destinos = $dm->fetchAll();
+        $guias = $mm->fetchAll();
         $act_html = "";
         $des_html = "";
+        $guias_html = "";
         foreach ($actividades as $a) {
             $this->view->actividad = $a;
-            $act_html .= $this->view->render('actividad/checkboxes.phtml');
+            $act_html .= $this->view->render('actividad/lista_viaje_row.phtml');
         }
         foreach ($destinos as $d) {
             $this->view->destino = $d;
-            $des_html .= $this->view->render('destino/checkboxes.phtml');
+            $des_html .= $this->view->render('destino/lista_viaje_row.phtml');
         }
+        foreach ($guias as $m) {
+            $this->view->guia = $m;
+            $guias_html .= $this->view->render('guia/lista_viaje_row.phtml');
+        }
+        $this->view->guias = $guias_html;
         $this->view->destinos = $des_html;
         $this->view->actividades = $act_html;
         $this->view->formulario = $this->view->render('viaje/formulario.phtml');
@@ -99,6 +107,18 @@ class ViajeController extends Zend_Controller_Action {
                 if (!$this->_exists($params, 'hora_regreso')) {
                     $valid = false;
                     $info .= '<br>El campo hora de regreso no puede estar vacio.';
+                }
+                if (!$this->_exists($params, 'destino')) {
+                    $valid = false;
+                    $info .= '<br>Debes seleccionar destinos para el viaje.';
+                }
+                if (!$this->_exists($params, 'actividad')) {
+                    $valid = false;
+                    $info .= '<br>Debes seleccionar actividades para el viaje.';
+                }
+                if (!$this->_exists($params, 'guia')) {
+                    $valid = false;
+                    $info .= '<br>Debes seleccionar guias para el viaje.';
                 }
             } catch (Exception $e) {
                 $valid = false;

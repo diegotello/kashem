@@ -195,9 +195,14 @@ class GuiaController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender();
         $request = $this->getRequest();
         if ($request->isGet()) {
-            $campo = $request->getParam('campo_busqueda');
-            $valor = $request->getParam('valor_busqueda');
+            $params = $request->getParams();
+            $campo = $params['campo_busqueda'];
+            $valor = $params['valor_busqueda'];
             $gm = new Kashem_Model_GuiaMapper();
+            $vista = 'guia/lista_row.phtml';
+            if (isset($params['origen']) && $params['origen'] == 'viaje') {
+                $vista = 'guia/lista_viaje_row.phtml';
+            }
             switch ($campo) {
                 case 'primer_nombre':
                 case 'primer_apellido':
@@ -208,7 +213,7 @@ class GuiaController extends Zend_Controller_Action {
                         $guia = $gm->fetchByCliente($c);
                         if ($guia != null) {
                             $this->view->guia = $guia;
-                            $html .= $this->view->render('guia/lista_row.phtml');
+                            $html .= $this->view->render($vista);
                         }
                     }
                     break;
@@ -220,7 +225,7 @@ class GuiaController extends Zend_Controller_Action {
                         $guias = $gm->fetchAllByCategoria($c);
                         foreach ($guias as $g) {
                             $this->view->guia = $g;
-                            $html .= $this->view->render('guia/lista_row.phtml');
+                            $html .= $this->view->render($vista);
                         }
                     }
                     break;

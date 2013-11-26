@@ -180,14 +180,19 @@ class ActividadController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender();
         $request = $this->getRequest();
         if ($request->isGet()) {
-            $campo = $request->getParam('campo_busqueda');
-            $valor = $request->getParam('valor_busqueda');
+            $params = $request->getParams();
+            $campo = $params['campo_busqueda'];
+            $valor = $params['valor_busqueda'];
             $am = new Kashem_Model_ActividadMapper();
             $actividades = $am->fetchAllBy($campo, $valor);
             $html = "";
+            $vista = 'actividad/lista_row.phtml';
+            if (isset($params['origen']) && $params['origen'] == 'viaje') {
+                $vista = 'actividad/lista_viaje_row.phtml';
+            }
             foreach ($actividades as $a) {
                 $this->view->actividad = $a;
-                $html .= $this->view->render('actividad/lista_row.phtml');
+                $html .= $this->view->render($vista);
             }
         } else {
             $this->getResponse()->setHttpResponseCode(405);

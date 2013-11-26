@@ -1,0 +1,8 @@
+<tr id="guia_viaje_row_<?php echo $this->guia->getId(); ?>">
+    <td><?php echo $this->guia->getCliente()->getPrimerNombre(); ?></td>
+    <td><?php echo $this->guia->getCliente()->getPrimerApellido(); ?></td>
+    <td><?php echo $this->guia->getCategoria()->getNombre(); ?></td>
+    <td>
+        <input type="checkbox" name="guia[]" value="<?php echo $this->guia->getId(); ?>" onChange="seleccionarGuia(this);">
+    </td>
+</tr>

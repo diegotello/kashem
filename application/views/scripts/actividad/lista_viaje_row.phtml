@@ -1,0 +1,7 @@
+<tr id="actividad_viaje_row_<?php echo $this->actividad->getId(); ?>">
+    <td><?php echo $this->actividad->getNombre(); ?></td>
+    <td><?php echo $this->actividad->getDescripcion(); ?></td>
+    <td>
+        <input type="checkbox" name="actividad[]" value="<?php echo $this->actividad->getId(); ?>" onChange="seleccionarActividad(this);">
+    </td>
+</tr>

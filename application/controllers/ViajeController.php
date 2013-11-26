@@ -143,33 +143,7 @@ class ViajeController extends Zend_Controller_Action {
                 $pm = new Kashem_Model_ViajeMapper();
                 $viaje = new Kashem_Model_Viaje();
                 $this->_setViajeFromParams($viaje, $params);
-                $pm->save($viaje);
-                $am = new Kashem_Model_ActividadMapper();
-                $vam = new Kashem_Model_ViajeActividadMapper();
-                $dm = new Kashem_Model_DestinoMapper();
-                $vdm = new Kashem_Model_ViajeDestinoMapper();
-                if (isset($params['actividad'])) {
-                    $actividades = $params['actividad'];
-                    foreach ($actividades as $id) {
-                        $actividad = new Kashem_Model_Actividad();
-                        $viajeActividad = new Kashem_Model_ViajeActividad();
-                        $am->find($id, $actividad);
-                        $viajeActividad->setActividad($actividad);
-                        $viajeActividad->setViaje($viaje);
-                        $vam->save($viajeActividad);
-                    }
-                }
-                if (isset($params['destino'])) {
-                    $destinos = $params['destino'];
-                    foreach ($destinos as $id) {
-                        $desino = new Kashem_Model_Destino();
-                        $viajeDestino = new Kashem_Model_ViajeDestino();
-                        $dm->find($id, $desino);
-                        $viajeDestino->setDestino($desino);
-                        $viajeDestino->setViaje($viaje);
-                        $vdm->save($viajeDestino);
-                    }
-                }
+                $pm->create($viaje, $params);
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;

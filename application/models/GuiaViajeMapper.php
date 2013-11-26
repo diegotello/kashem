@@ -22,5 +22,21 @@ class Kashem_Model_GuiaViajeMapper {
         return $this->_dbTable;
     }
 
+    public function save(Kashem_Model_GuiaViaje $guiaViaje) {
+        $data = array(
+            'guia_id' => $guiaViaje->getGuia()->getId(),
+            'viaje_id' => $guiaViaje->getViaje()->getId()
+        );
+        $this->getDbTable()->insert($data);
+    }
+
+    public function deleteByViaje($viaje) {
+        $this->getDbTable()->delete(array('viaje_id = ?' => $viaje->getId()));
+    }
+
+    public function deleteByGuia($guia) {
+        $this->getDbTable()->delete(array('guia_id = ?' => $guia->getId()));
+    }
+
 }
 

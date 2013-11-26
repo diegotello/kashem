@@ -114,7 +114,18 @@ class Kashem_Model_GuiaMapper {
     }
 
     public function delete($id) {
-        $this->getDbTable()->delete(array('id = ?' => $id));
+        try {
+            $this->getDbTable()->getAdapter()->beginTransaction();
+            $gvm = new Kashem_Model_GuiaViajeMapper();
+            $guia = new Kashem_Model_Guia();
+            $this->find($id, $guia);
+            $gvm->deleteByGuia($guia);
+            $this->getDbTable()->delete(array('id = ?' => $id));
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (exception $e) {
+            $this->getDbTable()->getAdapter()->rollback();
+            throw $e;
+        }
     }
 
     public function getCount() {

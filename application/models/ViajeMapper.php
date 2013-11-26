@@ -94,13 +94,22 @@ class Kashem_Model_ViajeMapper {
     }
 
     public function delete($id) {
-        $vam = new Kashem_Model_ViajeActividadMapper();
-        $vdm = new Kashem_Model_ViajeDestinoMapper();
-        $viaje = new Kashem_Model_Viaje();
-        $this->find($id, $viaje);
-        $vam->deleteByViaje($viaje);
-        $vdm->deleteByViaje($viaje);
-        $this->getDbTable()->delete(array('id = ?' => $id));
+        try {
+            $this->getDbTable()->getAdapter()->beginTransaction();
+            $vam = new Kashem_Model_ViajeActividadMapper();
+            $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $gvm = new Kashem_Model_GuiaViajeMapper();
+            $viaje = new Kashem_Model_Viaje();
+            $this->find($id, $viaje);
+            $vam->deleteByViaje($viaje);
+            $vdm->deleteByViaje($viaje);
+            $gdm->deleteByViaje($viaje);
+            $this->getDbTable()->delete(array('id = ?' => $id));
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (exception $e) {
+            $this->getDbTable()->getAdapter()->rollback();
+            throw $e;
+        }
     }
 
     //this function only supports search by Strings!!!
@@ -148,7 +157,56 @@ class Kashem_Model_ViajeMapper {
                 ->query("SELECT COUNT(*) AS total FROM viaje")
                 ->fetchAll();
         return $result[0]["total"];
-        ;
+    }
+
+    public function create(Kashem_Model_Viaje $viaje, $params) {
+        try {
+            $this->getDbTable()->getAdapter()->beginTransaction();
+            $this->save($viaje);
+            $am = new Kashem_Model_ActividadMapper();
+            $vam = new Kashem_Model_ViajeActividadMapper();
+            $dm = new Kashem_Model_DestinoMapper();
+            $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $gvm = new Kashem_Model_GuiaViajeMapper();
+            $gm = new Kashem_Model_GuiaMapper();
+            if (isset($params['actividad'])) {
+                $actividades = $params['actividad'];
+                foreach ($actividades as $id) {
+                    $actividad = new Kashem_Model_Actividad();
+                    $viajeActividad = new Kashem_Model_ViajeActividad();
+                    $am->find($id, $actividad);
+                    $viajeActividad->setActividad($actividad);
+                    $viajeActividad->setViaje($viaje);
+                    $vam->save($viajeActividad);
+                }
+            }
+            if (isset($params['destino'])) {
+                $destinos = $params['destino'];
+                foreach ($destinos as $id) {
+                    $destino = new Kashem_Model_Destino();
+                    $viajeDestino = new Kashem_Model_ViajeDestino();
+                    $dm->find($id, $destino);
+                    $viajeDestino->setDestino($destino);
+                    $viajeDestino->setViaje($viaje);
+                    $vdm->save($viajeDestino);
+                }
+            }
+            if (isset($params['guia'])) {
+                $guias = $params['guia'];
+                foreach ($guias as $id) {
+                    $guia = new Kashem_Model_Guia();
+                    $guiaViaje = new Kashem_Model_GuiaViaje();
+                    $gm->find($id, $guia);
+                    $guiaViaje->setGuia($guia);
+                    $guiaViaje->setViaje($viaje);
+                    $gvm->save($guiaViaje);
+                }
+            }
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (exception $e) {
+            $this->getDbTable()->getAdapter()->rollback();
+            throw $e;
+        }
     }
 
 }

@@ -32,6 +32,7 @@ function initBusquedaN() {
             "/" + controller + "/campos",
             {
                 method: 'get',
+                async: false,
                 success: function(response)
                 {
                     $('#campo_busqueda').find('option[value!=""]').remove();
@@ -167,8 +168,8 @@ function mostrarPagina(id) {
             }
             break;
         case 'guardar_page':
-            $('#busqueda_form').hide();
             recargarListas();
+            $('#busqueda_form').hide();
             var ready = true;
             if ($('#nombre').val() === ''
                     || $('#fecha_salida').val() === ''

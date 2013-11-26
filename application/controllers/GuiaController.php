@@ -200,6 +200,7 @@ class GuiaController extends Zend_Controller_Action {
             $valor = $params['valor_busqueda'];
             $gm = new Kashem_Model_GuiaMapper();
             $vista = 'guia/lista_row.phtml';
+            $html = "";
             if (isset($params['origen']) && $params['origen'] == 'viaje') {
                 $vista = 'guia/lista_viaje_row.phtml';
             }
@@ -208,7 +209,6 @@ class GuiaController extends Zend_Controller_Action {
                 case 'primer_apellido':
                     $cm = new Kashem_Model_ClienteMapper();
                     $clientes = $cm->fetchAllBy($campo, $valor);
-                    $html = "";
                     foreach ($clientes as $c) {
                         $guia = $gm->fetchByCliente($c);
                         if ($guia != null) {
@@ -220,7 +220,6 @@ class GuiaController extends Zend_Controller_Action {
                 case 'nombre':
                     $cm = new Kashem_Model_CategoriaMapper();
                     $categorias = $cm->fetchAllBy('nombre', $valor);
-                    $html = "";
                     foreach ($categorias as $c) {
                         $guias = $gm->fetchAllByCategoria($c);
                         foreach ($guias as $g) {
@@ -229,11 +228,18 @@ class GuiaController extends Zend_Controller_Action {
                         }
                     }
                     break;
+                default:
+                    $guias = $gm->fetchAll();
+                    foreach ($guias as $g) {
+                        $this->view->guia = $g;
+                        $html .= $this->view->render($vista);
+                    }
+                    break;
             }
+            $this->_helper->json(array('lista' => $html));
         } else {
             $this->getResponse()->setHttpResponseCode(405);
         }
-        $this->_helper->json(array('lista' => $html));
     }
 
 }

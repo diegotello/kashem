@@ -209,5 +209,58 @@ class Kashem_Model_ViajeMapper {
         }
     }
 
+    public function update(Kashem_Model_Viaje $viaje, $params) {
+        try {
+            $this->getDbTable()->getAdapter()->beginTransaction();
+            $this->save($viaje);
+            $vam = new Kashem_Model_ViajeActividadMapper();
+            $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $gvm = new Kashem_Model_GuiaViajeMapper();
+            $vam->deleteByViaje($viaje);
+            $vdm->deleteByViaje($viaje);
+            $gvm->deleteByViaje($viaje);
+            $am = new Kashem_Model_ActividadMapper();
+            $dm = new Kashem_Model_DestinoMapper();
+            $gm = new Kashem_Model_GuiaMapper();
+            if (isset($params['actividad'])) {
+                $actividades = $params['actividad'];
+                foreach ($actividades as $id) {
+                    $actividad = new Kashem_Model_Actividad();
+                    $viajeActividad = new Kashem_Model_ViajeActividad();
+                    $am->find($id, $actividad);
+                    $viajeActividad->setActividad($actividad);
+                    $viajeActividad->setViaje($viaje);
+                    $vam->save($viajeActividad);
+                }
+            }
+            if (isset($params['destino'])) {
+                $destinos = $params['destino'];
+                foreach ($destinos as $id) {
+                    $destino = new Kashem_Model_Destino();
+                    $viajeDestino = new Kashem_Model_ViajeDestino();
+                    $dm->find($id, $destino);
+                    $viajeDestino->setDestino($destino);
+                    $viajeDestino->setViaje($viaje);
+                    $vdm->save($viajeDestino);
+                }
+            }
+            if (isset($params['guia'])) {
+                $guias = $params['guia'];
+                foreach ($guias as $id) {
+                    $guia = new Kashem_Model_Guia();
+                    $guiaViaje = new Kashem_Model_GuiaViaje();
+                    $gm->find($id, $guia);
+                    $guiaViaje->setGuia($guia);
+                    $guiaViaje->setViaje($viaje);
+                    $gvm->save($guiaViaje);
+                }
+            }
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (exception $e) {
+            $this->getDbTable()->getAdapter()->rollback();
+            throw $e;
+        }
+    }
+
 }
 

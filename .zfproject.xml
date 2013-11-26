@@ -167,6 +167,7 @@
           <actionMethod actionName="borrar"/>
           <actionMethod actionName="campos"/>
           <actionMethod actionName="busqueda"/>
+          <actionMethod actionName="editar"/>
         </controllerFile>
         <controllerFile controllerName="TipoPago">
           <actionMethod actionName="index"/>
@@ -741,6 +742,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Reporte">
             <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viaje">
+            <viewScriptFile forActionName="editar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

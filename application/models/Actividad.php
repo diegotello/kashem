@@ -44,7 +44,7 @@ class Kashem_Model_Actividad {
     }
 
     public function setId($id) {
-        $this->_id = (int) $id;
+        $this->_id = $id;
         return $this;
     }
 

@@ -22,6 +22,14 @@ class Kashem_Model_GuiaViajeMapper {
         return $this->_dbTable;
     }
 
+    public function exists(Kashem_Model_Guia $guia, Kashem_Model_Viaje $viaje) {
+        $result = $this->getDbTable()->fetchRow("guia_id = " . $guia->getId() . " AND viaje_id = " . $viaje->getId());
+        if (0 == count($result)) {
+            return false;
+        }
+        return true;
+    }
+
     public function save(Kashem_Model_GuiaViaje $guiaViaje) {
         $data = array(
             'guia_id' => $guiaViaje->getGuia()->getId(),

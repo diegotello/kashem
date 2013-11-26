@@ -22,6 +22,10 @@ $(document).ready(function() {
     {
         initBusqueda();
     }
+    if (typeof(initFormularioEdicion) === "function")
+    {
+        initFormularioEdicion();
+    }
     $('#campo_busqueda').change(function() {
         cambioCampoBusqueda();
     });
@@ -86,7 +90,7 @@ function buscarN() {
                 success: function(response)
                 {
                     $('#lista_' + controller).empty().append(response.lista);
-                    var campos = $('#lista_' + controller + ' input[type = checkbox]')
+                    var campos = $('#lista_' + controller + ' input[type = checkbox]');
                     searchArray = null;
                     switch (controller) {
                         case 'destino':
@@ -331,6 +335,44 @@ function guardar() {
     if (isvalid.valid) {
         $.ajax(
                 "/viaje/guardar",
+                {
+                    method: 'post',
+                    data: $('#viaje_form').serializeArray(),
+                    success: function(response)
+                    {
+                        if (response.ok) {
+                            $('#error-alert').hide();
+                            $('#success-alert').show();
+                            setTimeout(function() {
+                                $('#success-alert').hide();
+                                window.location.assign("/viaje");
+                            }, 1500);
+                        }
+                        else
+                        {
+                            $('#success-alert').hide();
+                            $('#error-alert').empty().append(response.info).show();
+                        }
+                    }
+                }
+        );
+    }
+    else
+    {
+        $('#success-alert').hide();
+        $('#error-alert').empty().append(isvalid.info).show();
+    }
+}
+
+function editV(id) {
+    window.location.assign("/viaje/editar?id=" + id);
+}
+
+function actualizar() {
+    var isvalid = validarN();
+    if (isvalid.valid) {
+        $.ajax(
+                "/viaje/actualizar",
                 {
                     method: 'post',
                     data: $('#viaje_form').serializeArray(),

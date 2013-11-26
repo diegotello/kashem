@@ -163,32 +163,33 @@ class ViajeController extends Zend_Controller_Action {
             $id = $request->getParam('id');
             $vam = new Kashem_Model_ViajeActividadMapper();
             $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $gvm = new Kashem_Model_GuiaViajeMapper();
             $vm = new Kashem_Model_ViajeMapper();
             $am = new Kashem_Model_ActividadMapper();
             $dm = new Kashem_Model_DestinoMapper();
+            $gm = new Kashem_Model_GuiaMapper();
             $actividades = $am->fetchAll();
             $destinos = $dm->fetchAll();
-            $act_html = "";
-            $des_html = "";
+            $guias = $gm->fetchAll();
+            $act = array();
+            $des = array();
+            $guiasa = array();
             $v = new Kashem_Model_Viaje();
             $vm->find($id, $v);
             foreach ($actividades as $a) {
-                $this->view->actividad = $a;
                 if ($vam->exists($a, $v)) {
-                    $this->view->checked = "checked";
-                } else {
-                    $this->view->checked = "";
+                    $act[] = $a->getId();
                 }
-                $act_html .= $this->view->render('actividad/checkboxes.phtml');
             }
             foreach ($destinos as $d) {
-                $this->view->destino = $d;
                 if ($vdm->exists($d, $v)) {
-                    $this->view->checked = "checked";
-                } else {
-                    $this->view->checked = "";
+                    $des[] = $d->getId();
                 }
-                $des_html .= $this->view->render('destino/checkboxes.phtml');
+            }
+            foreach ($guias as $g) {
+                if ($gvm->exists($g, $v)) {
+                    $guiasa[] = $g->getId();
+                }
             }
             $result = array(
                 'id' => $v->getId(),
@@ -197,8 +198,9 @@ class ViajeController extends Zend_Controller_Action {
                 'hora_salida' => $v->getHoraSalida(),
                 'fecha_regreso' => date('d-m-Y', strtotime($v->getFechaRegreso())),
                 'hora_regreso' => $v->getHoraRegreso(),
-                'actividades_checkboxes' => $act_html,
-                'destinos_checkboxes' => $des_html
+                'actividades' => $act,
+                'destinos' => $des,
+                'guias' => $guiasa
             );
         } else {
             $this->getResponse()->setHttpResponseCode(405);
@@ -219,35 +221,7 @@ class ViajeController extends Zend_Controller_Action {
                 $viaje = new Kashem_Model_Viaje();
                 $this->_setViajeFromParams($viaje, $params);
                 $viaje->setId($params['viaje_id']);
-                $vm->save($viaje);
-                $vam = new Kashem_Model_ViajeActividadMapper();
-                $vdm = new Kashem_Model_ViajeDestinoMapper();
-                $vam->deleteByViaje($viaje);
-                $vdm->deleteByViaje($viaje);
-                $am = new Kashem_Model_ActividadMapper();
-                $dm = new Kashem_Model_DestinoMapper();
-                if (isset($params['actividad'])) {
-                    $actividades = $params['actividad'];
-                    foreach ($actividades as $id) {
-                        $actividad = new Kashem_Model_Actividad();
-                        $viajeActividad = new Kashem_Model_ViajeActividad();
-                        $am->find($id, $actividad);
-                        $viajeActividad->setActividad($actividad);
-                        $viajeActividad->setViaje($viaje);
-                        $vam->save($viajeActividad);
-                    }
-                }
-                if (isset($params['destino'])) {
-                    $destinos = $params['destino'];
-                    foreach ($destinos as $id) {
-                        $desino = new Kashem_Model_Destino();
-                        $viajeDestino = new Kashem_Model_ViajeDestino();
-                        $dm->find($id, $desino);
-                        $viajeDestino->setDestino($desino);
-                        $viajeDestino->setViaje($viaje);
-                        $vdm->save($viajeDestino);
-                    }
-                }
+                $vm->update($viaje, $params);
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;
@@ -320,6 +294,41 @@ class ViajeController extends Zend_Controller_Action {
             $this->getResponse()->setHttpResponseCode(405);
         }
         $this->_helper->json(array('lista' => $html));
+    }
+
+    public function editarAction() {
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $viaje_id = $request->getParam('id');
+            $dm = new Kashem_Model_DestinoMapper();
+            $am = new Kashem_Model_ActividadMapper();
+            $mm = new Kashem_Model_GuiaMapper();
+            $actividades = $am->fetchAll();
+            $destinos = $dm->fetchAll();
+            $guias = $mm->fetchAll();
+            $act_html = "";
+            $des_html = "";
+            $guias_html = "";
+            foreach ($actividades as $a) {
+                $this->view->actividad = $a;
+                $act_html .= $this->view->render('actividad/lista_viaje_row.phtml');
+            }
+            foreach ($destinos as $d) {
+                $this->view->destino = $d;
+                $des_html .= $this->view->render('destino/lista_viaje_row.phtml');
+            }
+            foreach ($guias as $m) {
+                $this->view->guia = $m;
+                $guias_html .= $this->view->render('guia/lista_viaje_row.phtml');
+            }
+            $this->view->guias = $guias_html;
+            $this->view->destinos = $des_html;
+            $this->view->actividades = $act_html;
+            $this->view->viajeId = $viaje_id;
+            $this->view->formulario = $this->view->render('viaje/formulario.phtml');
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
     }
 
 }

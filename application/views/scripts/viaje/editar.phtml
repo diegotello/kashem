@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
+    <div class="alert alert-success" id="success-alert" style="display:none;">
+        <strong>El viaje se ha actualizado con exito.</strong>
+    </div>
+</div>
+<?php echo $this->formulario; ?>
+<?php
+$this->headScript()->appendFile('/js/viaje/init.js');
+$this->headScript()->appendFile('/js/viaje/update.js');
+?>

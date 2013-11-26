@@ -331,5 +331,20 @@ class ViajeController extends Zend_Controller_Action {
         }
     }
 
+    public function detallesAction() {
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $viaje_id = $request->getParam('id');
+            $vm = new Kashem_Model_ViajeMapper();
+            $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $viaje = new Kashem_Model_Viaje();
+            $vds = $vdm->fetchAllByViaje($viaje);
+            $vm->find($viaje_id, $viaje);
+            $this->view->viaje = $viaje;
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+    }
+
 }
 

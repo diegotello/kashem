@@ -1,0 +1,28 @@
+<div class="row">
+    <h3 class="text-center"><?php echo $this->viaje->getNombre(); ?></h3>
+    <p>
+        Este viaje esta programado para iniciar el <?php echo date('d-m-Y', strtotime($this->viaje->getFechaSalida())); ?>
+        a las <?php echo date("g:i a", STRTOTIME($this->viaje->getHoraSalida())); ?>
+        y finalizar el <?php echo date('d-m-Y', strtotime($this->viaje->getFechaRegreso())); ?>
+        a las <?php echo date("g:i a", STRTOTIME($this->viaje->getHoraRegreso())); ?>
+    </p>
+    <br>
+    <p>
+        Se visitaran los siguientes destinos
+    </p>
+    <ul class="list-group">
+        <li class="list-group-item"><a href="/actividad">Actividad</a></li>
+        <li class="list-group-item"><a href="/categoria">Categoria Guia</a></li>
+        <li class="list-group-item"><a href="/cliente">Cliente</a></li>
+        <li class="list-group-item"><a href="/departamento">Departamento</a></li>
+        <li class="list-group-item"><a href="/destino">Destino</a></li>
+        <li class="list-group-item"><a href="/equipo">Equipo</a></li>
+        <li class="list-group-item"><a href="/guia">Guia</a></li>
+        <li class="list-group-item"><a href="/logro">Logro</a></li>
+        <li class="list-group-item"><a href="/municipio">Municipio</a></li>
+        <li class="list-group-item"><a href="/pais">Pais</a></li>
+        <li class="list-group-item"><a href="/tipo-pago">Tipo de pago</a></li>
+        <li class="list-group-item"><a href="/usuario">Usuario</a></li>
+        <li class="list-group-item"><a href="/viaje">Viaje</a></li>
+    </ul>
+</div>

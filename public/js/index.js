@@ -145,3 +145,11 @@ function actualizar() {
         $('#form-error-alert').empty().append(isvalid.info).show();
     }
 }
+
+function lista(id) {
+    window.location.assign("/" + controller + "/detalles?id=" + id);
+}
+
+function terminar(id) {
+    console.log(id);
+}

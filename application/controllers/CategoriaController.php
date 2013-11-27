@@ -53,11 +53,13 @@ class CategoriaController extends Zend_Controller_Action {
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
                         } else {
                             //is unique?
-                            $em = new Kashem_Model_CategoriaMapper();
-                            $result = $em->fetchAllBy('nombre', $v);
-                            if (!empty($result)) {
-                                $valid = false;
-                                $info .= '<br>Ya existe una categoria con el nombre ' . $v . '.';
+                            if (!$this->_exists($params, 'categoria_id')) {
+                                $em = new Kashem_Model_CategoriaMapper();
+                                $result = $em->fetchAllBy('nombre', $v);
+                                if (!empty($result)) {
+                                    $valid = false;
+                                    $info .= '<br>Ya existe una categoria con el nombre ' . $v . '.';
+                                }
                             }
                         }
                     }

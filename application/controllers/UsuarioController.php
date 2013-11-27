@@ -64,11 +64,13 @@ class UsuarioController extends Zend_Controller_Action {
                     $info .= '<br>El campo nombre no puede estar vacio.';
                 } else {
                     //is unique?
-                    $em = new Kashem_Model_UsuarioMapper();
-                    $result = $em->fetchAllBy('nombre', $params['nombre']);
-                    if (!empty($result)) {
-                        $valid = false;
-                        $info .= '<br>Ya existe un logro con el nombre ' . $params['nombre'] . '.';
+                    if (!$this->_exists($params, 'usuario_id')) {
+                        $em = new Kashem_Model_UsuarioMapper();
+                        $result = $em->fetchAllBy('nombre', $params['nombre']);
+                        if (!empty($result)) {
+                            $valid = false;
+                            $info .= '<br>Ya existe un logro con el nombre ' . $params['nombre'] . '.';
+                        }
                     }
                 }
                 if (!$this->_exists($params, 'rol_id')) {

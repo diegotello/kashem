@@ -60,11 +60,13 @@ class EquipoController extends Zend_Controller_Action {
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
                         } else {
                             //is unique?
-                            $em = new Kashem_Model_EquipoMapper();
-                            $result = $em->fetchAllBy('identificador', $v);
-                            if (!empty($result)) {
-                                $valid = false;
-                                $info .= '<br>Ya existe un equipo con el identificador ' . $v . '.';
+                            if (!$this->_exists($params, 'equipo_id')) {
+                                $em = new Kashem_Model_EquipoMapper();
+                                $result = $em->fetchAllBy('identificador', $v);
+                                if (!empty($result)) {
+                                    $valid = false;
+                                    $info .= '<br>Ya existe un equipo con el identificador ' . $v . '.';
+                                }
                             }
                         }
                     }

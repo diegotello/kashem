@@ -53,7 +53,7 @@ class TipoPagoController extends Zend_Controller_Action {
                             $info .= '<br>El campo ' . str_replace('_', ' ', $k) . ' no puede estar vacio.';
                         } else {
                             //is unique?
-                            if ($params['tipo-pago_id'] != null) {
+                            if (!$this->_exists($params, 'tipo-pago_id')) {
                                 $em = new Kashem_Model_TipoPagoMapper();
                                 $result = $em->fetchAllBy('nombre', $v);
                                 if (!empty($result)) {

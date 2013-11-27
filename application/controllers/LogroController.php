@@ -78,11 +78,13 @@ class LogroController extends Zend_Controller_Action {
                     $info .= '<br>El campo nombre no puede estar vacio.';
                 } else {
                     //is unique?
-                    $em = new Kashem_Model_LogroMapper();
-                    $result = $em->fetchAllBy('nombre', $nombre);
-                    if (!empty($result)) {
-                        $valid = false;
-                        $info .= '<br>Ya existe un logro con el nombre ' . $nombre . '.';
+                    if (!$this->_exists($params, 'logro_id')) {
+                        $em = new Kashem_Model_LogroMapper();
+                        $result = $em->fetchAllBy('nombre', $nombre);
+                        if (!empty($result)) {
+                            $valid = false;
+                            $info .= '<br>Ya existe un logro con el nombre ' . $nombre . '.';
+                        }
                     }
                 }
                 if (!$lengthValidator->isValid($nombre)) {

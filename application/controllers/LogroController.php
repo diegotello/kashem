@@ -27,7 +27,7 @@ class LogroController extends Zend_Controller_Action {
     }
 
     public function formularioAction() {
-        // action body
+// action body
     }
 
     public function infoAction() {
@@ -44,18 +44,20 @@ class LogroController extends Zend_Controller_Action {
             $act_html = "";
             $l = new Kashem_Model_Logro();
             $pm->find($id, $l);
+            $campos = array();
             foreach ($actividades as $a) {
                 $this->view->actividad = $a;
                 if ($alm->exists($a, $l)) {
-                    $this->view->checked = "checked";
-                } else {
-                    $this->view->checked = "";
+                    $actividad = $a->getId();
                 }
-                $act_html .= $this->view->render('actividad/checkboxes.phtml');
+                $campos[$a->getId()] = $a->getNombre();
             }
+            $this->view->campos = $campos;
+            $act_html .= $this->view->render('partials/opciones.phtml');
             $result['id'] = $logro['id'];
             $result['nombre'] = $logro['nombre'];
-            $result['actividades_checkboxes'] = $act_html;
+            $result['actividades'] = $act_html;
+            $result['actividad'] = $actividad;
         } else {
             $this->getResponse()->setHttpResponseCode(405);
         }
@@ -77,7 +79,7 @@ class LogroController extends Zend_Controller_Action {
                     $valid = false;
                     $info .= '<br>El campo nombre no puede estar vacio.';
                 } else {
-                    //is unique?
+//is unique?
                     if (!$this->_exists($params, 'logro_id')) {
                         $em = new Kashem_Model_LogroMapper();
                         $result = $em->fetchAllBy('nombre', $nombre);
@@ -90,6 +92,10 @@ class LogroController extends Zend_Controller_Action {
                 if (!$lengthValidator->isValid($nombre)) {
                     $valid = false;
                     $info .= '<br>El campo nombre tiene mas de 50 caracteres.';
+                }
+                if (!$this->_exists($params, 'actividad_id')) {
+                    $valid = false;
+                    $info .= '<br>Debes seleccionar una actividad.';
                 }
             } catch (Exception $e) {
                 $valid = false;
@@ -119,17 +125,12 @@ class LogroController extends Zend_Controller_Action {
                 $alm = new Kashem_Model_ActividadLogroMapper();
                 $alm->deleteByLogro($logro);
                 $am = new Kashem_Model_ActividadMapper();
-                if (isset($params['actividad'])) {
-                    $actividades = $params['actividad'];
-                    foreach ($actividades as $id) {
-                        $actividad = new Kashem_Model_Actividad();
-                        $actividadLogro = new Kashem_Model_ActividadLogro();
-                        $am->find($id, $actividad);
-                        $actividadLogro->setActividad($actividad);
-                        $actividadLogro->setLogro($logro);
-                        $alm->save($actividadLogro);
-                    }
-                }
+                $actividad = new Kashem_Model_Actividad();
+                $actividadLogro = new Kashem_Model_ActividadLogro();
+                $am->find($params['actividad_id'], $actividad);
+                $actividadLogro->setActividad($actividad);
+                $actividadLogro->setLogro($logro);
+                $alm->save($actividadLogro);
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;
@@ -167,10 +168,12 @@ class LogroController extends Zend_Controller_Action {
         $am = new Kashem_Model_ActividadMapper();
         $actividades = $am->fetchAll();
         $act_html = "";
+        $campos = array();
         foreach ($actividades as $a) {
-            $this->view->actividad = $a;
-            $act_html .= $this->view->render('actividad/checkboxes.phtml');
+            $campos[$a->getId()] = $a->getNombre();
         }
+        $this->view->campos = $campos;
+        $act_html .= $this->view->render('partials/opciones.phtml');
         $this->view->actividades = $act_html;
         $this->view->formulario = $this->view->render('logro/formulario.phtml');
     }
@@ -190,17 +193,12 @@ class LogroController extends Zend_Controller_Action {
                 $pm->save($logro);
                 $am = new Kashem_Model_ActividadMapper();
                 $alm = new Kashem_Model_ActividadLogroMapper();
-                if (isset($params['actividad'])) {
-                    $actividades = $params['actividad'];
-                    foreach ($actividades as $id) {
-                        $actividad = new Kashem_Model_Actividad();
-                        $actividadLogro = new Kashem_Model_ActividadLogro();
-                        $am->find($id, $actividad);
-                        $actividadLogro->setActividad($actividad);
-                        $actividadLogro->setLogro($logro);
-                        $alm->save($actividadLogro);
-                    }
-                }
+                $actividad = new Kashem_Model_Actividad();
+                $actividadLogro = new Kashem_Model_ActividadLogro();
+                $am->find($params['actividad_id'], $actividad);
+                $actividadLogro->setActividad($actividad);
+                $actividadLogro->setLogro($logro);
+                $alm->save($actividadLogro);
                 $ok = true;
             } catch (Exception $e) {
                 $ok = false;

@@ -94,12 +94,7 @@ function edit(id) {
                             break;
                         case 'logro':
                             $('#modal-title').text(response.nombre);
-                            $('#actividades').empty().append(response.actividades_checkboxes);
-                            break;
-                        case 'viaje':
-                            $('#modal-title').text(response.nombre);
-                            $('#actividades').empty().append(response.actividades_checkboxes);
-                            $('#destinos').empty().append(response.destinos_checkboxes);
+                            $('#actividad_id').empty().append(response.actividades).val(response.actividad);
                             break;
                         default:
                             $('#modal-title').text(response.nombre);

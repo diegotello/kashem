@@ -1,20 +1,14 @@
-<div class="row">
+<div class="col-md-12">
     <form role="form" id="logro_form">
-        <div class="col-md-6">
-            <input type="hidden" class="form-control" id="logro_id" name="logro_id">
-            <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
-            </div>
-
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Se puede obtener completando las actividades</label>
-                <div id="actividades">
-                    <?php echo $this->actividades; ?>
-                </div>
-            </div>
+        <input type="hidden" class="form-control" id="logro_id" name="logro_id">
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+            <label>Pais</label>
+            <select class="form-control" id="actividad_id" name="actividad_id">
+                <option value="">selecciona una actividad</option>
+                <?php echo $this->actividades; ?>
+            </select>
         </div>
     </form>
 </div>

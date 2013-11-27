@@ -1,5 +1,5 @@
-<tr>
-    <td><?php echo $this->viaje->getNombre(); ?></td>
+<tr <?php echo ($this->viaje->getTerminado() == 1) ? 'class="alert-success"' : ''; ?>>
+    <td class="al"><?php echo $this->viaje->getNombre(); ?></td>
     <td><?php echo date('d-m-Y', strtotime($this->viaje->getFechaSalida())); ?></td>
     <td><?php echo date("g:i a", STRTOTIME($this->viaje->getHoraSalida())); ?></td>
     <td><?php echo date('d-m-Y', strtotime($this->viaje->getFechaRegreso())); ?></td>
@@ -14,10 +14,13 @@
         <button type="button" class="btn btn-sm btn-danger" onClick="borrar(<?php echo $this->viaje->getId(); ?>);">
             <span class="glyphicon glyphicon-remove"></span>
         </button>
-        <?php if ($this->viaje->getTerminado() != 1) { ?>
+        <?php
+        if ($this->viaje->getTerminado() != 1 &&
+                strtotime(date('Y-m-d H:i:s')) > strtotime($this->viaje->getFechaRegreso() . ' ' . $this->viaje->getHoraRegreso())) {
+            ?>
             <button type="button" class="btn btn-sm btn-primary" onClick="terminar(<?php echo $this->viaje->getId(); ?>);">
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </button>
-        <?php } ?>
+<?php } ?>
     </td>
 </tr>

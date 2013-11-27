@@ -8,6 +8,7 @@ class Kashem_Model_Viaje {
     protected $_horaSalida;
     protected $_fechaRegreso;
     protected $_horaRegreso;
+    protected $_terminado;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -93,6 +94,15 @@ class Kashem_Model_Viaje {
 
     public function setHoraRegreso($horaRegreso) {
         $this->_horaRegreso = $horaRegreso;
+        return $this;
+    }
+
+    public function getTerminado() {
+        return $this->_terminado;
+    }
+
+    public function setTerminado($terminado) {
+        $this->_terminado = $terminado;
         return $this;
     }
 

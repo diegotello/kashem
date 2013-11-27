@@ -23,12 +23,18 @@ class Kashem_Model_ViajeMapper {
     }
 
     public function save(Kashem_Model_Viaje $viaje) {
+        if ($viaje->getTerminado() == null) {
+            $terminado = $viaje->getTerminado();
+        } else {
+            $terminado = 0;
+        }
         $data = array(
             'nombre' => $viaje->getNombre(),
             'fecha_salida' => $viaje->getFechaSalida(),
             'fecha_regreso' => $viaje->getFechaRegreso(),
             'hora_salida' => $viaje->getHoraSalida(),
-            'hora_regreso' => $viaje->getHoraRegreso()
+            'hora_regreso' => $viaje->getHoraRegreso(),
+            'terminado' => $terminado
         );
         if (null === ($id = $viaje->getId())) {
             unset($data['id']);
@@ -49,7 +55,8 @@ class Kashem_Model_ViajeMapper {
                     ->setFechaRegreso($row->fecha_regreso)
                     ->setFechaSalida($row->fecha_salida)
                     ->setHoraRegreso($row->hora_regreso)
-                    ->setHoraSalida($row->hora_salida);
+                    ->setHoraSalida($row->hora_salida)
+                    ->setTerminado($row->terminado);
             $entries[] = $entry;
         }
         return $entries;
@@ -65,7 +72,8 @@ class Kashem_Model_ViajeMapper {
                     ->setFechaRegreso($row->fecha_regreso)
                     ->setFechaSalida($row->fecha_salida)
                     ->setHoraRegreso($row->hora_regreso)
-                    ->setHoraSalida($row->hora_salida);
+                    ->setHoraSalida($row->hora_salida)
+                    ->setTerminado($row->terminado);
             $entries[] = $entry;
         }
         return $entries;
@@ -82,7 +90,8 @@ class Kashem_Model_ViajeMapper {
                 ->setFechaRegreso($row->fecha_regreso)
                 ->setHoraRegreso($row->hora_regreso)
                 ->setFechaSalida($row->fecha_salida)
-                ->setHoraSalida($row->hora_salida);
+                ->setHoraSalida($row->hora_salida)
+                ->setTerminado($row->terminado);
     }
 
     public function findAsArray($id) {
@@ -103,7 +112,7 @@ class Kashem_Model_ViajeMapper {
             $this->find($id, $viaje);
             $vam->deleteByViaje($viaje);
             $vdm->deleteByViaje($viaje);
-            $gdm->deleteByViaje($viaje);
+            $gvm->deleteByViaje($viaje);
             $this->getDbTable()->delete(array('id = ?' => $id));
             $this->getDbTable()->getAdapter()->commit();
         } catch (exception $e) {
@@ -126,7 +135,8 @@ class Kashem_Model_ViajeMapper {
                     ->setFechaRegreso($row->fecha_regreso)
                     ->setFechaSalida($row->fecha_salida)
                     ->setHoraRegreso($row->hora_regreso)
-                    ->setHoraSalida($row->hora_salida);
+                    ->setHoraSalida($row->hora_salida)
+                    ->setTerminado($row->terminado);
             $entries[] = $entry;
         }
         return $entries;
@@ -146,7 +156,8 @@ class Kashem_Model_ViajeMapper {
                     ->setFechaRegreso($row->fecha_regreso)
                     ->setFechaSalida($row->fecha_salida)
                     ->setHoraRegreso($row->hora_regreso)
-                    ->setHoraSalida($row->hora_salida);
+                    ->setHoraSalida($row->hora_salida)
+                    ->setTerminado($row->terminado);
             $entries[] = $entry;
         }
         return $entries;

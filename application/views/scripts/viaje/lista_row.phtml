@@ -14,8 +14,10 @@
         <button type="button" class="btn btn-sm btn-danger" onClick="borrar(<?php echo $this->viaje->getId(); ?>);">
             <span class="glyphicon glyphicon-remove"></span>
         </button>
-        <button type="button" class="btn btn-sm btn-primary" onClick="terminar(<?php echo $this->viaje->getId(); ?>);">
-            <span class="glyphicon glyphicon-arrow-right"></span>
-        </button>
+        <?php if ($this->viaje->getTerminado() != 1) { ?>
+            <button type="button" class="btn btn-sm btn-primary" onClick="terminar(<?php echo $this->viaje->getId(); ?>);">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+        <?php } ?>
     </td>
 </tr>

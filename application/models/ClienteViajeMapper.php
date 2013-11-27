@@ -66,5 +66,20 @@ class Kashem_Model_ClienteViajeMapper {
         return true;
     }
 
+    public function fetchAllByViaje(Kashem_Model_Viaje $viaje) {
+        $resultSet = $this->getDbTable()->fetchAll("viaje_id = " . $viaje->getId());
+        $entries = array();
+        $cm = new Kashem_Model_ClienteMapper();
+        foreach ($resultSet as $row) {
+            $cliente = new Kashem_Model_Cliente();
+            $cm->find($row->cliente_id, $cliente);
+            $entry = new Kashem_Model_ClienteViaje();
+            $entry->setCliente($cliente)
+                    ->setViaje($viaje);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

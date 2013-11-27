@@ -46,5 +46,20 @@ class Kashem_Model_ViajeActividadMapper {
         $this->getDbTable()->delete(array('actividad_id = ?' => $actividad->getId()));
     }
 
+    public function fetchAllByViaje(Kashem_Model_Viaje $viaje) {
+        $resultSet = $this->getDbTable()->fetchAll("viaje_id = " . $viaje->getId());
+        $entries = array();
+        $am = new Kashem_Model_ActividadMapper();
+        foreach ($resultSet as $row) {
+            $actividad = new Kashem_Model_Actividad();
+            $am->find($row->actividad_id, $actividad);
+            $entry = new Kashem_Model_ViajeActividad();
+            $entry->setActividad($actividad)
+                    ->setViaje($viaje);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

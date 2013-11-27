@@ -337,9 +337,43 @@ class ViajeController extends Zend_Controller_Action {
             $viaje_id = $request->getParam('id');
             $vm = new Kashem_Model_ViajeMapper();
             $vdm = new Kashem_Model_ViajeDestinoMapper();
+            $vam = new Kashem_Model_ViajeActividadMapper();
+            $gvm = new Kashem_Model_GuiaViajeMapper();
+            $cvm = new Kashem_Model_ClienteViajeMapper();
+            $alm = new Kashem_Model_ActividadLogroMapper();
             $viaje = new Kashem_Model_Viaje();
-            $vds = $vdm->fetchAllByViaje($viaje);
             $vm->find($viaje_id, $viaje);
+            $vds = $vdm->fetchAllByViaje($viaje);
+            $destinos = array();
+            foreach ($vds as $vd) {
+                $destinos[] = $vd->getDestino();
+            }
+            $vas = $vam->fetchAllByViaje($viaje);
+            $actividades_logros = array();
+            foreach ($vas as $va) {
+                $als = $alm->fetchAllByActividad($va->getActividad());
+                $logros = array();
+                foreach ($als as $al) {
+                    $logros[] = $al->getLogro()->getNombre();
+                }
+                $actividades_logros[] = array(
+                    'actividad' => $va->getActividad(),
+                    'logros' => implode(', ', $logros));
+            }
+            $gvs = $gvm->fetchAllByViaje($viaje);
+            $guias = array();
+            foreach ($gvs as $gv) {
+                $guias[] = $gv->getGuia();
+            }
+            $cvs = $cvm->fetchAllByViaje($viaje);
+            $clientes = array();
+            foreach ($cvs as $cv) {
+                $clientes[] = $cv->getCliente();
+            }
+            $this->view->destinos = $destinos;
+            $this->view->actividades_logros = $actividades_logros;
+            $this->view->guias = $guias;
+            $this->view->clientes = $clientes;
             $this->view->viaje = $viaje;
         } else {
             $this->getResponse()->setHttpResponseCode(405);

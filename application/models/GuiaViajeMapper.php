@@ -46,5 +46,20 @@ class Kashem_Model_GuiaViajeMapper {
         $this->getDbTable()->delete(array('guia_id = ?' => $guia->getId()));
     }
 
+    public function fetchAllByViaje(Kashem_Model_Viaje $viaje) {
+        $resultSet = $this->getDbTable()->fetchAll("viaje_id = " . $viaje->getId());
+        $entries = array();
+        $gm = new Kashem_Model_GuiaMapper();
+        foreach ($resultSet as $row) {
+            $guia = new Kashem_Model_Guia();
+            $gm->find($row->guia_id, $guia);
+            $entry = new Kashem_Model_GuiaViaje();
+            $entry->setGuia($guia)
+                    ->setViaje($viaje);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

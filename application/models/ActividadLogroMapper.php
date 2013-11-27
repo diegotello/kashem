@@ -46,5 +46,20 @@ class Kashem_Model_ActividadLogroMapper {
         $this->getDbTable()->delete(array('actividad_id = ?' => $actividad->getId()));
     }
 
+    public function fetchAllByActividad(Kashem_Model_Actividad $actividad) {
+        $resultSet = $this->getDbTable()->fetchAll("actividad_id = " . $actividad->getId());
+        $entries = array();
+        $lm = new Kashem_Model_LogroMapper();
+        foreach ($resultSet as $row) {
+            $logro = new Kashem_Model_Logro();
+            $lm->find($row->logro_id, $logro);
+            $entry = new Kashem_Model_ActividadLogro();
+            $entry->setActividad($actividad)
+                    ->setLogro($logro);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

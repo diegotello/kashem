@@ -47,14 +47,11 @@ class Kashem_Model_ViajeDestinoMapper {
     }
 
     public function fetchAllByViaje(Kashem_Model_Viaje $viaje) {
-        $resultSet = $this->getDbTable()->fetchAll('viaje_id = ' . $viaje->getId());
+        $resultSet = $this->getDbTable()->fetchAll("viaje_id = " . $viaje->getId());
         $entries = array();
-        $vm = new Kashem_Model_ViajeMapper();
         $dm = new Kashem_Model_DestinoMapper();
         foreach ($resultSet as $row) {
-            $viaje = new Kashem_Model_Viaje();
             $destino = new Kashem_Model_Destino();
-            $vm->find($row->viaje_id, $viaje);
             $dm->find($row->destino_id, $destino);
             $entry = new Kashem_Model_ViajeDestino();
             $entry->setDestino($destino)

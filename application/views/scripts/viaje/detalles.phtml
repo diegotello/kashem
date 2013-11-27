@@ -8,21 +8,95 @@
     </p>
     <br>
     <p>
+        Los guias son
+    </p>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->guias as $g) { ?>
+                <tr>
+                    <td><?php echo $g->getCliente()->getPrimerNombre(); ?></td>
+                    <td><?php echo $g->getCliente()->getPrimerApellido(); ?></td>
+                    <td><?php echo $g->getCategoria()->getNombre(); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
+    <p>
+        Los clientes inscritos al viaje son
+    </p>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>DPI</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->clientes as $c) { ?>
+                <tr>
+                    <td><?php echo $c->getPrimerNombre(); ?></td>
+                    <td><?php echo $c->getPrimerApellido(); ?></td>
+                    <td><?php echo $c->getDpi(); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
+    <p>
         Se visitaran los siguientes destinos
     </p>
-    <ul class="list-group">
-        <li class="list-group-item"><a href="/actividad">Actividad</a></li>
-        <li class="list-group-item"><a href="/categoria">Categoria Guia</a></li>
-        <li class="list-group-item"><a href="/cliente">Cliente</a></li>
-        <li class="list-group-item"><a href="/departamento">Departamento</a></li>
-        <li class="list-group-item"><a href="/destino">Destino</a></li>
-        <li class="list-group-item"><a href="/equipo">Equipo</a></li>
-        <li class="list-group-item"><a href="/guia">Guia</a></li>
-        <li class="list-group-item"><a href="/logro">Logro</a></li>
-        <li class="list-group-item"><a href="/municipio">Municipio</a></li>
-        <li class="list-group-item"><a href="/pais">Pais</a></li>
-        <li class="list-group-item"><a href="/tipo-pago">Tipo de pago</a></li>
-        <li class="list-group-item"><a href="/usuario">Usuario</a></li>
-        <li class="list-group-item"><a href="/viaje">Viaje</a></li>
-    </ul>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Pais</th>
+                <th>Departamento</th>
+                <th>Municipio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->destinos as $d) { ?>
+                <tr>
+                    <td><?php echo $d->getNombre(); ?></td>
+                    <td><?php echo $d->getPais()->getNombre(); ?></td>
+                    <td><?php echo $d->getDepartamento()->getNombre(); ?></td>
+                    <td><?php echo $d->getMunicipio()->getNombre(); ?></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
+    <p>
+        Se realizaran las siguientes actividades y se pueden obtener los siguientes logros
+    </p>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Actividad</th>
+                <th>Logros</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->actividades_logros as $al) { ?>
+                <tr>
+                    <td><?php echo $al['actividad']->getNombre(); ?></td>
+                    <td><?php echo $al['logros'] ?></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </tbody>
+    </table>
 </div>

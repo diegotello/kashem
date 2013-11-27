@@ -151,5 +151,5 @@ function lista(id) {
 }
 
 function terminar(id) {
-    console.log(id);
+    window.location.assign("/" + controller + "/terminar?id=" + id);
 }

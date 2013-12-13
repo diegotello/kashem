@@ -210,6 +210,7 @@ class Kashem_Model_ViajeMapper {
                     $gm->find($id, $guia);
                     $guiaViaje->setGuia($guia);
                     $guiaViaje->setViaje($viaje);
+                    $guiaViaje->setAsistencia(0);
                     $gvm->save($guiaViaje);
                 }
             }
@@ -263,6 +264,7 @@ class Kashem_Model_ViajeMapper {
                     $gm->find($id, $guia);
                     $guiaViaje->setGuia($guia);
                     $guiaViaje->setViaje($viaje);
+                    $guiaViaje->setAsistencia(0);
                     $gvm->save($guiaViaje);
                 }
             }

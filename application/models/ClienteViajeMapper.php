@@ -36,6 +36,7 @@ class Kashem_Model_ClienteViajeMapper {
             $vm->find($params['viaje_id'], $viaje);
             $clienteViaje->setCliente($cliente);
             $clienteViaje->setViaje($viaje);
+            $clienteViaje->setAsistencia(0);
             $this->save($clienteViaje);
             $cuenta->setCliente($cliente);
             $cuenta->setEstado('pendiente');
@@ -53,7 +54,8 @@ class Kashem_Model_ClienteViajeMapper {
     public function save(Kashem_Model_ClienteViaje $clienteViaje) {
         $data = array(
             'cliente_id' => $clienteViaje->getCliente()->getId(),
-            'viaje_id' => $clienteViaje->getViaje()->getId()
+            'viaje_id' => $clienteViaje->getViaje()->getId(),
+            'asistencia' => $clienteViaje->getAsistencia()
         );
         $this->getDbTable()->insert($data);
     }
@@ -75,7 +77,8 @@ class Kashem_Model_ClienteViajeMapper {
             $cm->find($row->cliente_id, $cliente);
             $entry = new Kashem_Model_ClienteViaje();
             $entry->setCliente($cliente)
-                    ->setViaje($viaje);
+                    ->setViaje($viaje)
+                    ->setAsistencia($row->asistencia);
             $entries[] = $entry;
         }
         return $entries;

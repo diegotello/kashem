@@ -4,6 +4,7 @@ class Kashem_Model_GuiaViaje {
 
     protected $_guia;
     protected $_viaje;
+    protected $_asistencia;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -53,6 +54,15 @@ class Kashem_Model_GuiaViaje {
 
     public function setViaje(Kashem_Model_Viaje $viaje) {
         $this->_viaje = $viaje;
+        return $this;
+    }
+
+    public function getAsistencia() {
+        return $this->_asistencia;
+    }
+
+    public function setAsistencia($asistencia) {
+        $this->_asistencia = $asistencia;
         return $this;
     }
 

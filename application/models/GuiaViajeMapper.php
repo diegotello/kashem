@@ -33,7 +33,8 @@ class Kashem_Model_GuiaViajeMapper {
     public function save(Kashem_Model_GuiaViaje $guiaViaje) {
         $data = array(
             'guia_id' => $guiaViaje->getGuia()->getId(),
-            'viaje_id' => $guiaViaje->getViaje()->getId()
+            'viaje_id' => $guiaViaje->getViaje()->getId(),
+            'asistencia' => $guiaViaje->getAsistencia()
         );
         $this->getDbTable()->insert($data);
     }
@@ -55,7 +56,8 @@ class Kashem_Model_GuiaViajeMapper {
             $gm->find($row->guia_id, $guia);
             $entry = new Kashem_Model_GuiaViaje();
             $entry->setGuia($guia)
-                    ->setViaje($viaje);
+                    ->setViaje($viaje)
+                    ->setAsistencia($row->asistencia);
             $entries[] = $entry;
         }
         return $entries;

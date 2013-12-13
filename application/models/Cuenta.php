@@ -10,6 +10,11 @@ class Kashem_Model_Cuenta {
     protected $_tipo;
     protected $_estado;
     protected $_monto;
+    protected $_numero_cheque;
+    protected $_numero_tarjeta;
+    protected $_numero_autorizacion;
+    protected $_emisor;
+    protected $_banco;
 
     public function __construct(array $options = null) {
         if (is_array($options)) {
@@ -113,6 +118,51 @@ class Kashem_Model_Cuenta {
 
     public function setMonto($monto) {
         $this->_monto = $monto;
+        return $this;
+    }
+
+    public function getNumeroCheque() {
+        return $this->_numero_cheque;
+    }
+
+    public function setNumeroCheque($numero_cheque) {
+        $this->_numero_cheque = $numero_cheque;
+        return $this;
+    }
+
+    public function getNumeroTarjeta() {
+        return $this->_numero_tarjeta;
+    }
+
+    public function setNumeroTarjeta($numero_tarjeta) {
+        $this->_numero_tarjeta = $numero_tarjeta;
+        return $this;
+    }
+
+    public function getNumeroAutorizacion() {
+        return $this->_numero_autorizacion;
+    }
+
+    public function setNumeroAutorizacion($numero_autorizacion) {
+        $this->_numero_autorizacion = $numero_autorizacion;
+        return $this;
+    }
+
+    public function getEmisor() {
+        return $this->_emisor;
+    }
+
+    public function setEmisor($emisor) {
+        $this->_emisor = $emisor;
+        return $this;
+    }
+
+    public function getBanco() {
+        return $this->_banco;
+    }
+
+    public function setBanco($banco) {
+        $this->_banco = $banco;
         return $this;
     }
 

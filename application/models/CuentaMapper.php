@@ -45,9 +45,14 @@ class Kashem_Model_CuentaMapper {
             }
             $tpm->find($row->tipo_de_pago_id, $tipoPago);
             $entry->setId($row->id)
+                    ->setBanco($row->banco)
                     ->setCliente($cliente)
                     ->setEstado($row->estado)
+                    ->setEmisor($row->emisor)
                     ->setMonto($row->monto)
+                    ->setNumeroAutorizacion($row->numero_autorizacion)
+                    ->setNumeroCheque($row->numero_cheque)
+                    ->setNumeroTarjeta($row->numero_tarjeta)
                     ->setTipo($row->tipo)
                     ->setTipoPago($tipoPago);
             $entries[] = $entry;
@@ -80,9 +85,14 @@ class Kashem_Model_CuentaMapper {
         }
         $tpm->find($row->tipo_de_pago_id, $tipoPago);
         $cuenta->setId($row->id)
+                ->setBanco($row->banco)
                 ->setCliente($cliente)
                 ->setEstado($row->estado)
+                ->setEmisor($row->emisor)
                 ->setMonto($row->monto)
+                ->setNumeroAutorizacion($row->numero_autorizacion)
+                ->setNumeroCheque($row->numero_cheque)
+                ->setNumeroTarjeta($row->numero_tarjeta)
                 ->setTipo($row->tipo)
                 ->setTipoPago($tipoPago);
     }
@@ -104,7 +114,12 @@ class Kashem_Model_CuentaMapper {
                 'tipo' => $cuenta->getTipo(),
                 'estado' => $cuenta->getEstado(),
                 'monto' => $cuenta->getMonto(),
-                'tipo_de_pago_id' => $tpid
+                'tipo_de_pago_id' => $tpid,
+                'numero_cheque' => $cuenta->getNumeroCheque(),
+                'numero_tarjeta' => $cuenta->getNumeroTarjeta(),
+                'numero_autorizacion' => $cuenta->getNumeroAutorizacion(),
+                'emisor' => $cuenta->getEmisor(),
+                'banco' => $cuenta->getBanco()
             );
         } else {
             if ($cuenta->getTipo() == 'viaje') {
@@ -114,7 +129,12 @@ class Kashem_Model_CuentaMapper {
                     'tipo' => $cuenta->getTipo(),
                     'estado' => $cuenta->getEstado(),
                     'monto' => $cuenta->getMonto(),
-                    'tipo_de_pago_id' => $tpid
+                    'tipo_de_pago_id' => $tpid,
+                    'numero_cheque' => $cuenta->getNumeroCheque(),
+                    'numero_tarjeta' => $cuenta->getNumeroTarjeta(),
+                    'numero_autorizacion' => $cuenta->getNumeroAutorizacion(),
+                    'emisor' => $cuenta->getEmisor(),
+                    'banco' => $cuenta->getBanco()
                 );
             }
         }

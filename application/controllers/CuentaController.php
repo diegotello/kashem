@@ -173,10 +173,11 @@ class CuentaController extends Zend_Controller_Action {
             foreach ($tpm->fetchAll() as $t) {
                 $tipos[$t->getId()] = $t->getNombre();
             }
-            $this->view->campos = $tipos;
-            $this->view->tipos_de_pago = $this->view->render('partials/opciones.phtml');
             $cuenta = new Kashem_Model_Cuenta();
             $cum->find($id, $cuenta);
+            $this->view->campos = $tipos;
+            $this->view->selected = $cuenta->getTipoPago()->getId();
+            $this->view->tipos_de_pago = $this->view->render('partials/opciones.phtml');
             $this->view->cuenta = $cuenta;
             $equipos = array();
             if ($cuenta->getTipo() == 'alquiler') {

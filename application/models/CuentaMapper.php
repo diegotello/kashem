@@ -193,6 +193,11 @@ class Kashem_Model_CuentaMapper {
             }
             $cuenta->setEstado('cancelado');
             $cuenta->setTipoPago($tipoPago);
+            $cuenta->setBanco($params['banco']);
+            $cuenta->setEmisor($params['emisor']);
+            $cuenta->setNumeroAutorizacion($params['numero_autorizacion']);
+            $cuenta->setNumeroCheque($params['numero_cheque']);
+            $cuenta->setNumeroTarjeta($params['numero_tarjeta']);
             $this->save($cuenta);
             $this->getDbTable()->getAdapter()->commit();
         } catch (exception $e) {

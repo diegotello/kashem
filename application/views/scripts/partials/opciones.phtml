@@ -1,7 +1,9 @@
 <?php
 foreach ($this->campos as $k => $v) {
     ?>
-    <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+    <option value="<?php echo $k; ?>" <? if ($this->selected == $k) {
+        echo "selected";
+    } ?>><?php echo $v; ?></option>
     <?php
 }
 ?>

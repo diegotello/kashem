@@ -71,7 +71,7 @@ function iniciarCancelacion(cid) {
                 {
                     $('#modal_body').empty()
                             .append(response.html);
-                    $('#modal_cancelar_boton').attr('onClick', 'cancelar(' + cid + ');');
+                    $('#modal_cancelar_boton').show().attr('onClick', 'cancelar(' + cid + ');');
                     $('#modal').modal('show');
                 }
             }
@@ -86,7 +86,12 @@ function cancelar(cid) {
                 method: 'get',
                 data: {
                     id: cid,
-                    tipo_de_pago_id: $('#tipo_de_pago_id').val()
+                    tipo_de_pago_id: $('#tipo_de_pago_id').val(),
+                    numero_cheque: $('#numero_cheque').val(),
+                    numero_autorizacion: $('#numero_autorizacion').val(),
+                    numero_tarjeta: $('#numero_tarjeta').val(),
+                    emisor: $('#emisor').val(),
+                    banco: $('#banco').val()
                 },
                 success: function(response)
                 {
@@ -119,11 +124,46 @@ function detalles(cid) {
                 {
                     $('#modal_body').empty()
                             .append(response.html);
-                    $('#tipo_de_pago_id').attr('readOnly', true);
+                    $('#tipo_de_pago_id').attr('disabled', true);
+                    $('#numero_cheque').attr('readOnly', true);
+                    $('#numero_autorizacion').attr('readOnly', true);
+                    $('#numero_tarjeta').attr('readOnly', true);
+                    $('#emisor').attr('readOnly', true);
+                    $('#banco').attr('readOnly', true);
+                    cambioTipoPago();
                     $('#modal_cancelar_boton').hide();
                     $('#modal').modal('show');
                 }
             }
 
     );
+}
+
+function cambioTipoPago() {
+    var tipoPagoId = $('#tipo_de_pago_id').val();
+    console.log(tipoPagoId);
+    switch (tipoPagoId) {
+        case '1':
+            $('#numero_cheque_row').hide();
+            $('#numero_tarjeta_row').hide();
+            $('#numero_autorizacion_row').hide();
+            $('#emisor_row').hide();
+            $('#banco_row').hide();
+            break;
+        case '2':
+            $('#numero_cheque_row').show();
+            $('#numero_tarjeta_row').hide();
+            $('#numero_autorizacion_row').hide();
+            $('#emisor_row').hide();
+            $('#banco_row').show();
+            break;
+        case '3':
+        case '4':
+            $('#numero_cheque_row').hide();
+            $('#numero_tarjeta_row').show();
+            $('#numero_autorizacion_row').show();
+            $('#emisor_row').show();
+            $('#banco_row').hide();
+            break;
+    }
 }

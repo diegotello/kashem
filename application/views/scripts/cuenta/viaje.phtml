@@ -18,9 +18,60 @@
         <label>Metodo de pago:</label>
     </div>
     <div class = "col-md-4">
-        <select class = "form-control" id = "tipo_de_pago_id" name = "tipo_de_pago_id">
+        <select class = "form-control" id = "tipo_de_pago_id" name = "tipo_de_pago_id" onChange="cambioTipoPago();">
             <?php echo $this->tipos_de_pago; ?>
         </select>
+        <br>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row" id="numero_cheque_row" style="display:none">
+    <div class="col-md-4">
+        <label>Numero de cheque:</label>
+    </div>
+    <div class = "col-md-4">
+        <input type="text" class = "form-control" id = "numero_cheque" name = "numero_cheque" value ="<?php echo $this->cuenta->getNumeroCheque(); ?>">
+        <br>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row"  id="numero_tarjeta_row" style="display:none">
+    <div class="col-md-4">
+        <label>Numero de tarjeta:</label>
+    </div>
+    <div class="col-md-4">
+        <input type="text" class = "form-control" id = "numero_tarjeta" name = "numero_tarjeta" value ="<?php echo $this->cuenta->getNumeroTarjeta(); ?>">
+        <br>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row"  id="numero_autorizacion_row" style="display:none">
+    <div class="col-md-4">
+        <label>Numero de Autorizacion:</label>
+    </div>
+    <div class="col-md-4">
+        <input type="text" class = "form-control" id = "numero_autorizacion" name = "numero_autorizacion" value ="<?php echo $this->cuenta->getNumeroAutorizacion(); ?>">
+        <br>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row"  id="emisor_row" style="display:none">
+    <div class="col-md-4">
+        <label>Emisor:</label>
+    </div>
+    <div class="col-md-4">
+        <input type="text" class = "form-control" id = "emisor" name = "emisor" value ="<?php echo $this->cuenta->getEmisor(); ?>">
+        <br>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row"  id="banco_row" style="display:none">
+    <div class="col-md-4">
+        <label>Banco:</label>
+    </div>
+    <div class="col-md-4">
+        <input type="text" class = "form-control" id = "banco" name = "banco" value ="<?php echo $this->cuenta->getBanco(); ?>">
+        <br>
     </div>
     <div class="col-md-4"></div>
 </div>

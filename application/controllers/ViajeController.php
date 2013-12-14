@@ -381,7 +381,62 @@ class ViajeController extends Zend_Controller_Action {
     }
 
     public function terminarAction() {
+        $request = $this->getRequest();
+        if ($request->isGet()) {
+            $viaje_id = $request->getParam('id');
+            $cvm = new Kashem_Model_ClienteViajeMapper();
+            $vam = new Kashem_Model_ViajeActividadMapper();
+            $vm = new Kashem_Model_ViajeMapper();
+            $viaje = new Kashem_Model_Viaje();
+            $vm->find($viaje_id, $viaje);
+            $clienteViajes = $cvm->fetchAllByViaje($viaje);
+            $viajeActividades = $vam->fetchAllByViaje($viaje);
+            $chtml = "";
+            $actividades = array();
+            foreach ($viajeActividades as $vas) {
+                $actividades[] = $vas->getActividad();
+            }
+            $this->view->actividades = $actividades;
+            foreach ($clienteViajes as $cvs) {
+                $c = $cvs->getCliente();
+                $this->view->cliente = $c;
+                $chtml .= $this->view->render('cliente/lista_asistencia_row.phtml');
+            }
+            $this->view->viaje_id = $viaje_id;
+            $this->view->clientes = $chtml;
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+    }
 
+    public function finalizarAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $request = $this->getRequest();
+        $ok = false;
+        $info = "";
+        if ($request->isPost()) {
+            try {
+                $params = $request->getParams();
+                if (isset($params['asistencia'])) {
+                    $viaje_id = $request->getParam('viaje_id');
+                    $vm = new Kashem_Model_ViajeMapper();
+                    $viaje = new Kashem_Model_Viaje();
+                    $vm->find($viaje_id, $viaje);
+                    $vm->finish($viaje, $params);
+                    $ok = true;
+                } else {
+                    $ok = false;
+                    $info = "No has marcado asistencia para ningun cliente.";
+                }
+            } catch (Exception $e) {
+                $ok = false;
+                $info = $e->getMessage();
+            }
+        } else {
+            $this->getResponse()->setHttpResponseCode(405);
+        }
+        $this->_helper->json(array('ok' => $ok, 'info' => $info));
     }
 
 }

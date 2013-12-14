@@ -1,0 +1,17 @@
+<tr>
+    <td><?php echo $this->cliente->getPrimerNombre(); ?></td>
+    <td><?php echo $this->cliente->getPrimerApellido(); ?></td>
+    <td><?php echo $this->cliente->getDpi(); ?></td>
+    <td>
+        <input type="checkbox" name="asistencia[]" value="<?php echo $this->cliente->getId(); ?>">
+    </td>
+    <?php
+    foreach ($this->actividades as $a) {
+        ?>
+        <td>
+            <input type="checkbox" name="actividades_<?php echo $this->cliente->getId(); ?>[]" value="<?php echo $a->getId(); ?>">
+        </td>
+        <?php
+    }
+    ?>
+</tr>

@@ -1,2 +1,48 @@
 <div class="row">
+    <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
+    <div class="alert alert-success" id="success-alert" style="display:none;">
+        <strong>El viaje se ha finalizado con exito.</strong>
+    </div>
 </div>
+<div class="row">
+    <form id="terminar_viaje_form">
+        <input type="hidden" id="viaje_id" name="viaje_id" value="<?php echo $this->viaje_id; ?>">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Primer Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>DPI</th>
+                    <th>Asistencia</th>
+                    <?php
+                    foreach ($this->actividades as $a) {
+                        ?>
+                        <th>
+                            <?php
+                            echo $a->getNombre();
+                            ?>
+                        </th>
+                        <?php
+                    }
+                    ?>
+                </tr>
+            </thead>
+            <tbody id="lista_cliente">
+                <?php echo $this->clientes; ?>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2" style="text-align:center;">
+        <button type="button" class="btn btn-primary" onClick="guardar();">
+            Guardar
+        </button>
+    </div>
+    <div class="col-md-5"></div>
+
+</div>
+<?php
+$this->headScript()->appendFile('/js/viaje/finish.js');
+?>

@@ -8,19 +8,23 @@
         <button type="button" class="btn btn-sm btn-info" onClick="lista(<?php echo $this->viaje->getId(); ?>);">
             <span class="glyphicon glyphicon-list"></span>
         </button>
-        <button type="button" class="btn btn-sm btn-default" onClick="editV(<?php echo $this->viaje->getId(); ?>);">
-            <span class="glyphicon glyphicon-edit"></span>
-        </button>
-        <button type="button" class="btn btn-sm btn-danger" onClick="borrar(<?php echo $this->viaje->getId(); ?>);">
-            <span class="glyphicon glyphicon-remove"></span>
-        </button>
         <?php
+        if ($this->viaje->getTerminado() != 1) {
+            ?>
+            <button type="button" class="btn btn-sm btn-default" onClick="editV(<?php echo $this->viaje->getId(); ?>);">
+                <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" onClick="borrar(<?php echo $this->viaje->getId(); ?>);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <?php
+        }
         if ($this->viaje->getTerminado() != 1 &&
                 strtotime(date('Y-m-d H:i:s')) > strtotime($this->viaje->getFechaRegreso() . ' ' . $this->viaje->getHoraRegreso())) {
             ?>
             <button type="button" class="btn btn-sm btn-primary" onClick="terminar(<?php echo $this->viaje->getId(); ?>);">
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </button>
-<?php } ?>
+        <?php } ?>
     </td>
 </tr>

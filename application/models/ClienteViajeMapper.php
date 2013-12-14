@@ -52,6 +52,9 @@ class Kashem_Model_ClienteViajeMapper {
     }
 
     public function save(Kashem_Model_ClienteViaje $clienteViaje) {
+        if ($this->exists($clienteViaje->getCliente(), $clienteViaje->getViaje())) {
+            $this->getDbTable()->delete(array('cliente_id = ?' => $clienteViaje->getCliente()->getId(), 'viaje_id = ?' => $clienteViaje->getViaje()->getId()));
+        }
         $data = array(
             'cliente_id' => $clienteViaje->getCliente()->getId(),
             'viaje_id' => $clienteViaje->getViaje()->getId(),
@@ -82,6 +85,13 @@ class Kashem_Model_ClienteViajeMapper {
             $entries[] = $entry;
         }
         return $entries;
+    }
+
+    public function findByViajeAndCliente(Kashem_Model_ClienteViaje $clienteViaje, Kashem_Model_Viaje $viaje, Kashem_Model_Cliente $cliente) {
+        $row = $this->getDbTable()->fetchRow("cliente_id = " . $cliente->getId() . " AND viaje_id = " . $viaje->getId());
+        $clienteViaje->setCliente($cliente)
+                ->setViaje($viaje)
+                ->setAsistencia($row->asistencia);
     }
 
 }

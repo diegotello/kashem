@@ -23,7 +23,7 @@ class Kashem_Model_ViajeMapper {
     }
 
     public function save(Kashem_Model_Viaje $viaje) {
-        if ($viaje->getTerminado() == null) {
+        if ($viaje->getTerminado() != null) {
             $terminado = $viaje->getTerminado();
         } else {
             $terminado = 0;
@@ -268,6 +268,45 @@ class Kashem_Model_ViajeMapper {
                     $gvm->save($guiaViaje);
                 }
             }
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (exception $e) {
+            $this->getDbTable()->getAdapter()->rollback();
+            throw $e;
+        }
+    }
+
+    public function finish(Kashem_Model_Viaje $viaje, $params) {
+        try {
+            $this->getDbTable()->getAdapter()->beginTransaction();
+            $cm = new Kashem_Model_ClienteMapper();
+            $cvm = new Kashem_Model_ClienteViajeMapper();
+            $alm = new Kashem_Model_ActividadLogroMapper();
+            $am = new Kashem_Model_ActividadMapper();
+            $clm = new Kashem_Model_ClienteLogroMapper();
+            foreach ($params['asistencia'] as $a) {
+                $cliente = new Kashem_Model_Cliente();
+                $cm->find($a, $cliente);
+                $clienteViaje = new Kashem_Model_ClienteViaje();
+                $cvm->findByViajeAndCliente($clienteViaje, $viaje, $cliente);
+                $clienteViaje->setAsistencia(1);
+                $cvm->save($clienteViaje);
+                if (isset($params['actividades_' . $a])) {
+                    foreach ($params['actividades_' . $a] as $ac) {
+                        $actividad = new Kashem_Model_Actividad();
+                        $am->find($ac, $actividad);
+                        $actividadesLogros = $alm->fetchAllByActividad($actividad);
+                        foreach ($actividadesLogros as $als) {
+                            $logro = $als->getLogro();
+                            $clienteLogro = new Kashem_Model_ClienteLogro();
+                            $clienteLogro->setCliente($cliente);
+                            $clienteLogro->setLogro($logro);
+                            $clm->save($clienteLogro);
+                        }
+                    }
+                }
+            }
+            $viaje->setTerminado(1);
+            $this->save($viaje);
             $this->getDbTable()->getAdapter()->commit();
         } catch (exception $e) {
             $this->getDbTable()->getAdapter()->rollback();

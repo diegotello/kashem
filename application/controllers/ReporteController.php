@@ -36,5 +36,20 @@ class ReporteController extends Zend_Controller_Action {
         $this->view->viaje_data = json_encode($viaje);
     }
 
+    public function viajesAction() {
+        $vm = new Kashem_Model_ViajeMapper();
+        $vdm = new Kashem_Model_ViajeDestinoMapper();
+        $vam = new Kashem_Model_ViajeActividadMapper();
+        $gvm = new Kashem_Model_GuiaViajeMapper();
+        $viajes = $vm->fetchAllAsArray();
+        $destinos = $vdm->fetchAllAsArray();
+        $actividades = $vam->fetchAllAsArray();
+        $guias = $gvm->fetchAllAsArray();
+        $this->view->data = json_encode($viajes);
+        $this->view->destinos_data = json_encode($destinos);
+        $this->view->actividades_data = json_encode($actividades);
+        $this->view->guias_data = json_encode($guias);
+    }
+
 }
 

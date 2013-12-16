@@ -62,6 +62,23 @@ class Kashem_Model_ViajeMapper {
         return $entries;
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = array(
+                'viaje' => $row->nombre,
+                'fecha_regreso' => $row->fecha_regreso,
+                'fecha_salida' => $row->fecha_salida,
+                'hora_regreso' => $row->hora_regreso,
+                'hora_salida' => $row->hora_salida,
+                'terminado' => ($row->terminado == '1') ? 'Sí' : 'No'
+            );
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function fetchAllFromToday() {
         $resultSet = $this->getDbTable()->fetchAll('fecha_salida >= "' . date("Y-m-d") . '"');
         $entries = array();

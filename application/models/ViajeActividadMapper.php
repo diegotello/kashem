@@ -61,5 +61,29 @@ class Kashem_Model_ViajeActividadMapper {
         return $entries;
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        $am = new Kashem_Model_ActividadMapper();
+        $vm = new Kashem_Model_ViajeMapper();
+        foreach ($resultSet as $row) {
+            $actividad = new Kashem_Model_Actividad();
+            $viaje = new Kashem_Model_Viaje();
+            $am->find($row->actividad_id, $actividad);
+            $vm->find($row->viaje_id, $viaje);
+            $entry = array(
+                'viaje' => $viaje->getNombre(),
+                'fecha_regreso' => $viaje->getFechaRegreso(),
+                'fecha_salida' => $viaje->getFechaSalida(),
+                'hora_regreso' => $viaje->getHoraRegreso(),
+                'hora_salida' => $viaje->getHoraSalida(),
+                'terminado' => ($viaje->getTerminado() == '1') ? 'Sí' : 'No',
+                'actividad' => $actividad->getNombre()
+            );
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

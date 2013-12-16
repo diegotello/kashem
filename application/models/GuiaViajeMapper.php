@@ -63,5 +63,31 @@ class Kashem_Model_GuiaViajeMapper {
         return $entries;
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        $gm = new Kashem_Model_GuiaMapper();
+        $vm = new Kashem_Model_ViajeMapper();
+        foreach ($resultSet as $row) {
+            $guia = new Kashem_Model_Guia();
+            $viaje = new Kashem_Model_Viaje();
+            $gm->find($row->guia_id, $guia);
+            $vm->find($row->viaje_id, $viaje);
+            $entry = array(
+                'viaje' => $viaje->getNombre(),
+                'fecha_regreso' => $viaje->getFechaRegreso(),
+                'fecha_salida' => $viaje->getFechaSalida(),
+                'hora_regreso' => $viaje->getHoraRegreso(),
+                'hora_salida' => $viaje->getHoraSalida(),
+                'terminado' => ($viaje->getTerminado() == '1') ? 'Sí' : 'No',
+                'guia' => $guia->getCliente()->getPrimerNombre() . ' ' . $guia->getCliente()->getPrimerApellido(),
+                'dpi' => $guia->getCliente()->getDpi(),
+                'categoria' => $guia->getCategoria()->getNombre()
+            );
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

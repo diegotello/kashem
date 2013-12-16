@@ -11,7 +11,7 @@ $(document).ready(function() {
                     fields: {
                         alquiler_renta: {type: "date"},
                         alquiler_devolucion: {type: "date"},
-                        alquiler_deposito: {type: "string"},
+                        alquiler_deposito: {type: "number"},
                         alquiler_comentario: {type: "string"},
                         viaje_nombre: {type: "string"},
                         viaje_salida: {type: "date"},
@@ -21,7 +21,7 @@ $(document).ready(function() {
                         cliente_dpi: {type: "string"},
                         estado: {type: "string"},
                         emisor: {type: "string"},
-                        monto: {type: "string"},
+                        monto: {type: "number"},
                         numero_autorizacion: {type: "string"},
                         numero_cheque: {type: "string"},
                         numero_tarjeta: {type: "string"},
@@ -35,12 +35,15 @@ $(document).ready(function() {
         },
         scrollable: true,
         sortable: true,
-        filterable: true,
+        filterable: filterConfig,
         resizable: true,
-        pageable: {
-            input: true,
-            numeric: false
-        },
+        groupable: groupConfig,
+        reorderable: true,
+        navigatable: true,
+        pageable: pageConfig,
+        toolbar: [
+            {template: kendo.template($("#all_template").html())}
+        ],
         columns: [
             {field: "tipo", title: "Cuenta por", width: 150},
             {field: "estado", title: "Estado", width: 150},
@@ -73,97 +76,39 @@ function exportAll() {
     });
     filteredDataSource.read();
     var data = filteredDataSource.view();
-    var result = "data:application/vnd.ms-excel,";
-    result += "<table><tr><th>Cuenta por</th><th>Estado</th><th>Cliente</th><th>DPI</th><th>Monto</th><th>Renta del Equipo</th>" +
-            "<th>Devolucion del Equipo</th><th>Deposito por el equipo</th><th>Comentario del alquiler</th><th>Viaje</th><th>Salida</th>" +
-            "<th>Regreso</th><th>Tipo de pago</th><th>Banco</th><th>Cheque</th><th>Emisor</th>" +
-            "<th>Tarjeta</th><th>Autorizacion</th></tr>";
+    var result = "data:text/csv;charset=utf-8,";
+    result += "Cuenta por,Estado,Cliente,DPI,Monto,Renta del Equipo," +
+            "Devolucion del Equipo,Deposito por el equipo,Comentario del alquiler,Viaje,Salida," +
+            "Regreso,Tipo de pago,Banco,Cheque,Emisor," +
+            "Tarjeta,Autorizacion\n";
     for (var i = 0; i < data.length; i++) {
-        result += "<tr>";
-
-        result += "<td>";
-        result += data[i].tipo;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].estado;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].cliente;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].cliente_dpi;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].monto;
-        result += "</td>";
-
-        result += "<td>";
-        result += kendo.format("{0:dd/MM/yyyy}", data[i].alquiler_renta);
-        result += "</td>";
-
-        result += "<td>";
-        result += kendo.format("{0:dd/MM/yyyy}", data[i].alquiler_devolucion);
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].alquiler_deposito;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].alquiler_comentario;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].viaje_nombre;
-        result += "</td>";
-
-        result += "<td>";
-        result += kendo.format("{0:dd/MM/yyyy}", data[i].viaje_salida);
-        result += "</td>";
-
-        result += "<td>";
-        result += kendo.format("{0:dd/MM/yyyy}", data[i].viaje_regreso);
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].tipo_pago;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].banco;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].numero_cheque;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].emisor;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].numero_tarjeta;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].numero_autorizacion;
-        result += "</td>";
-
-        result += "</tr>";
+        result += data[i].tipo + ",";
+        result += data[i].estado + ",";
+        result += data[i].cliente + ",";
+        result += data[i].cliente_dpi + ",";
+        result += data[i].monto + ",";
+        result += kendo.format("{0:dd/MM/yyyy}", data[i].alquiler_renta) + ",";
+        result += kendo.format("{0:dd/MM/yyyy}", data[i].alquiler_devolucion) + ",";
+        result += data[i].alquiler_deposito + ",";
+        result += data[i].alquiler_comentario + ",";
+        result += data[i].viaje_nombre + ",";
+        result += kendo.format("{0:dd/MM/yyyy}", data[i].viaje_salida) + ",";
+        result += kendo.format("{0:dd/MM/yyyy}", data[i].viaje_regreso) + ",";
+        result += data[i].tipo_pago + ",";
+        result += data[i].banco + ",";
+        result += data[i].numero_cheque + ",";
+        result += data[i].emisor + ",";
+        result += data[i].numero_tarjeta + ",";
+        result += data[i].numero_autorizacion + "\n";
     }
-    result += "</table>";
     if (window.navigator.msSaveBlob) {
-        window.navigator.msSaveBlob(new Blob([result]), 'reporte_cuentas.xls');
+        window.navigator.msSaveBlob(new Blob([result]), 'reporte_cuentas.csv');
     } else {
         //window.open(result);
         var encodedUri = encodeURI(result);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "reporte_cuentas.xls");
+        link.setAttribute("download", "reporte_cuentas.csv");
         link.click();
     }
 }

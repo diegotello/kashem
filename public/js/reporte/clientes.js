@@ -31,16 +31,19 @@ $(document).ready(function() {
                     }
                 }
             },
-            pageSize: 20
+            pageSize: 10
         },
         scrollable: true,
         sortable: true,
-        filterable: true,
+        filterable: filterConfig,
         resizable: true,
-        pageable: {
-            input: true,
-            numeric: false
-        },
+        groupable: groupConfig,
+        reorderable: true,
+        navigatable: true,
+        pageable: pageConfig,
+        toolbar: [
+            {template: kendo.template($("#all_template").html())}
+        ],
         columns: [
             {field: "primer_nombre", title: "Primer Nombre", width: 150},
             {field: "segundo_nombre", title: "Segundo Nombre", width: 150},
@@ -73,97 +76,39 @@ function exportAll() {
     });
     filteredDataSource.read();
     var data = filteredDataSource.view();
-    var result = "data:application/vnd.ms-excel,";
-    result += "<table><tr><th>Primer Nombre</th><th>Segundo Nombre</th><th>Primer Apellido</th><th>Segundo Apellido</th><th>DPI</th><th>Fecha de Nacimiento</th>" +
-            "<th>Correo Electronico</th><th>Usuario de Facebook</th><th>Telefono</th><th>Direccion</th>" +
-            "<th>Pais</th><th>Departamento</th><th>Municipio</th><th>Genero</th><th>Contacto de Emergencia</th>" +
-            "<th>Telefono de Emergencia</th><th>Observacion General</th><th>Observacion Medica</th></tr>";
+    var result = "data:text/csv;charset=utf-8,";
+    result += "Primer Nombre,Segundo Nombre,Primer Apellido,Segundo Apellido,DPI,Fecha de Nacimiento," +
+            "Correo Electronico,Usuario de Facebook,Telefono,Direccion," +
+            "Pais,Departamento,Municipio,Genero,Contacto de Emergencia," +
+            "Telefono de Emergencia,Observacion General,Observacion Medica\n";
     for (var i = 0; i < data.length; i++) {
-        result += "<tr>";
-
-        result += "<td>";
-        result += data[i].primer_nombre;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].segundo_nombre;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].primer_apellido;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].segundo_apellido;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].dpi;
-        result += "</td>";
-
-        result += "<td>";
-        result += kendo.format("{0:dd/MM/yyyy}", data[i].fecha_nacimiento);
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].correo_electronico;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].usuario_facebook;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].telefono;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].direccion;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].pais;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].departamento;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].municipio;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].genero;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].contacto_emergencia;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].telefono_emergencia;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].observacion_general;
-        result += "</td>";
-
-        result += "<td>";
-        result += data[i].observacion_medica;
-        result += "</td>";
-
-        result += "</tr>";
+        result += data[i].primer_nombre + ",";
+        result += data[i].segundo_nombre + ",";
+        result += data[i].primer_apellido + ",";
+        result += data[i].segundo_apellido + ",";
+        result += data[i].dpi + ",";
+        result += kendo.format("{0:dd/MM/yyyy}", data[i].fecha_nacimiento) + ",";
+        result += data[i].correo_electronico + ",";
+        result += data[i].usuario_facebook + ",";
+        result += data[i].telefono + ",";
+        result += data[i].direccion + ",";
+        result += data[i].pais + ",";
+        result += data[i].departamento + ",";
+        result += data[i].municipio + ",";
+        result += data[i].genero + ",";
+        result += data[i].contacto_emergencia + ",";
+        result += data[i].telefono_emergencia + ",";
+        result += data[i].observacion_general + ",";
+        result += data[i].observacion_medica + "\n";
     }
-    result += "</table>";
     if (window.navigator.msSaveBlob) {
-        window.navigator.msSaveBlob(new Blob([result]), 'reporte_clientes.xls');
+        window.navigator.msSaveBlob(new Blob([result]), 'reporte_clientes.csv');
     } else {
         //window.open(result);
         var encodedUri = encodeURI(result);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "reporte_clientes.xls");
+        link.setAttribute("download", "reporte_clientes.csv");
         link.click();
     }
 }

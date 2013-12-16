@@ -5,19 +5,16 @@
     <div class="tab-content">
         <div class="tab-pane active" id="todos">
             <div class="row" id="main_grid"></div>
-            <div class="row">
-                <div class="col-md-11"></div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-primary" onClick="exportAll();">Exportar</button>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
+<script id="all_template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="exportAll();">Exportar</a>
+</script>
 <?php
 $this->headScript()->captureStart();
 echo "var data = " . $this->data . ";";
 $this->headScript()->captureEnd();
+$this->headScript()->appendFile('/js/reporte/comun.js');
 $this->headScript()->appendFile('/js/reporte/cuentas.js');
 ?>

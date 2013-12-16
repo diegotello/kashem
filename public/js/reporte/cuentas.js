@@ -68,6 +68,7 @@ $(document).ready(function() {
 });
 
 function exportAll() {
+    var fileName = 'reporte_cuentas_' + getDateString() + '.csv';
     var dataSource = $("#main_grid").data("kendoGrid").dataSource;
     var filteredDataSource = new kendo.data.DataSource({
         data: dataSource.data(),
@@ -102,13 +103,13 @@ function exportAll() {
         result += data[i].numero_autorizacion + "\n";
     }
     if (window.navigator.msSaveBlob) {
-        window.navigator.msSaveBlob(new Blob([result]), 'reporte_cuentas.csv');
+        window.navigator.msSaveBlob(new Blob([result]), fileName);
     } else {
         //window.open(result);
         var encodedUri = encodeURI(result);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "reporte_cuentas.csv");
+        link.setAttribute("download", fileName);
         link.click();
     }
 }

@@ -1,19 +1,43 @@
 <div class="row">
     <ul class="nav nav-tabs" id="clientes_tab">
         <li class="active"><a href="#todos">Todos</a></li>
+        <li><a href="#logros">Logros</a></li>
+        <li><a href="#viajes">Viajes</a></li>
+        <li><a href="#alquiler">Alquiler</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="todos">
             <div class="row" id="main_grid"></div>
+        </div>
+        <div class="tab-pane" id="logros">
+            <div class="row" id="logros_grid"></div>
+        </div>
+        <div class="tab-pane" id="viajes">
+            <div class="row" id="viajes_grid"></div>
+        </div>
+        <div class="tab-pane" id="alquiler">
+            <div class="row" id="alquiler_grid"></div>
         </div>
     </div>
 </div>
 <script id="all_template" type="text/x-kendo-template">
     <a class="k-button" href="\#" onclick="exportAll();">Exportar</a>
 </script>
+<script id="logros_template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="exportLogros();">Exportar</a>
+</script>
+<script id="viajes_template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="exportViajes();">Exportar</a>
+</script>
+<script id="alquiler_template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="exportAlquiler();">Exportar</a>
+</script>
 <?php
 $this->headScript()->captureStart();
-echo "var data = " . $this->data . ";";
+echo "var data = " . $this->data .
+ ", logros_data = " . $this->logros_data .
+ ", viajes_data = " . $this->viajes_data .
+ ", alquiler_data = " . $this->alquiler_data . ";";
 $this->headScript()->captureEnd();
 $this->headScript()->appendFile('/js/reporte/comun.js');
 $this->headScript()->appendFile('/js/reporte/clientes.js');

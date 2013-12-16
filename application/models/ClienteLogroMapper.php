@@ -40,5 +40,29 @@ class Kashem_Model_ClienteLogroMapper {
         return true;
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        $cm = new Kashem_Model_ClienteMapper();
+        $lm = new Kashem_Model_LogroMapper();
+        foreach ($resultSet as $row) {
+            $cliente = new Kashem_Model_Cliente();
+            $logro = new Kashem_Model_Logro();
+            $cm->find($row->cliente_id, $cliente);
+            $lm->find($row->logro_id, $logro);
+            $entry = array(
+                'dpi' => $cliente->getDpi(),
+                'fecha_nacimiento' => $cliente->getFechaNacimiento(),
+                'primer_apellido' => $cliente->getPrimerApellido(),
+                'primer_nombre' => $cliente->getPrimerNombre(),
+                'segundo_apellido' => $cliente->getSegundoApellido(),
+                'segundo_nombre' => $cliente->getSegundoNombre(),
+                'logro' => $logro->getNombre()
+            );
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

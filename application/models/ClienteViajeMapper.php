@@ -94,5 +94,33 @@ class Kashem_Model_ClienteViajeMapper {
                 ->setAsistencia($row->asistencia);
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        $cm = new Kashem_Model_ClienteMapper();
+        $vm = new Kashem_Model_ViajeMapper();
+        foreach ($resultSet as $row) {
+            $cliente = new Kashem_Model_Cliente();
+            $viaje = new Kashem_Model_Viaje();
+            $cm->find($row->cliente_id, $cliente);
+            $vm->find($row->viaje_id, $viaje);
+            $entry = array(
+                'asistencia' => ($row->asistencia == '1') ? 'Sí' : 'No',
+                'dpi' => $cliente->getDpi(),
+                'fecha_nacimiento' => $cliente->getFechaNacimiento(),
+                'primer_apellido' => $cliente->getPrimerApellido(),
+                'primer_nombre' => $cliente->getPrimerNombre(),
+                'segundo_apellido' => $cliente->getSegundoApellido(),
+                'segundo_nombre' => $cliente->getSegundoNombre(),
+                'viaje' => $viaje->getNombre(),
+                'fecha_salida' => $viaje->getFechaSalida(),
+                'fecha_regreso' => $viaje->getFechaRegreso(),
+                'terminado' => ($viaje->getTerminado() == '1') ? 'Sí' : 'No'
+            );
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
 }
 

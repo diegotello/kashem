@@ -123,5 +123,43 @@ class Kashem_Model_AlquilerMapper {
         return $entries;
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        $cm = new Kashem_Model_ClienteMapper();
+        $aem = new Kashem_Model_AlquilerEquipoMapper();
+        foreach ($resultSet as $row) {
+            $cliente = new Kashem_Model_Cliente();
+            $alquiler = new Kashem_Model_Alquiler();
+            $cm->find($row->cliente_id, $cliente);
+            $alquiler->setId($row->id)
+                    ->setCliente($cliente)
+                    ->setComentario($row->comentario)
+                    ->setDeposito($row->deposito)
+                    ->setDevolucion($row->devolucion)
+                    ->setRenta($row->renta);
+            $equipos = $aem->fetchAllByAlquiler($alquiler);
+            foreach ($equipos as $ae) {
+                $entry = array(
+                    'alquiler' => $alquiler->getId(),
+                    'dpi' => $cliente->getDpi(),
+                    'fecha_nacimiento' => $cliente->getFechaNacimiento(),
+                    'primer_apellido' => $cliente->getPrimerApellido(),
+                    'primer_nombre' => $cliente->getPrimerNombre(),
+                    'segundo_apellido' => $cliente->getSegundoApellido(),
+                    'segundo_nombre' => $cliente->getSegundoNombre(),
+                    'equipo' => $ae->getEquipo()->getNombre(),
+                    'identificador' => $ae->getEquipo()->getIdentificador(),
+                    'renta' => $alquiler->getRenta(),
+                    'devolucion' => $alquiler->getDevolucion(),
+                    'deposito' => $alquiler->getDeposito(),
+                    'comentario' => $alquiler->getComentario()
+                );
+                $entries[] = $entry;
+            }
+        }
+        return $entries;
+    }
+
 }
 

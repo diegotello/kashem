@@ -1,19 +1,35 @@
 <div class="row">
     <ul class="nav nav-tabs" id="cuentas_tab">
         <li class="active"><a href="#todos">Todas</a></li>
+        <li><a href="#alquiler">Alquiler</a></li>
+        <li><a href="#viaje">Viaje</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="todos">
             <div class="row" id="main_grid"></div>
+        </div>
+        <div class="tab-pane" id="alquiler">
+            <div class="row" id="alquiler_grid"></div>
+        </div>
+        <div class="tab-pane" id="viaje">
+            <div class="row" id="viaje_grid"></div>
         </div>
     </div>
 </div>
 <script id="all_template" type="text/x-kendo-template">
     <a class="k-button" href="\#" onclick="exportAll();">Exportar</a>
 </script>
+<script id="alquiler_template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="exportAlquiler();">Exportar</a>
+</script>
+<script id="viaje_template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="exportViaje();">Exportar</a>
+</script>
 <?php
 $this->headScript()->captureStart();
-echo "var data = " . $this->data . ";";
+echo "var data = " . $this->data .
+ ", alquiler_data = " . $this->alquiler_data .
+ ", viaje_data = " . $this->viaje_data . ";";
 $this->headScript()->captureEnd();
 $this->headScript()->appendFile('/js/reporte/comun.js');
 $this->headScript()->appendFile('/js/reporte/cuentas.js');

@@ -102,8 +102,12 @@ class Kashem_Model_CuentaMapper {
         return $this->getEntries($resultSet);
     }
 
-    public function fetchAllAsArray() {
-        $resultSet = $this->getDbTable()->fetchAll();
+    public function fetchAllAsArray($tipo = null) {
+        if ($tipo == 'viaje') {
+            $resultSet = $this->getDbTable()->fetchAll("tipo = 'viaje'");
+        } else {
+            $resultSet = $this->getDbTable()->fetchAll();
+        }
         $am = new Kashem_Model_AlquilerMapper();
         $cm = new Kashem_Model_ClienteMapper();
         $vm = new Kashem_Model_ViajeMapper();
@@ -114,6 +118,7 @@ class Kashem_Model_CuentaMapper {
             $cliente = new Kashem_Model_Cliente();
             $cm->find($row->cliente_id, $cliente);
             $tipoPago = new Kashem_Model_TipoPago();
+            $entry['cuenta'] = $row->id;
             $entry['alquiler_renta'] = '';
             $entry['alquiler_devolucion'] = '';
             $entry['alquiler_deposito'] = '';
@@ -149,6 +154,47 @@ class Kashem_Model_CuentaMapper {
             $entry['tipo'] = $row->tipo;
             $entry['tipo_pago'] = $tipoPago->getNombre();
             $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    public function fetchAllAlquilerAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll("tipo = 'alquiler'");
+        $am = new Kashem_Model_AlquilerMapper();
+        $cm = new Kashem_Model_ClienteMapper();
+        $tpm = new Kashem_Model_TipoPagoMapper();
+        $aem = new Kashem_Model_AlquilerEquipoMapper();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = array();
+            $cliente = new Kashem_Model_Cliente();
+            $cm->find($row->cliente_id, $cliente);
+            $tipoPago = new Kashem_Model_TipoPago();
+            $alquiler = new Kashem_Model_Alquiler();
+            $am->find($row->alquiler_id, $alquiler);
+            $entry['cuenta'] = $row->id;
+            $entry['renta'] = $alquiler->getRenta();
+            $entry['devolucion'] = $alquiler->getDevolucion();
+            $entry['deposito'] = $alquiler->getDeposito();
+            $entry['comentario'] = $alquiler->getComentario();
+            $tpm->find($row->tipo_de_pago_id, $tipoPago);
+            $entry['banco'] = $row->banco;
+            $entry['cliente'] = $cliente->getPrimerNombre() . ' ' . $cliente->getPrimerApellido();
+            $entry['cliente_dpi'] = $cliente->getDpi();
+            $entry['estado'] = $row->estado;
+            $entry['emisor'] = $row->emisor;
+            $entry['monto'] = $row->monto;
+            $entry['numero_autorizacion'] = $row->numero_autorizacion;
+            $entry['numero_cheque'] = $row->numero_cheque;
+            $entry['numero_tarjeta'] = $row->numero_tarjeta;
+            $entry['tipo_pago'] = $tipoPago->getNombre();
+            $equipos = $aem->fetchAllByAlquiler($alquiler);
+            foreach ($equipos as $ae) {
+                $entry['alquiler'] = $alquiler->getId();
+                $entry['equipo'] = $ae->getEquipo()->getNombre();
+                $entry['identificador'] = $ae->getEquipo()->getIdentificador();
+                $entries[] = $entry;
+            }
         }
         return $entries;
     }

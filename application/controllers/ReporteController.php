@@ -29,7 +29,11 @@ class ReporteController extends Zend_Controller_Action {
     public function cuentasAction() {
         $cm = new Kashem_Model_CuentaMapper();
         $cuentas = $cm->fetchAllAsArray();
+        $alquiler = $cm->fetchAllAlquilerAsArray();
+        $viaje = $cm->fetchAllAsArray('viaje');
         $this->view->data = json_encode($cuentas);
+        $this->view->alquiler_data = json_encode($alquiler);
+        $this->view->viaje_data = json_encode($viaje);
     }
 
 }

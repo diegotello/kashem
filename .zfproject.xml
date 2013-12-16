@@ -204,6 +204,7 @@
         </controllerFile>
         <controllerFile controllerName="Reporte">
           <actionMethod actionName="index"/>
+          <actionMethod actionName="clientes"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -757,6 +758,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Viaje">
             <viewScriptFile forActionName="finalizar"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Reporte">
+            <viewScriptFile forActionName="clientes"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

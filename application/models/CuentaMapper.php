@@ -102,6 +102,57 @@ class Kashem_Model_CuentaMapper {
         return $this->getEntries($resultSet);
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $am = new Kashem_Model_AlquilerMapper();
+        $cm = new Kashem_Model_ClienteMapper();
+        $vm = new Kashem_Model_ViajeMapper();
+        $tpm = new Kashem_Model_TipoPagoMapper();
+        $entries = array();
+        foreach ($resultSet as $row) {
+            $entry = array();
+            $cliente = new Kashem_Model_Cliente();
+            $cm->find($row->cliente_id, $cliente);
+            $tipoPago = new Kashem_Model_TipoPago();
+            $entry['alquiler_renta'] = '';
+            $entry['alquiler_devolucion'] = '';
+            $entry['alquiler_deposito'] = '';
+            $entry['alquiler_comentario'] = '';
+            $entry['viaje_nombre'] = '';
+            $entry['viaje_salida'] = '';
+            $entry['viaje_regreso'] = '';
+            if ($row->tipo == 'alquiler') {
+                $alquiler = new Kashem_Model_Alquiler();
+                $am->find($row->alquiler_id, $alquiler);
+                $entry['alquiler_renta'] = $alquiler->getRenta();
+                $entry['alquiler_devolucion'] = $alquiler->getDevolucion();
+                $entry['alquiler_deposito'] = $alquiler->getDeposito();
+                $entry['alquler_comentario'] = $alquiler->getComentario();
+            }
+            if ($row->tipo == 'viaje') {
+                $viaje = new Kashem_Model_Viaje();
+                $vm->find($row->viaje_id, $viaje);
+                $entry['viaje_nombre'] = $viaje->getNombre();
+                $entry['viaje_salida'] = $viaje->getFechaSalida();
+                $entry['viaje_regreso'] = $viaje->getFechaRegreso();
+            }
+            $tpm->find($row->tipo_de_pago_id, $tipoPago);
+            $entry['banco'] = $row->banco;
+            $entry['cliente'] = $cliente->getPrimerNombre() . ' ' . $cliente->getPrimerApellido();
+            $entry['cliente_dpi'] = $cliente->getDpi();
+            $entry['estado'] = $row->estado;
+            $entry['emisor'] = $row->emisor;
+            $entry['monto'] = $row->monto;
+            $entry['numero_autorizacion'] = $row->numero_autorizacion;
+            $entry['numero_cheque'] = $row->numero_cheque;
+            $entry['numero_tarjeta'] = $row->numero_tarjeta;
+            $entry['tipo'] = $row->tipo;
+            $entry['tipo_pago'] = $tipoPago->getNombre();
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function save(Kashem_Model_Cuenta $cuenta) {
         $tpid = null;
         if ($cuenta->getTipoPago() != null) {

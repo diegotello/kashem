@@ -94,6 +94,45 @@ class Kashem_Model_ClienteMapper {
         return $entries;
     }
 
+    public function fetchAllAsArray() {
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        $pm = new Kashem_Model_PaisMapper();
+        $dm = new Kashem_Model_DepartamentoMapper();
+        $mm = new Kashem_Model_MunicipioMapper();
+        foreach ($resultSet as $row) {
+            $pais = new Kashem_Model_Pais();
+            $departamento = new Kashem_Model_Departamento();
+            $municipio = new Kashem_Model_Municipio();
+            $pm->find($row->pais_id, $pais);
+            $dm->find($row->departamento_id, $departamento);
+            $mm->find($row->municipio_id, $municipio);
+            $entry = array(
+                'id' => $row->id,
+                'contacto_emergencia' => $row->contacto_emergencia,
+                'correo_electronico' => $row->correo_electronico,
+                'departamento' => $departamento->getNombre(),
+                'direccion' => $row->direccion,
+                'dpi' => $row->dpi,
+                'fecha_nacimiento' => $row->fecha_nacimiento,
+                'genero' => $row->genero,
+                'municipio' => $municipio->getNombre(),
+                'observacion_general' => $row->observacion_general,
+                'observacion_medica' => $row->observacion_medica,
+                'pais' => $pais->getNombre(),
+                'primer_apellido' => $row->primer_apellido,
+                'primer_nombre' => $row->primer_nombre,
+                'segundo_apellido' => $row->segundo_apellido,
+                'segundo_nombre' => $row->segundo_nombre,
+                'telefono_emergencia' => $row->telefono_emergencia,
+                'telefono' => $row->telefono,
+                'usuario_facebook' => $row->usuario_facebook
+            );
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
     public function find($id, Kashem_Model_Cliente $cliente) {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
